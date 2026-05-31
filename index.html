@@ -619,11 +619,36 @@
 
         /* Footer */
         footer {
-            padding: 4rem 0 2rem;
+            padding: 2rem 0 1rem !important;
+            /* Reduced overall footer height */
+            background: #1a1a1a;
             text-align: center;
-            border-top: 1px solid var(--border-light);
-            color: var(--text-secondary);
-            font-size: 0.85rem;
+        }
+
+        .footer-logo-container {
+            display: block;
+            /* Stack them vertically */
+            height: 120px;
+            /* Keep the logo small and controlled */
+            margin: 0 auto;
+        }
+
+        .footer-logo-container img {
+            height: 100%;
+            width: auto;
+            object-fit: contain;
+            display: block;
+            margin: 0 auto;
+        }
+
+        footer p {
+            margin-top: 5px !important;
+            /* Forces a small, fixed gap regardless of image padding */
+            margin-bottom: 0 !important;
+            font-size: 0.8rem;
+            color: #888;
+            line-height: 1;
+            /* Prevents line height from adding extra space */
         }
 
         /* Animations */
@@ -1363,10 +1388,10 @@
     </div>
     <footer>
         <div class="container">
-            <a href="/" class="logo" aria-label="Codply">
-                <img src="Logo.png" alt="Codply AI Logo" style="height: 170px; width: auto;">
-            </a>
-            &copy; 2026 Codply.online | Built for the vibe coders.
+            <div class="footer-logo-container">
+                <img src="Logo.png" alt="Codply AI">
+            </div>
+            <p>&copy; 2026 Codply.online | Built for the vibe coders.</p>
         </div>
     </footer>
     <script>
