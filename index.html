@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -102,7 +102,8 @@
 
         /* Header */
         header {
-            padding: 1.5rem 0;
+            padding: 0.6rem 0;
+            /* Reduced from 1.5rem to shrink nav height */
             position: fixed;
             width: 100%;
             top: 0;
@@ -110,6 +111,22 @@
             background: rgba(255, 255, 255, 0.92);
             backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--border-light);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            height: 65px;
+            /* Fixed height to keep nav slim */
+        }
+
+        .logo img {
+            height: 100%;
+            width: auto;
+            object-fit: contain;
+            /* If 2.png has built-in white space, this negative margin 
+       pulls the actual logo content closer to the edges */
+            margin: -5px 0;
         }
 
         nav {
@@ -1052,6 +1069,7 @@
             margin: 0.15rem 0 0;
             font-weight: 500;
         }
+
         .waitlist-status.success {
             color: var(--google-green);
         }
@@ -1147,9 +1165,9 @@
     <header>
         <div class="container">
             <nav>
-                <div class="logo" aria-label="Codply">
-                    <span>C</span><span>o</span><span>d</span><span>p</span><span>l</span><span>y</span>
-                </div>
+                <a href="/" class="logo" aria-label="Codply">
+                    <img src="Logo.png" alt="Codply AI Logo" style="height: 120px; width: auto;">
+                </a>
                 <div class="nav-links">
                     <a href="#features">Features</a>
                     <button class="btn btn-primary waitlist-trigger" type="button"
@@ -1228,13 +1246,13 @@
                         <p>Summon Codply instantly with a global shortcut while you're in your browser or terminal.</p>
                     </div>
                     <div class="step reveal">
-                        <div class="step-num">02</div>
-                        <h3>Paste Your Code</h3>
+                        <div class="step-num" style="color: var(--google-yellow) !important;">02</div>
+                        <h3 style="color: var(--google-yellow) !important;">Paste Your Code</h3>
                         <p>Paste that AI-generated snippet you just got. No need to format or clean it up.</p>
                     </div>
-                    <div class="step reveal">
-                        <div class="step-num">03</div>
-                        <h3>Get Exact Instructions</h3>
+                    <div class=" step reveal">
+                        <div class="step-num" style="color: var(--google-green) !important;">03</div>
+                        <h3 style="color: var(--google-green) !important;">Get Exact Instructions</h3>
                         <p>Codply scans your project and tells you exactly where to put the code, line by line.</p>
                     </div>
                 </div>
