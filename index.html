@@ -619,36 +619,36 @@
 
         /* Footer */
         footer {
-            padding: 2rem 0 1rem !important;
-            /* Reduced overall footer height */
+            padding: 2.5rem 0;
+            /* Balanced padding for a professional feel */
             background: #1a1a1a;
+            /* Dark theme to match your UI */
+            border-top: 1px solid #333;
+            /* Subtle separation line */
             text-align: center;
         }
 
-        .footer-logo-container {
-            display: block;
-            /* Stack them vertically */
-            height: 120px;
-            /* Keep the logo small and controlled */
-            margin: 0 auto;
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .footer-logo-container img {
-            height: 100%;
-            width: auto;
-            object-fit: contain;
-            display: block;
-            margin: 0 auto;
+        .footer-brand {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #fff;
+            letter-spacing: -0.5px;
+            margin-bottom: 0.2rem;
         }
 
         footer p {
-            margin-top: 5px !important;
-            /* Forces a small, fixed gap regardless of image padding */
-            margin-bottom: 0 !important;
-            font-size: 0.8rem;
+            margin: 0 !important;
+            font-size: 0.85rem;
             color: #888;
-            line-height: 1;
-            /* Prevents line height from adding extra space */
+            letter-spacing: 0.2px;
         }
 
         /* Animations */
@@ -1388,7 +1388,10 @@
     </div>
     <footer>
         <div class="container">
-            <p>&copy; 2026 Codply.online | Built for the vibe coders.</p>
+            <div class="footer-content">
+                <div class="footer-brand">Codply AI</div>
+                <p>&copy; 2026 Codply.online | Built for the vibe coders.</p>
+            </div>
         </div>
     </footer>
     <script>
