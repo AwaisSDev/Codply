@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -1042,16 +1042,22 @@
             color: var(--text-secondary);
         }
 
+
+        .waitlist-submit {
+            margin-top: 0.55rem;
+        }
+
+        .waitlist-status {
+            text-align: center;
+            margin: 0.15rem 0 0;
+            font-weight: 500;
+        }
         .waitlist-status.success {
             color: var(--google-green);
         }
 
         .waitlist-status.error {
             color: var(--google-red);
-        }
-
-        .hidden-field {
-            display: none;
         }
 
         /* Nav spacing correction */
@@ -1331,10 +1337,6 @@
                     Email
                     <input type="email" name="email" autocomplete="email" placeholder="you@example.com" required>
                 </label>
-                <label class="hidden-field" aria-hidden="true">
-                    Company
-                    <input type="text" name="company" tabindex="-1" autocomplete="off">
-                </label>
                 <button class="btn btn-primary waitlist-submit" type="submit">Join Waitlist</button>
                 <p class="waitlist-status" id="waitlist-status" role="status"></p>
             </form>
@@ -1490,7 +1492,6 @@
             waitlistStatus.textContent = 'Joining...';
 
             const formData = new FormData(waitlistForm);
-            if (formData.get('company')) return;
 
             const email = String(formData.get('email') || '').trim().toLowerCase();
             const fullName = String(formData.get('name') || '').trim();

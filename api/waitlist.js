@@ -2,6 +2,18 @@ import { supabase } from './supabaseClient.js';
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+function getBody(req) {
+  if (!req.body) return {};
+  if (typeof req.body === 'string') {
+    try {
+      return JSON.parse(req.body);
+    } catch {
+      return {};
+    }
+  }
+  return req.body;
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST');
@@ -9,12 +21,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { email, full_name: fullName, company } = req.body || {};
-
-    if (company) {
-      return res.status(200).json({ ok: true });
-    }
-
+    const { email, full_name: fullName } = getBody(req);
     const normalizedEmail = String(email || '').trim().toLowerCase();
     const normalizedName = String(fullName || '').trim();
 
