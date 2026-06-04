@@ -11,6 +11,7 @@
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap"
         rel="stylesheet">
     <link rel="icon" type="image/png" href="Favicon.png">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 
     <style>
         :root {
@@ -2051,8 +2052,8 @@
                 const response = await fetch('/api/config');
                 const config = await response.json();
                 if (!response.ok) throw new Error(config.message || 'Supabase config missing.');
-                supabaseBrowser = window.supabase.createClient(config.url, config.anonKey);
-                const { data } = await supabaseBrowser.auth.getSession();
+                if (!window.supabase) throw new Error('Supabase library failed to load (check the CDN <script> tag).');
+                supabaseBrowser = window.supabase.createClient(config.url, config.anonKey); const { data } = await supabaseBrowser.auth.getSession();
                 currentSession = data.session;
                 supabaseBrowser.auth.onAuthStateChange((_event, session) => {
                     currentSession = session;
