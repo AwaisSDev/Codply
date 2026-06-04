@@ -2238,6 +2238,10 @@
             await supabaseBrowser.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: `${location.origin}/dashboard.html` } });
         });
 
+        document.getElementById('github-auth-btn').addEventListener('click', async () => {
+            await supabaseBrowser.auth.signInWithOAuth({ provider: 'github', options: { redirectTo: `${location.origin}/dashboard.html` } });
+        });
+
         if (accountPill) accountPill.addEventListener('click', async () => {
             if (!currentSession) return openAuth();
             await supabaseBrowser.auth.signOut();

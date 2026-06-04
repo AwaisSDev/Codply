@@ -913,6 +913,23 @@
 
     <div id="toast"></div>
 
+    <div id="lock-screen"
+        style="display: none; position: fixed; inset: 0; background: rgba(238, 241, 246, 0.85); backdrop-filter: blur(8px); z-index: 100; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            style="width: 48px; height: 48px; color: var(--g-blue); margin-bottom: 20px;">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0110 0v4"></path>
+        </svg>
+        <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 12px; color: var(--ink);">Subscription Required
+        </h2>
+        <p style="font-size: 1.1rem; color: var(--muted); max-width: 420px; margin-bottom: 28px; line-height: 1.5;">You
+            need an active Core subscription to access the Codeply dashboard and tools.</p>
+        <button class="plan-btn" id="lock-upgrade-btn" style="font-size: 1.1rem; padding: 14px 28px;">Upgrade to Core
+            ($10/mo)</button>
+        <button class="btn-ghost" id="lock-logout-btn"
+            style="margin-top: 16px; border: none; background: transparent;">Sign out</button>
+    </div>
+
     <script>
         const PLAN_NAME = { free: 'Free', core: 'Core' };
         const $ = (id) => document.getElementById(id);
@@ -976,6 +993,18 @@
             box.innerHTML = models.length
                 ? models.map((m) => '<span class="model-tag">' + (m.label || m.provider) + '</span>').join('')
                 : '<span class="models-empty">No models yet — upgrade to Core to unlock access.</span>';
+
+            if (!active) {
+                $('lock-screen').style.display = 'flex';
+                $('app').style.filter = 'blur(5px)';
+                $('app').style.pointerEvents = 'none';
+                $('app').style.userSelect = 'none';
+            } else {
+                $('lock-screen').style.display = 'none';
+                $('app').style.filter = 'none';
+                $('app').style.pointerEvents = 'auto';
+                $('app').style.userSelect = 'auto';
+            }
         }
 
         async function loadAccount() {
@@ -1043,6 +1072,26 @@
                         btn.textContent = original;
                     }
                 });
+            });
+
+            $('lock-logout-btn').addEventListener('click', async () => {
+                if (sb) await sb.auth.signOut();
+                location.href = 'index.html';
+            });
+
+            $('lock-upgrade-btn').addEventListener('click', async () => {
+                const btn = $('lock-upgrade-btn');
+                const original = btn.textContent;
+                btn.disabled = true; btn.textContent = 'Starting checkout…';
+                try {
+                    const res = await authed('/api/create-checkout', { method: 'POST', body: JSON.stringify({ plan: 'starter' }) });
+                    const d = await res.json();
+                    if (!res.ok) throw new Error(d.message || 'Checkout failed.');
+                    window.location.href = d.checkoutUrl;
+                } catch (e) {
+                    toast(e.message, true);
+                    btn.disabled = false; btn.textContent = original;
+                }
             });
 
             setupNav();
