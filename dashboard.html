@@ -220,22 +220,29 @@
             max-width: 1180px;
         }
 
-        .head {
-            margin-bottom: 34px;
+        /* ── Section anchors ────────────────────────────────── */
+        .section {
+            margin-bottom: 56px;
+            scroll-margin-top: 32px;
         }
 
-        .head h1 {
-            font-size: 2rem;
+        .section-head {
+            margin-bottom: 28px;
+        }
+
+        .section-head h2 {
+            font-size: 1.55rem;
             font-weight: 800;
-            letter-spacing: -.03em;
+            letter-spacing: -.025em;
         }
 
-        .head p {
+        .section-head p {
             color: var(--muted);
             margin-top: 4px;
-            font-size: .95rem;
+            font-size: .92rem;
         }
 
+        /* ── Cards ─────────────────────────────────────────── */
         .card {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -385,17 +392,18 @@
             color: var(--muted);
         }
 
-        /* plans */
+        /* ── Plans — 2-column: Free + Core ─────────────────── */
         .plans {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: 1fr 1fr;
             gap: 16px;
+            max-width: 680px;
         }
 
         .plan {
             border: 1.5px solid var(--border);
             border-radius: 14px;
-            padding: 20px;
+            padding: 24px;
             display: flex;
             flex-direction: column;
             transition: border-color .15s, box-shadow .15s;
@@ -406,17 +414,59 @@
             box-shadow: 0 0 0 3px #e8f0fe;
         }
 
+        /* highlight Core plan */
+        .plan[data-plan="core"] {
+            border-color: #c2d3f5;
+            background: #fafcff;
+        }
+
+        .plan[data-plan="core"].current {
+            border-color: var(--g-blue);
+            box-shadow: 0 0 0 3px #e8f0fe;
+        }
+
+        .plan-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+
         .plan h4 {
-            font-size: 1.05rem;
+            font-size: 1.08rem;
             font-weight: 800;
+        }
+
+        .plan-badge {
+            font-family: var(--mono);
+            font-size: .58rem;
+            font-weight: 600;
+            background: #e8f0fe;
+            color: var(--g-blue);
+            padding: 3px 8px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: .04em;
         }
 
         .plan .price {
             font-family: var(--mono);
-            font-size: .8rem;
+            font-size: .85rem;
             color: var(--muted);
-            margin: 4px 0 14px;
+            margin: 2px 0 16px;
             min-height: 1em;
+        }
+
+        .plan .price strong {
+            font-size: 1.45rem;
+            font-weight: 800;
+            color: var(--ink);
+            font-family: var(--sans);
+        }
+
+        .plan .price .period {
+            font-size: .72rem;
+            color: var(--muted2);
         }
 
         .plan ul {
@@ -424,7 +474,7 @@
             display: flex;
             flex-direction: column;
             gap: 9px;
-            margin-bottom: 18px;
+            margin-bottom: 20px;
             flex: 1;
         }
 
@@ -442,6 +492,34 @@
             color: var(--g-green);
             flex: none;
             margin-top: 1px;
+        }
+
+        /* requirement pill inside feature list */
+        .plan li .req {
+            font-family: var(--mono);
+            font-size: .6rem;
+            background: #fef3cd;
+            color: #7a5a00;
+            padding: 1px 6px;
+            border-radius: 4px;
+            margin-left: 4px;
+            white-space: nowrap;
+        }
+
+        /* info callout under plan */
+        .plan-note {
+            font-size: .74rem;
+            color: var(--muted2);
+            background: #f8f9fa;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px 12px;
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+
+        .plan-note strong {
+            color: var(--muted);
         }
 
         .plan-btn {
@@ -478,6 +556,50 @@
             color: var(--ink);
         }
 
+        /* ── How it works strip ─────────────────────────────── */
+        .how-strip {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-top: 22px;
+        }
+
+        .how-step {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 18px 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .how-step .step-num {
+            font-family: var(--mono);
+            font-size: .6rem;
+            font-weight: 600;
+            color: var(--g-blue);
+            background: #e8f0fe;
+            width: 22px;
+            height: 22px;
+            border-radius: 6px;
+            display: grid;
+            place-items: center;
+            margin-bottom: 10px;
+        }
+
+        .how-step b {
+            font-size: .88rem;
+            font-weight: 700;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .how-step p {
+            font-size: .78rem;
+            color: var(--muted);
+            line-height: 1.5;
+        }
+
+        /* models */
         .models {
             display: flex;
             flex-wrap: wrap;
@@ -497,13 +619,6 @@
         .models-empty {
             color: var(--muted);
             font-size: .85rem;
-        }
-
-        .grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 18px;
-            margin-top: 22px;
         }
 
         .section-gap {
@@ -566,7 +681,7 @@
 
             .stats,
             .plans,
-            .grid-2 {
+            .how-strip {
                 grid-template-columns: 1fr;
             }
         }
@@ -584,7 +699,7 @@
             </div>
 
             <div class="nav-label">Main</div>
-            <div class="nav-item active" data-scroll="top">
+            <div class="nav-item active" id="navAccount" data-target="secAccount">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                     stroke-linejoin="round">
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
@@ -592,7 +707,7 @@
                 </svg>
                 Account
             </div>
-            <div class="nav-item" data-scroll="plans">
+            <div class="nav-item" id="navBilling" data-target="secBilling">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                     stroke-linejoin="round">
                     <rect x="2" y="5" width="20" height="14" rx="2" />
@@ -620,122 +735,186 @@
             </div>
         </aside>
 
-        <main class="main">
-            <div class="head reveal">
-                <h1 id="greeting">Your Account</h1>
-                <p>Manage your plan, billing, and model access.</p>
-            </div>
+        <main class="main" id="mainScroll">
 
-            <!-- Profile -->
-            <div class="card card-pad reveal" style="animation-delay:.05s">
-                <div class="profile">
-                    <div class="avatar" id="pfAvatar">?</div>
-                    <div class="who">
-                        <b id="pfName">—</b>
-                        <span id="pfEmail">—</span>
-                    </div>
-                    <button class="btn-ghost" id="signOutBtn">Sign out</button>
+            <!-- ── ACCOUNT section ──────────────────────────── -->
+            <section class="section reveal" id="secAccount">
+                <div class="section-head">
+                    <h2 id="greeting">Your Account</h2>
+                    <p>Manage your profile and session.</p>
                 </div>
-            </div>
 
-            <!-- Stats -->
-            <div class="stats reveal" style="animation-delay:.1s">
-                <div class="stat b">
-                    <div class="lbl">Current Plan</div>
-                    <div class="val blue" id="stPlan">Free</div>
-                </div>
-                <div class="stat g">
-                    <div class="lbl">Status</div>
-                    <div class="val" id="stStatusVal" style="font-size:1.15rem">—</div>
-                    <span class="pill off" id="stStatus">inactive</span>
-                </div>
-                <div class="stat y">
-                    <div class="lbl">Billing Period</div>
-                    <div class="val" id="stPeriod" style="font-size:1.05rem">—</div>
-                </div>
-            </div>
-
-            <!-- Plans -->
-            <div class="card card-pad reveal" id="plans" style="animation-delay:.15s">
-                <div class="card-title">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="2" y="5" width="20" height="14" rx="2" />
-                        <line x1="2" y1="10" x2="22" y2="10" />
-                    </svg>
-                    Plans &amp; Billing
-                </div>
-                <div class="plans">
-                    <div class="plan" data-plan="free">
-                        <h4>Free</h4>
-                        <div class="price" id="priceFree">$0</div>
-                        <ul>
-                            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                                    <polyline points="20 6 9 17 4 12" />
-                                </svg> The desktop overlay</li>
-                            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                                    <polyline points="20 6 9 17 4 12" />
-                                </svg> Local usage history</li>
-                        </ul>
-                        <button class="plan-btn ghost" data-plan="free">Current plan</button>
-                    </div>
-                    <div class="plan" data-plan="starter">
-                        <h4>Starter</h4>
-                        <div class="price" id="priceStarter"></div>
-                        <ul>
-                            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                                    <polyline points="20 6 9 17 4 12" />
-                                </svg> Claude + one provider</li>
-                            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                                    <polyline points="20 6 9 17 4 12" />
-                                </svg> OpenRouter or Groq</li>
-                            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                                    <polyline points="20 6 9 17 4 12" />
-                                </svg> Priority overlay analysis</li>
-                        </ul>
-                        <button class="plan-btn" data-plan="starter">Upgrade to Starter</button>
-                    </div>
-                    <div class="plan" data-plan="pro">
-                        <h4>Pro</h4>
-                        <div class="price" id="pricePro"></div>
-                        <ul>
-                            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                                    <polyline points="20 6 9 17 4 12" />
-                                </svg> All AI providers</li>
-                            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                                    <polyline points="20 6 9 17 4 12" />
-                                </svg> Encrypted API-key storage</li>
-                            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                                    <polyline points="20 6 9 17 4 12" />
-                                </svg> Everything in Starter</li>
-                        </ul>
-                        <button class="plan-btn" data-plan="pro">Upgrade to Pro</button>
+                <!-- Profile -->
+                <div class="card card-pad">
+                    <div class="profile">
+                        <div class="avatar" id="pfAvatar">?</div>
+                        <div class="who">
+                            <b id="pfName">—</b>
+                            <span id="pfEmail">—</span>
+                        </div>
+                        <button class="btn-ghost" id="signOutBtn">Sign out</button>
                     </div>
                 </div>
-            </div>
 
-            <!-- Model access -->
-            <div class="card card-pad reveal section-gap" style="animation-delay:.2s">
-                <div class="card-title">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M12 2L2 7l10 5 10-5-10-5z" />
-                        <path d="M2 17l10 5 10-5" />
-                        <path d="M2 12l10 5 10-5" />
-                    </svg>
-                    Model Access
+                <!-- Stats -->
+                <div class="stats" style="margin-top:18px">
+                    <div class="stat b">
+                        <div class="lbl">Current Plan</div>
+                        <div class="val blue" id="stPlan">Free</div>
+                    </div>
+                    <div class="stat g">
+                        <div class="lbl">Status</div>
+                        <div class="val" id="stStatusVal" style="font-size:1.15rem">—</div>
+                        <span class="pill off" id="stStatus">inactive</span>
+                    </div>
+                    <div class="stat y">
+                        <div class="lbl">Billing Period</div>
+                        <div class="val" id="stPeriod" style="font-size:1.05rem">—</div>
+                    </div>
                 </div>
-                <div class="models" id="models"><span class="models-empty">Upgrade to unlock AI models.</span></div>
-            </div>
+            </section>
+
+            <!-- ── BILLING section ─────────────────────────── -->
+            <section class="section reveal" id="secBilling" style="animation-delay:.1s">
+                <div class="section-head">
+                    <h2>Plans &amp; Billing</h2>
+                    <p>Codeply is a tool — you bring your own AI keys. No AI credits are included.</p>
+                </div>
+
+                <!-- How it works -->
+                <div class="how-strip">
+                    <div class="how-step">
+                        <div class="step-num">1</div>
+                        <b>Get the Core plan</b>
+                        <p>$10/mo unlocks Codeply's full overlay and backend. No AI usage is bundled in.</p>
+                    </div>
+                    <div class="how-step">
+                        <div class="step-num">2</div>
+                        <b>Add your API key</b>
+                        <p>Paste a key from any provider — OpenAI, Anthropic, Gemini, DeepSeek, or OpenRouter.</p>
+                    </div>
+                    <div class="how-step">
+                        <div class="step-num">3</div>
+                        <b>Pick any model</b>
+                        <p>OpenRouter alone gives you 400+ models. Many are free. Paid ones bill your key directly.</p>
+                    </div>
+                </div>
+
+                <!-- Plans -->
+                <div class="card card-pad section-gap" id="plans">
+                    <div class="card-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="5" width="20" height="14" rx="2" />
+                            <line x1="2" y1="10" x2="22" y2="10" />
+                        </svg>
+                        Choose a Plan
+                    </div>
+
+                    <div class="plans">
+                        <!-- Free -->
+                        <div class="plan" data-plan="free">
+                            <div class="plan-header">
+                                <h4>Free</h4>
+                            </div>
+                            <div class="price"><strong>$0</strong> <span class="period">forever</span></div>
+                            <ul>
+                                <li>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                        <polyline points="20 6 9 17 4 12" />
+                                    </svg>
+                                    The desktop overlay
+                                </li>
+                                <li>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                        <polyline points="20 6 9 17 4 12" />
+                                    </svg>
+                                    Local usage history
+                                </li>
+                                <li>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                        <polyline points="20 6 9 17 4 12" />
+                                    </svg>
+                                    No AI models included
+                                </li>
+                            </ul>
+                            <button class="plan-btn ghost" data-plan="free">Current plan</button>
+                        </div>
+
+                        <!-- Core -->
+                        <div class="plan" data-plan="core">
+                            <div class="plan-header">
+                                <h4>Core</h4>
+                                <span class="plan-badge">Recommended</span>
+                            </div>
+                            <div class="price"><strong>$10</strong> <span class="period">/ month</span></div>
+                            <ul>
+                                <li>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                        <polyline points="20 6 9 17 4 12" />
+                                    </svg>
+                                    Everything in Free
+                                </li>
+                                <li>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                        <polyline points="20 6 9 17 4 12" />
+                                    </svg>
+                                    Connect any AI provider <span class="req">your key</span>
+                                </li>
+                                <li>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                        <polyline points="20 6 9 17 4 12" />
+                                    </svg>
+                                    400+ models via OpenRouter <span class="req">your key</span>
+                                </li>
+                                <li>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                        <polyline points="20 6 9 17 4 12" />
+                                    </svg>
+                                    OpenAI, Claude, Gemini, DeepSeek…
+                                </li>
+                                <li>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                                        <polyline points="20 6 9 17 4 12" />
+                                    </svg>
+                                    Encrypted API key storage
+                                </li>
+                            </ul>
+                            <div class="plan-note">
+                                <strong>No AI costs included.</strong> You pay Codeply $10/mo to use the tool. AI usage
+                                bills directly to your API provider at their rates — many models on OpenRouter are free.
+                            </div>
+                            <button class="plan-btn" data-plan="core">Upgrade to Core</button>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:12px;font-size:.72rem;color:var(--muted2)">
+                        Checkout opens in your browser. Your plan updates here automatically after payment.
+                        To cancel, manage from your Whop account.
+                    </div>
+                </div>
+
+                <!-- Model access -->
+                <div class="card card-pad section-gap" style="animation-delay:.2s">
+                    <div class="card-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                            <path d="M2 17l10 5 10-5" />
+                            <path d="M2 12l10 5 10-5" />
+                        </svg>
+                        Model Access
+                    </div>
+                    <div class="models" id="models"><span class="models-empty">Upgrade to Core to unlock AI model
+                            access.</span></div>
+                </div>
+            </section>
+
         </main>
     </div>
 
     <div id="toast"></div>
 
     <script>
-        // ── Optional: set your real monthly prices (leave '' to hide) ──
-        const PRICES = { starter: '', pro: '' };  // e.g. starter: '$9 /mo', pro: '$29 /mo'
-        // ───────────────────────────────────────────────────────────────
-
-        const PLAN_NAME = { free: 'Free', starter: 'Starter', pro: 'Pro' };
+        const PLAN_NAME = { free: 'Free', core: 'Core' };
         const $ = (id) => document.getElementById(id);
         let sb = null, session = null, account = null;
 
@@ -743,6 +922,7 @@
             const t = $('toast'); t.textContent = msg; t.className = 'show' + (isErr ? ' err' : '');
             clearTimeout(t._t); t._t = setTimeout(() => { t.className = ''; }, 2600);
         }
+
         function fail(msg) { $('loader').innerHTML = '<span style="color:var(--g-red)">' + msg + '</span>'; }
 
         async function authed(path, opts) {
@@ -758,42 +938,79 @@
             const initial = (email[0] || '?').toUpperCase();
 
             $('greeting').textContent = 'Welcome back, ' + name;
-            $('sbAvatar').textContent = initial; $('pfAvatar').textContent = initial;
-            $('sbName').textContent = name; $('pfName').textContent = name; $('pfEmail').textContent = email;
+            $('sbAvatar').textContent = initial;
+            $('pfAvatar').textContent = initial;
+            $('sbName').textContent = name;
+            $('pfName').textContent = name;
+            $('pfEmail').textContent = email;
 
+            // Map old 'starter'/'pro' to 'core' for backwards-compat
             const sub = (account && account.subscription) || { plan: 'free', status: 'inactive' };
-            const plan = sub.status === 'active' ? sub.plan : 'free';
+            const rawPlan = sub.status === 'active' ? sub.plan : 'free';
+            const plan = (rawPlan === 'starter' || rawPlan === 'pro') ? 'core' : rawPlan;
             const active = sub.status === 'active';
 
             $('stPlan').textContent = PLAN_NAME[plan] || plan;
             $('stStatusVal').textContent = active ? 'Active' : 'Inactive';
             $('stStatus').textContent = sub.status || 'inactive';
             $('stStatus').className = 'pill ' + (active ? 'ok' : 'off');
-            $('stPeriod').textContent = sub.current_period_end ? new Date(sub.current_period_end).toLocaleDateString() : '—';
+            $('stPeriod').textContent = sub.current_period_end
+                ? new Date(sub.current_period_end).toLocaleDateString() : '—';
             $('sbPlan').textContent = (PLAN_NAME[plan] || plan) + ' plan';
 
-            if (PRICES.starter) $('priceStarter').textContent = PRICES.starter;
-            if (PRICES.pro) $('pricePro').textContent = PRICES.pro;
+            document.querySelectorAll('.plan').forEach((c) =>
+                c.classList.toggle('current', c.dataset.plan === plan));
 
-            document.querySelectorAll('.plan').forEach((c) => c.classList.toggle('current', c.dataset.plan === plan));
             document.querySelectorAll('.plan-btn').forEach((b) => {
                 const cur = b.dataset.plan === plan;
                 b.disabled = cur;
-                b.textContent = cur ? 'Current plan'
-                    : b.dataset.plan === 'free' ? 'Downgrade to Free' : 'Upgrade to ' + PLAN_NAME[b.dataset.plan];
+                b.textContent = cur
+                    ? 'Current plan'
+                    : b.dataset.plan === 'free'
+                        ? 'Downgrade to Free'
+                        : 'Upgrade to ' + (PLAN_NAME[b.dataset.plan] || b.dataset.plan);
             });
 
             const models = (account && account.enabledProviders) || [];
             const box = $('models');
             box.innerHTML = models.length
                 ? models.map((m) => '<span class="model-tag">' + (m.label || m.provider) + '</span>').join('')
-                : '<span class="models-empty">No models yet — upgrade to unlock access.</span>';
+                : '<span class="models-empty">No models yet — upgrade to Core to unlock access.</span>';
         }
 
         async function loadAccount() {
             try { const r = await authed('/api/account'); account = r.ok ? await r.json() : null; }
             catch (e) { account = null; }
             render();
+        }
+
+        // ── Nav: smooth-scroll + active state ────────────────
+        function setupNav() {
+            const items = document.querySelectorAll('.nav-item[data-target]');
+            items.forEach((item) => {
+                item.addEventListener('click', () => {
+                    items.forEach((x) => x.classList.remove('active'));
+                    item.classList.add('active');
+                    const target = $(item.dataset.target);
+                    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                });
+            });
+
+            // Keep nav in sync when user scrolls manually
+            const scroll = $('mainScroll');
+            const sections = [
+                { el: $('secAccount'), nav: $('navAccount') },
+                { el: $('secBilling'), nav: $('navBilling') },
+            ];
+
+            window.addEventListener('scroll', () => {
+                let active = sections[0];
+                for (const s of sections) {
+                    if (s.el && s.el.getBoundingClientRect().top <= 120) active = s;
+                }
+                sections.forEach((s) => s.nav.classList.remove('active'));
+                active.nav.classList.add('active');
+            }, { passive: true });
         }
 
         function wire() {
@@ -804,29 +1021,31 @@
 
             document.querySelectorAll('.plan-btn').forEach((btn) => {
                 btn.addEventListener('click', async () => {
-                    const plan = btn.dataset.plan;
-                    if (plan === 'free') return toast('To return to Free, cancel from your Whop account.');
+                    const planKey = btn.dataset.plan;
+                    if (planKey === 'free') return toast('To return to Free, cancel from your Whop account.');
+
+                    // Send 'starter' to the backend (maps to Core in the UI)
+                    const backendPlan = 'starter';
                     const original = btn.textContent;
                     btn.disabled = true; btn.textContent = 'Starting checkout…';
+
                     try {
-                        const res = await authed('/api/create-checkout', { method: 'POST', body: JSON.stringify({ plan }) });
+                        const res = await authed('/api/create-checkout', {
+                            method: 'POST',
+                            body: JSON.stringify({ plan: backendPlan }),
+                        });
                         const d = await res.json();
                         if (!res.ok) throw new Error(d.message || 'Checkout failed.');
                         window.location.href = d.checkoutUrl;
-                    } catch (e) { toast(e.message, true); btn.disabled = false; btn.textContent = original; }
+                    } catch (e) {
+                        toast(e.message, true);
+                        btn.disabled = false;
+                        btn.textContent = original;
+                    }
                 });
             });
 
-            document.querySelectorAll('.nav-item[data-scroll]').forEach((n) => {
-                n.addEventListener('click', () => {
-                    document.querySelectorAll('.nav-item').forEach((x) => x.classList.remove('active'));
-                    n.classList.add('active');
-                    const target = n.dataset.scroll === 'plans' ? $('plans') : document.body;
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                });
-            });
-
-            // Reflect upgrades quickly after returning from checkout.
+            setupNav();
             window.addEventListener('focus', () => { if (session) loadAccount(); });
         }
 
@@ -836,14 +1055,16 @@
                 const r = await fetch('/api/config');
                 cfg = await r.json();
                 if (!r.ok) throw new Error(cfg.message || 'config');
-            } catch (e) { return fail('Could not load Supabase config. Is SUPABASE_ANON_KEY set in Vercel?'); }
+            } catch (e) {
+                return fail('Could not load Supabase config. Is SUPABASE_ANON_KEY set in Vercel?');
+            }
 
             if (!window.supabase) return fail('Supabase library failed to load.');
             sb = window.supabase.createClient(cfg.url, cfg.anonKey);
 
             const { data } = await sb.auth.getSession();
             session = data.session;
-            if (!session) { location.href = 'index.html'; return; }   // auth guard
+            if (!session) { location.href = 'index.html'; return; }
 
             sb.auth.onAuthStateChange((_e, s) => { if (!s) location.href = 'index.html'; });
 
