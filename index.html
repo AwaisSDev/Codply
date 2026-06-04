@@ -1492,162 +1492,6 @@
                 max-width: 380px;
             }
         }
-
-        /* Account dashboard (signed-in) */
-        .cp-dash-section {
-            padding: 4rem 0;
-        }
-
-        .cp-dash-section.is-hidden {
-            display: none;
-        }
-
-        .cp-dash {
-            max-width: 760px;
-            margin: 0 auto;
-            background: #fff;
-            border: 1px solid #e8eaed;
-            border-radius: 20px;
-            padding: 2.5rem;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
-        }
-
-        .cp-dash-head {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin-bottom: 2rem;
-        }
-
-        .cp-dash-title {
-            font-family: var(--font-display);
-            font-size: 1.9rem;
-            font-weight: 800;
-            color: #1f1f1f;
-            margin: 0;
-        }
-
-        .cp-dash-email {
-            color: #5f6368;
-            font-size: 0.95rem;
-            margin-top: 0.25rem;
-        }
-
-        .cp-signout {
-            border: 1px solid #e8eaed;
-            background: #fff;
-            color: #5f6368;
-            border-radius: 999px;
-            padding: 0.5rem 1.1rem;
-            font-size: 0.85rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all .2s;
-        }
-
-        .cp-signout:hover {
-            background: #f8f9fa;
-            color: #1f1f1f;
-        }
-
-        .cp-plan-row {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin-bottom: 1.75rem;
-        }
-
-        .cp-plan-box {
-            flex: 1;
-            min-width: 160px;
-            border: 1px solid #e8eaed;
-            border-radius: 14px;
-            padding: 1.25rem;
-        }
-
-        .cp-plan-label {
-            font-size: 0.72rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: #80868b;
-        }
-
-        .cp-plan-value {
-            font-family: var(--font-display);
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--google-blue, #1a73e8);
-            margin-top: 0.35rem;
-        }
-
-        .cp-status {
-            display: inline-block;
-            margin-top: 0.6rem;
-            font-size: 0.7rem;
-            font-weight: 700;
-            padding: 3px 10px;
-            border-radius: 999px;
-        }
-
-        .cp-status.ok {
-            background: #e6f4ea;
-            color: #137333;
-        }
-
-        .cp-status.off {
-            background: #f1f3f4;
-            color: #5f6368;
-        }
-
-        .cp-change-title {
-            font-family: var(--font-display);
-            font-weight: 700;
-            font-size: 1.05rem;
-            color: #1f1f1f;
-            margin: 0 0 1rem;
-        }
-
-        .cp-plan-btns {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .cp-plan-btn {
-            flex: 1;
-            min-width: 150px;
-            padding: 0.85rem 1rem;
-            border-radius: 999px;
-            border: none;
-            background: var(--google-blue, #1a73e8);
-            color: #fff;
-            font-weight: 700;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all .2s;
-        }
-
-        .cp-plan-btn:hover:not(:disabled) {
-            filter: brightness(1.08);
-        }
-
-        .cp-plan-btn:disabled {
-            background: #f1f3f4;
-            color: #80868b;
-            cursor: default;
-        }
-
-        .cp-plan-btn.ghost {
-            background: #fff;
-            border: 1px solid #e8eaed;
-            color: #5f6368;
-        }
-
-        .cp-plan-btn.ghost:hover:not(:disabled) {
-            background: #f8f9fa;
-        }
     </style>
 </head>
 
@@ -1721,41 +1565,7 @@
                 </div>
             </div>
 
-            <!-- Account dashboard now lives in its own section below -->
-        </section>
-
-        <!-- Account Dashboard (visible when signed in) -->
-        <section id="dashboard" class="cp-dash-section is-hidden">
-            <div class="container">
-                <div class="cp-dash">
-                    <div class="cp-dash-head">
-                        <div>
-                            <h2 class="cp-dash-title">Your Account</h2>
-                            <div class="cp-dash-email" id="cp-email">&mdash;</div>
-                        </div>
-                        <button type="button" class="cp-signout" id="cp-signout">Sign out</button>
-                    </div>
-
-                    <div class="cp-plan-row">
-                        <div class="cp-plan-box">
-                            <div class="cp-plan-label">Current plan</div>
-                            <div class="cp-plan-value" id="cp-plan">Free</div>
-                            <span class="cp-status off" id="cp-status">inactive</span>
-                        </div>
-                        <div class="cp-plan-box">
-                            <div class="cp-plan-label">Billing period</div>
-                            <div class="cp-plan-value" id="cp-period" style="font-size: 1.05rem;">&mdash;</div>
-                        </div>
-                    </div>
-
-                    <h3 class="cp-change-title">Change plan</h3>
-                    <div class="cp-plan-btns">
-                        <button type="button" class="cp-plan-btn ghost" data-plan="free">Free</button>
-                        <button type="button" class="cp-plan-btn" data-plan="starter">Upgrade to Starter</button>
-                        <button type="button" class="cp-plan-btn" data-plan="pro">Upgrade to Pro</button>
-                    </div>
-                </div>
-            </div>
+            <!-- Account dashboard is a separate page (dashboard.html) -->
         </section>
 
         <!-- How it Works -->
@@ -2142,7 +1952,7 @@
         }
 
         function handleAuthTrigger() {
-            if (currentSession) return scrollToDashboard();
+            if (currentSession) { window.location.href = 'dashboard.html'; return; }
             return openAuth();
         }
 
@@ -2170,36 +1980,6 @@
         document.getElementById('auth-close').addEventListener('click', closeAuth);
         authModal.addEventListener('click', (event) => { if (event.target === authModal) closeAuth(); });
 
-        // Dashboard: sign out + plan changes (uses /api/create-checkout so the Whop
-        // payment carries user_id metadata and the webhook can activate the plan).
-        document.getElementById('cp-signout')?.addEventListener('click', async () => {
-            if (supabaseBrowser) await supabaseBrowser.auth.signOut();
-        });
-        document.querySelectorAll('#dashboard .cp-plan-btn').forEach((btn) => {
-            btn.addEventListener('click', async () => {
-                const plan = btn.dataset.plan;
-                if (plan === 'free') { alert('To return to Free, cancel your membership from your Whop account.'); return; }
-                if (!currentSession) return openAuth();
-                const original = btn.textContent;
-                btn.disabled = true;
-                btn.textContent = 'Starting checkout\u2026';
-                try {
-                    const res = await authedFetch('/api/create-checkout', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ plan }),
-                    });
-                    const data = await res.json();
-                    if (!res.ok) throw new Error(data.message || 'Checkout failed.');
-                    window.location.href = data.checkoutUrl;
-                } catch (e) {
-                    alert(e.message);
-                    btn.disabled = false;
-                    btn.textContent = original;
-                }
-            });
-        });
-
         async function initSupabaseAuth() {
             try {
                 const response = await fetch('/api/config');
@@ -2222,44 +2002,14 @@
 
         async function refreshAccount() {
             updateNavAuthControl();
-            const dash = document.getElementById('dashboard');
-            if (!currentSession) {
-                currentAccount = null;
-                if (dash) dash.classList.add('is-hidden');
-                return;
-            }
-            if (dash) dash.classList.remove('is-hidden');
-            const emailEl = document.getElementById('cp-email');
-            if (emailEl) emailEl.textContent = currentSession.user.email;
+            currentAccount = null;
+            if (!currentSession) return;
             try {
                 const response = await authedFetch('/api/account');
                 currentAccount = await response.json();
             } catch (e) {
                 currentAccount = null;
             }
-            renderDashboard();
-        }
-
-        function renderDashboard() {
-            const sub = currentAccount?.subscription || { plan: 'free', status: 'inactive' };
-            const plan = sub.status === 'active' ? sub.plan : 'free';
-            const names = { free: 'Free', starter: 'Starter', pro: 'Pro' };
-            const planEl = document.getElementById('cp-plan');
-            const statusEl = document.getElementById('cp-status');
-            const periodEl = document.getElementById('cp-period');
-            if (planEl) planEl.textContent = names[plan] || plan;
-            if (statusEl) {
-                statusEl.textContent = sub.status || 'inactive';
-                statusEl.className = 'cp-status ' + (sub.status === 'active' ? 'ok' : 'off');
-            }
-            if (periodEl) periodEl.textContent = sub.current_period_end
-                ? 'Renews ' + new Date(sub.current_period_end).toLocaleDateString() : '\u2014';
-            document.querySelectorAll('#dashboard .cp-plan-btn').forEach((b) => {
-                const cur = b.dataset.plan === plan;
-                b.disabled = cur;
-                b.textContent = cur ? 'Current plan'
-                    : b.dataset.plan === 'free' ? 'Downgrade to Free' : 'Upgrade to ' + (names[b.dataset.plan] || b.dataset.plan);
-            });
         }
 
         function renderAccount() {
@@ -2312,7 +2062,7 @@
             authStatus.className = 'status-line success';
             authStatus.textContent = 'Signed in.';
             closeAuth();
-            scrollToDashboard();
+            window.location.href = 'dashboard.html';
         });
 
         document.getElementById('signup-btn').addEventListener('click', async () => {
@@ -2333,7 +2083,7 @@
         });
 
         document.getElementById('google-auth-btn').addEventListener('click', async () => {
-            await supabaseBrowser.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: `${location.origin}/#dashboard` } });
+            await supabaseBrowser.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: `${location.origin}/dashboard.html` } });
         });
 
         if (accountPill) accountPill.addEventListener('click', async () => {
