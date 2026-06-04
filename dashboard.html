@@ -924,10 +924,7 @@
         </h2>
         <p style="font-size: 1.1rem; color: var(--muted); max-width: 420px; margin-bottom: 28px; line-height: 1.5;">You
             need an active Core subscription to access the Codeply dashboard and tools.</p>
-        <button class="plan-btn" id="lock-upgrade-btn" style="font-size: 1.1rem; padding: 14px 28px;">Upgrade to Core
-            ($10/mo)</button>
-        <button class="btn-ghost" id="lock-logout-btn"
-            style="margin-top: 16px; border: none; background: transparent;">Sign out</button>
+        <button class="plan-btn" id="lock-upgrade-btn" style="font-size: 1.1rem; padding: 14px 28px;">Subscription Now</button>
     </div>
 
     <script>
@@ -978,7 +975,7 @@
             document.querySelectorAll('.plan').forEach((c) =>
                 c.classList.toggle('current', c.dataset.plan === plan));
 
-            document.querySelectorAll('.plan-btn').forEach((b) => {
+            document.querySelectorAll('.plan-btn[data-plan]').forEach((b) => {
                 const cur = b.dataset.plan === plan;
                 b.disabled = cur;
                 b.textContent = cur
@@ -1073,25 +1070,11 @@
                     }
                 });
             });
-
-            $('lock-logout-btn').addEventListener('click', async () => {
-                if (sb) await sb.auth.signOut();
-                location.href = 'index.html';
-            });
-
             $('lock-upgrade-btn').addEventListener('click', async () => {
                 const btn = $('lock-upgrade-btn');
-                const original = btn.textContent;
-                btn.disabled = true; btn.textContent = 'Starting checkout…';
-                try {
-                    const res = await authed('/api/create-checkout', { method: 'POST', body: JSON.stringify({ plan: 'starter' }) });
-                    const d = await res.json();
-                    if (!res.ok) throw new Error(d.message || 'Checkout failed.');
-                    window.location.href = d.checkoutUrl;
-                } catch (e) {
-                    toast(e.message, true);
-                    btn.disabled = false; btn.textContent = original;
-                }
+                btn.disabled = true; 
+                btn.textContent = 'Starting checkout…';
+                window.location.href = 'https://whop.com/checkout/plan_WwY4XSxwbOYdM';
             });
 
             setupNav();
