@@ -1565,74 +1565,7 @@
                 </div>
             </div>
 
-            <!-- Account Dashboard -->
-            <section class="account-dashboard" id="dashboard">
-                <div class="container">
-                    <div class="dashboard-shell reveal">
-                        <div class="dashboard-head">
-                            <div>
-                                <h2>Account and model access</h2>
-                                <p id="dashboard-subtitle">Create an account, choose a plan, and manage Codply model
-                                    access.</p>
-                            </div>
-                            <div class="account-pill" id="account-pill">Signed out</div>
-                        </div>
-
-                        <div id="signed-out-panel">
-                            <p class="dashboard-note">Sign in to unlock billing, model access, and API-key management.
-                            </p>
-                            <button class="btn btn-primary auth-trigger" type="button">Get Started</button>
-                        </div>
-
-                        <div id="signed-in-panel" class="is-hidden">
-                            <div class="pricing-grid" id="pricing-grid">
-                                <div class="plan-card">
-                                    <h3>Starter</h3>
-                                    <div class="plan-price">$10 <span>/ month</span></div>
-                                    <ul class="plan-list">
-                                        <li>Claude included by default</li>
-                                        <li>Choose OpenRouter or Groq</li>
-                                        <li>Best for lightweight coding help</li>
-                                    </ul>
-                                    <button class="btn btn-primary checkout-btn" type="button"
-                                        data-plan="starter">Upgrade to Starter</button>
-                                </div>
-                                <div class="plan-card featured">
-                                    <h3>Pro</h3>
-                                    <div class="plan-price">$20 <span>/ month</span></div>
-                                    <ul class="plan-list">
-                                        <li>ChatGPT/OpenAI, Claude, Gemini</li>
-                                        <li>OpenRouter, Groq, DeepSeek, Qwen</li>
-                                        <li>Encrypted custom API-key storage</li>
-                                    </ul>
-                                    <button class="btn btn-primary checkout-btn" type="button" data-plan="pro">Upgrade
-                                        to Pro</button>
-                                </div>
-                            </div>
-
-                            <div class="dashboard-section">
-                                <h3>Your enabled models</h3>
-                                <p class="dashboard-note" id="plan-status">No paid plan active yet.</p>
-                                <label id="starter-provider-wrap" class="is-hidden">
-                                    Starter extra provider
-                                    <select class="starter-select" id="starter-provider-select">
-                                        <option value="openrouter">OpenRouter</option>
-                                        <option value="groq">Groq</option>
-                                    </select>
-                                </label>
-                                <div class="model-grid" id="model-grid"></div>
-                            </div>
-
-                            <div class="dashboard-section" id="api-key-section">
-                                <h3>Pro API keys</h3>
-                                <p class="dashboard-note">Available on Pro. Keys are encrypted server-side before being
-                                    stored.</p>
-                                <div class="api-key-grid" id="api-key-grid"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <!-- Account dashboard removed: account & billing now live in the desktop tool -->
         </section>
 
         <!-- How it Works -->
@@ -2062,12 +1995,17 @@
                 await refreshAccount();
             } catch (error) {
                 console.error(error);
-                accountPill.textContent = 'Config needed';
+                if (accountPill) accountPill.textContent = 'Config needed';
                 updateNavAuthControl();
             }
         }
 
         async function refreshAccount() {
+            // Account card was removed from the landing page; bail if its DOM is gone.
+            if (!accountPill || !signedInPanel || !signedOutPanel) {
+                updateNavAuthControl();
+                return;
+            }
             if (!currentSession) {
                 currentAccount = null;
                 updateNavAuthControl();
