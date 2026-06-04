@@ -992,7 +992,9 @@
                 ? models.map((m) => '<span class="model-tag">' + (m.label || m.provider) + '</span>').join('')
                 : '<span class="models-empty">No models yet — upgrade to Core to unlock access.</span>';
 
-            if (!active) {
+            const isDev = new URLSearchParams(window.location.search).get('dev') === 'true';
+
+            if (!active && !isDev) {
                 $('lock-screen').style.display = 'flex';
                 $('app').style.filter = 'blur(5px)';
                 $('app').style.pointerEvents = 'none';
