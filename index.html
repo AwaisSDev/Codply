@@ -11,6 +11,7 @@
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap"
         rel="stylesheet">
     <link rel="icon" type="image/png" href="Favicon.png">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
             --olive: #1a73e8;
@@ -1375,14 +1376,20 @@
             margin-top: 0.5rem;
         }
 
-        .status-line.error { color: var(--google-red); }
-        .status-line.success { color: var(--google-green); }
+        .status-line.error {
+            color: var(--google-red);
+        }
+
+        .status-line.success {
+            color: var(--google-green);
+        }
 
         .is-hidden {
             display: none !important;
         }
 
         @media (max-width: 800px) {
+
             .dashboard-head,
             .pricing-grid,
             .model-grid,
@@ -1391,6 +1398,7 @@
                 flex-direction: column;
             }
         }
+
         /* Auth nav responsive fit */
         @media (max-width: 720px) {
             header .container {
@@ -1405,7 +1413,7 @@
                 gap: 0.55rem;
             }
 
-            .nav-links > a[href="#features"] {
+            .nav-links>a[href="#features"] {
                 display: none;
             }
 
@@ -1415,6 +1423,7 @@
                 white-space: nowrap;
             }
         }
+
         @media (max-width: 768px) {
             section {
                 padding: 4rem 0;
@@ -1495,7 +1504,8 @@
                 </a>
                 <div class="nav-links">
                     <a href="#features">Features</a>
-                    <button class="btn btn-primary auth-trigger nav-auth-control" id="nav-auth-control" type="button" style="padding: 0.6rem 1.2rem; font-size: 0.85rem;">Get Started</button>
+                    <button class="btn btn-primary auth-trigger nav-auth-control" id="nav-auth-control" type="button"
+                        style="padding: 0.6rem 1.2rem; font-size: 0.85rem;">Get Started</button>
                 </div>
             </nav>
         </div>
@@ -1510,8 +1520,8 @@
                 <p class="reveal">The surgical desktop overlay that tells you exactly which file and lines to edit.
                     Built for the era of AI-generated code.</p>
                 <div class="hero-ctas reveal">
-                    <button class="btn btn-primary auth-trigger" type="button">Get Started</button><a
-                        href="#features" class="btn btn-outline">See Features</a>
+                    <button class="btn btn-primary auth-trigger" type="button">Get Started</button><a href="#features"
+                        class="btn btn-outline">See Features</a>
                 </div>
 
                 <!-- Cinematic IDE Demo -->
@@ -1554,69 +1564,74 @@
                 </div>
             </div>
 
-        <!-- Account Dashboard -->
-        <section class="account-dashboard" id="dashboard">
-            <div class="container">
-                <div class="dashboard-shell reveal">
-                    <div class="dashboard-head">
-                        <div>
-                            <h2>Account and model access</h2>
-                            <p id="dashboard-subtitle">Create an account, choose a plan, and manage Codply model access.</p>
-                        </div>
-                        <div class="account-pill" id="account-pill">Signed out</div>
-                    </div>
-
-                    <div id="signed-out-panel">
-                        <p class="dashboard-note">Sign in to unlock billing, model access, and API-key management.</p>
-                        <button class="btn btn-primary auth-trigger" type="button">Get Started</button>
-                    </div>
-
-                    <div id="signed-in-panel" class="is-hidden">
-                        <div class="pricing-grid" id="pricing-grid">
-                            <div class="plan-card">
-                                <h3>Starter</h3>
-                                <div class="plan-price">$10 <span>/ month</span></div>
-                                <ul class="plan-list">
-                                    <li>Claude included by default</li>
-                                    <li>Choose OpenRouter or Groq</li>
-                                    <li>Best for lightweight coding help</li>
-                                </ul>
-                                <button class="btn btn-primary checkout-btn" type="button" data-plan="starter">Upgrade to Starter</button>
+            <!-- Account Dashboard -->
+            <section class="account-dashboard" id="dashboard">
+                <div class="container">
+                    <div class="dashboard-shell reveal">
+                        <div class="dashboard-head">
+                            <div>
+                                <h2>Account and model access</h2>
+                                <p id="dashboard-subtitle">Create an account, choose a plan, and manage Codply model
+                                    access.</p>
                             </div>
-                            <div class="plan-card featured">
-                                <h3>Pro</h3>
-                                <div class="plan-price">$20 <span>/ month</span></div>
-                                <ul class="plan-list">
-                                    <li>ChatGPT/OpenAI, Claude, Gemini</li>
-                                    <li>OpenRouter, Groq, DeepSeek, Qwen</li>
-                                    <li>Encrypted custom API-key storage</li>
-                                </ul>
-                                <button class="btn btn-primary checkout-btn" type="button" data-plan="pro">Upgrade to Pro</button>
+                            <div class="account-pill" id="account-pill">Signed out</div>
+                        </div>
+
+                        <div id="signed-out-panel">
+                            <p class="dashboard-note">Sign in to unlock billing, model access, and API-key management.
+                            </p>
+                            <button class="btn btn-primary auth-trigger" type="button">Get Started</button>
+                        </div>
+
+                        <div id="signed-in-panel" class="is-hidden">
+                            <div class="pricing-grid" id="pricing-grid">
+                                <div class="plan-card">
+                                    <h3>Starter</h3>
+                                    <div class="plan-price">$10 <span>/ month</span></div>
+                                    <ul class="plan-list">
+                                        <li>Claude included by default</li>
+                                        <li>Choose OpenRouter or Groq</li>
+                                        <li>Best for lightweight coding help</li>
+                                    </ul>
+                                    <button class="btn btn-primary checkout-btn" type="button"
+                                        data-plan="starter">Upgrade to Starter</button>
+                                </div>
+                                <div class="plan-card featured">
+                                    <h3>Pro</h3>
+                                    <div class="plan-price">$20 <span>/ month</span></div>
+                                    <ul class="plan-list">
+                                        <li>ChatGPT/OpenAI, Claude, Gemini</li>
+                                        <li>OpenRouter, Groq, DeepSeek, Qwen</li>
+                                        <li>Encrypted custom API-key storage</li>
+                                    </ul>
+                                    <button class="btn btn-primary checkout-btn" type="button" data-plan="pro">Upgrade
+                                        to Pro</button>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="dashboard-section">
-                            <h3>Your enabled models</h3>
-                            <p class="dashboard-note" id="plan-status">No paid plan active yet.</p>
-                            <label id="starter-provider-wrap" class="is-hidden">
-                                Starter extra provider
-                                <select class="starter-select" id="starter-provider-select">
-                                    <option value="openrouter">OpenRouter</option>
-                                    <option value="groq">Groq</option>
-                                </select>
-                            </label>
-                            <div class="model-grid" id="model-grid"></div>
-                        </div>
+                            <div class="dashboard-section">
+                                <h3>Your enabled models</h3>
+                                <p class="dashboard-note" id="plan-status">No paid plan active yet.</p>
+                                <label id="starter-provider-wrap" class="is-hidden">
+                                    Starter extra provider
+                                    <select class="starter-select" id="starter-provider-select">
+                                        <option value="openrouter">OpenRouter</option>
+                                        <option value="groq">Groq</option>
+                                    </select>
+                                </label>
+                                <div class="model-grid" id="model-grid"></div>
+                            </div>
 
-                        <div class="dashboard-section" id="api-key-section">
-                            <h3>Pro API keys</h3>
-                            <p class="dashboard-note">Available on Pro. Keys are encrypted server-side before being stored.</p>
-                            <div class="api-key-grid" id="api-key-grid"></div>
+                            <div class="dashboard-section" id="api-key-section">
+                                <h3>Pro API keys</h3>
+                                <p class="dashboard-note">Available on Pro. Keys are encrypted server-side before being
+                                    stored.</p>
+                                <div class="api-key-grid" id="api-key-grid"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
         </section>
 
         <!-- How it Works -->
@@ -1736,7 +1751,8 @@
             </div>
             <form class="auth-form" id="auth-form">
                 <input type="email" name="email" autocomplete="email" placeholder="Email" required>
-                <input type="password" name="password" autocomplete="current-password" placeholder="Password" minlength="6" required>
+                <input type="password" name="password" autocomplete="current-password" placeholder="Password"
+                    minlength="6" required>
                 <div class="auth-actions">
                     <button class="btn btn-primary" type="submit" data-auth-action="signin">Sign In</button>
                     <button class="btn btn-outline" type="button" id="signup-btn">Create Account</button>
@@ -1777,7 +1793,7 @@
             </div>
         </div>
     </footer>
-    
+
     <script>
         const observerOptions = {
             threshold: 0.1
@@ -1995,7 +2011,7 @@
             authModal.setAttribute('aria-hidden', 'true');
         }
 
-                const navAuthControl = document.getElementById('nav-auth-control');
+        const navAuthControl = document.getElementById('nav-auth-control');
 
         function scrollToDashboard() {
             document.getElementById('dashboard')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -2030,25 +2046,38 @@
         document.getElementById('auth-close').addEventListener('click', closeAuth);
         authModal.addEventListener('click', (event) => { if (event.target === authModal) closeAuth(); });
 
+        // Declare supabase globally so all your event listeners can see it
+        let supabase;
+
         async function initSupabaseAuth() {
             try {
-                const response = await fetch('/api/config');
-                const config = await response.json();
-                if (!response.ok) throw new Error(config.message || 'Supabase config missing.');
-                supabaseBrowser = window.supabase.createClient(config.url, config.anonKey);
-                const { data } = await supabaseBrowser.auth.getSession();
-                currentSession = data.session;
-                supabaseBrowser.auth.onAuthStateChange((_event, session) => {
-                    currentSession = session;
-                    refreshAccount();
+                // 1. Fetch your public configuration from your backend API
+                const configResponse = await fetch('/api/config');
+                if (!configResponse.ok) throw new Error('Failed to load config');
+                const config = await configResponse.json();
+
+                // 2. Initialize the client using the window object from the CDN script
+                supabase = window.supabase.createClient(config.url, config.anonKey);
+
+                // 3. Now handle your session listener safely
+                const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+                    console.log("Auth Event:", event, session);
+                    if (session) {
+                        // User is signed in -> Show dashboard / Hide login buttons
+                        showDashboard(session.user);
+                    } else {
+                        // User is signed out -> Show login buttons
+                        showLoginScreen();
+                    }
                 });
-                await refreshAccount();
+
             } catch (error) {
-                console.error(error);
-                accountPill.textContent = 'Config needed';
-                updateNavAuthControl();
+                console.error("Initialization failed:", error);
             }
         }
+
+        // Fire it off when the page loads
+        document.addEventListener('DOMContentLoaded', initSupabaseAuth);
 
         async function refreshAccount() {
             if (!currentSession) {
@@ -2223,4 +2252,3 @@
 </body>
 
 </html>
-
