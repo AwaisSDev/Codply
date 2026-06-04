@@ -923,8 +923,9 @@
         <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 12px; color: var(--ink);">Subscription Required
         </h2>
         <p style="font-size: 1.1rem; color: var(--muted); max-width: 420px; margin-bottom: 28px; line-height: 1.5;">You
-            need an active Core subscription to access the Codeply dashboard and tools.</p>
-        <button class="plan-btn" id="lock-upgrade-btn" style="font-size: 1.1rem; padding: 14px 28px;">Subscription Now</button>
+            need an active core subscription to access the Codeply dashboard and tools.</p>
+        <button class="plan-btn" id="lock-upgrade-btn" style="font-size: 1.1rem; padding: 14px 28px;">Subscribe
+            Now</button>
     </div>
 
     <script>
@@ -1072,7 +1073,7 @@
             });
             $('lock-upgrade-btn').addEventListener('click', async () => {
                 const btn = $('lock-upgrade-btn');
-                btn.disabled = true; 
+                btn.disabled = true;
                 btn.textContent = 'Starting checkout…';
                 window.location.href = 'https://whop.com/checkout/plan_WwY4XSxwbOYdM';
             });
