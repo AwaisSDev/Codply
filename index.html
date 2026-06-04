@@ -11,7 +11,7 @@
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap"
         rel="stylesheet">
     <link rel="icon" type="image/png" href="Favicon.png">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <style>
         :root {
             --olive: #1a73e8;
@@ -2046,38 +2046,25 @@
         document.getElementById('auth-close').addEventListener('click', closeAuth);
         authModal.addEventListener('click', (event) => { if (event.target === authModal) closeAuth(); });
 
-        // Declare supabase globally so all your event listeners can see it
-        let supabase;
-
         async function initSupabaseAuth() {
             try {
-                // 1. Fetch your public configuration from your backend API
-                const configResponse = await fetch('/api/config');
-                if (!configResponse.ok) throw new Error('Failed to load config');
-                const config = await configResponse.json();
-
-                // 2. Initialize the client using the window object from the CDN script
-                supabase = window.supabase.createClient(config.url, config.anonKey);
-
-                // 3. Now handle your session listener safely
-                const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-                    console.log("Auth Event:", event, session);
-                    if (session) {
-                        // User is signed in -> Show dashboard / Hide login buttons
-                        showDashboard(session.user);
-                    } else {
-                        // User is signed out -> Show login buttons
-                        showLoginScreen();
-                    }
+                const response = await fetch('/api/config');
+                const config = await response.json();
+                if (!response.ok) throw new Error(config.message || 'Supabase config missing.');
+                supabaseBrowser = window.supabase.createClient(config.url, config.anonKey);
+                const { data } = await supabaseBrowser.auth.getSession();
+                currentSession = data.session;
+                supabaseBrowser.auth.onAuthStateChange((_event, session) => {
+                    currentSession = session;
+                    refreshAccount();
                 });
-
+                await refreshAccount();
             } catch (error) {
-                console.error("Initialization failed:", error);
+                console.error(error);
+                accountPill.textContent = 'Config needed';
+                updateNavAuthControl();
             }
         }
-
-        // Fire it off when the page loads
-        document.addEventListener('DOMContentLoaded', initSupabaseAuth);
 
         async function refreshAccount() {
             if (!currentSession) {
