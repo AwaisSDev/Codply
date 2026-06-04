@@ -1,5 +1,6 @@
 import { supabase } from './supabaseClient.js';
 import { ensureProfile, getJsonBody, requireUser } from './auth.js';
+import { applyCors } from './cors.js';
 
 const starterProviders = new Set(['openrouter', 'groq']);
 
@@ -20,6 +21,8 @@ function maskKey(value) {
 }
 
 export default async function handler(req, res) {
+  if (applyCors(req, res)) return;
+
   const user = await requireUser(req, res);
   if (!user) return;
 

@@ -1,4 +1,5 @@
 import { requireUser, getJsonBody } from './auth.js';
+import { applyCors } from './cors.js';
 
 const planEnv = {
   starter: 'WHOP_STARTER_PLAN_ID',
@@ -6,6 +7,8 @@ const planEnv = {
 };
 
 export default async function handler(req, res) {
+  if (applyCors(req, res)) return;
+
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST');
     return res.status(405).json({ message: 'Method not allowed.' });

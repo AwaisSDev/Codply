@@ -2099,7 +2099,7 @@
             await supabaseBrowser.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: `${location.origin}/#dashboard` } });
         });
 
-        accountPill.addEventListener('click', async () => {
+        if (accountPill) accountPill.addEventListener('click', async () => {
             if (!currentSession) return openAuth();
             await supabaseBrowser.auth.signOut();
         });
@@ -2118,7 +2118,7 @@
             });
         });
 
-        starterProviderSelect.addEventListener('change', async () => {
+        if (starterProviderSelect) starterProviderSelect.addEventListener('change', async () => {
             await authedFetch('/api/account', {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
@@ -2127,7 +2127,7 @@
             await refreshAccount();
         });
 
-        apiKeyGrid.addEventListener('click', async (event) => {
+        if (apiKeyGrid) apiKeyGrid.addEventListener('click', async (event) => {
             const saveButton = event.target.closest('.save-key-btn');
             const deleteButton = event.target.closest('.delete-key-btn');
             if (!saveButton && !deleteButton) return;
