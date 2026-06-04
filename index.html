@@ -1317,7 +1317,7 @@
             background: rgba(32, 33, 36, 0.48);
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.2s ease;
+            transition: opacity 0.25s ease;
         }
 
         .auth-modal.active {
@@ -1326,34 +1326,38 @@
         }
 
         .auth-dialog {
-            width: min(440px, 100%);
+            width: min(480px, 100%);
             background: #fff;
-            border-radius: 20px;
+            border-radius: 24px;
             border: 1px solid var(--border-light);
-            box-shadow: 0 28px 80px rgba(32, 33, 36, 0.26);
-            padding: 1.5rem;
+            box-shadow: 0 32px 90px rgba(32, 33, 36, 0.28);
+            padding: 2.5rem 2.5rem 2rem;
         }
 
         .auth-dialog h2 {
             color: var(--text-primary) !important;
-            margin-bottom: 0.4rem;
+            font-size: 1.55rem;
+            letter-spacing: -0.5px;
+            margin-bottom: 0.5rem;
         }
 
         .auth-dialog p {
             color: var(--text-secondary);
-            margin-bottom: 1.1rem;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 1.75rem;
         }
 
         .auth-form {
             display: grid;
-            gap: 0.85rem;
+            gap: 1rem;
         }
 
         .auth-form input {
             width: 100%;
             border: 1px solid var(--border-light);
-            border-radius: 12px;
-            padding: 0.85rem 0.95rem;
+            border-radius: 14px;
+            padding: 1rem 1.1rem;
             font: inherit;
         }
 
@@ -1362,6 +1366,7 @@
             justify-content: space-between;
             align-items: flex-start;
             gap: 1rem;
+            margin-bottom: 0.25rem;
         }
 
         .auth-actions {
@@ -1383,6 +1388,111 @@
 
         .status-line.success {
             color: var(--google-green);
+        }
+
+        /* Styling to frame fields and circle buttons perfectly */
+        .field {
+            width: 100%;
+            border: none;
+            background: #edf2fc;
+            border-radius: 14px;
+            padding: 1rem 1.15rem;
+            font-size: 1rem;
+            color: #0f172a;
+            outline: 2px solid transparent;
+            transition: all .15s;
+            margin: 9px;
+            margin-left: auto;
+        }
+
+        .field:focus {
+            background: #dde9fb;
+            outline-color: rgba(37, 99, 235, 0.18);
+        }
+
+        /* Auth form button row */
+        .auth-btn-row {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            margin-top: 0.5rem;
+        }
+
+        .btn-ghost {
+            background: transparent;
+            border: 1.5px solid var(--border-light);
+            color: var(--text-primary);
+            font-weight: 600;
+            padding: 0.85rem 1.6rem;
+            border-radius: 999px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-ghost:hover {
+            border-color: var(--google-blue);
+            color: var(--google-blue);
+            background: #e8f0fe;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin: 1.5rem 0 1.25rem;
+            color: #9aa3b2;
+            font-size: 0.82rem;
+            letter-spacing: 0.3px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: rgba(15, 23, 42, 0.08);
+        }
+
+        .oauth-row {
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            margin-bottom: 0.5rem;
+        }
+
+        .oauth-btn {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            border: 1.5px solid rgba(15, 23, 42, 0.09);
+            background: #fff;
+            cursor: pointer;
+            display: grid;
+            place-items: center;
+            transition: all .2s;
+        }
+
+        .oauth-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px rgba(15, 23, 42, 0.13);
+            border-color: rgba(15, 23, 42, 0.18);
+        }
+
+        .status {
+            margin-top: 1rem;
+            min-height: 20px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #6b7280;
+        }
+
+        .status.ok {
+            color: #12b76a;
+        }
+
+        .status.err {
+            color: #ef4444;
         }
 
         .is-hidden {
@@ -1683,17 +1793,44 @@
                 </div>
                 <button class="modal-close" id="auth-close" type="button" aria-label="Close auth form">&times;</button>
             </div>
-            <form class="auth-form" id="auth-form">
-                <input type="email" name="email" autocomplete="email" placeholder="Email" required>
-                <input type="password" name="password" autocomplete="current-password" placeholder="Password"
-                    minlength="6" required>
-                <div class="auth-actions">
-                    <button class="btn btn-primary" type="submit" data-auth-action="signin">Sign In</button>
-                    <button class="btn btn-outline" type="button" id="signup-btn">Create Account</button>
-                    <button class="btn btn-outline" type="button" id="google-auth-btn">Continue with Google</button>
+
+            <form id="authForm" novalidate>
+                <input class="field" id="email" type="email" placeholder="you@example.com" autocomplete="email"
+                    required>
+                <input class="field" id="password" type="password" placeholder="Password"
+                    autocomplete="current-password" required>
+
+                <div class="auth-btn-row">
+                    <button class="btn btn-primary" type="submit" style="flex:1;">Sign In</button>
+                    <button class="btn-ghost" type="button" id="createBtn">Create Account</button>
                 </div>
-                <p class="status-line" id="auth-status" role="status"></p>
             </form>
+
+            <div class="divider">or continue with</div>
+
+            <div class="oauth-row">
+                <button class="oauth-btn" id="googleBtn" aria-label="Continue with Google" title="Continue with Google">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" style="width: 24px; height: 24px; display: block;">
+                        <path fill="#4285F4"
+                            d="M23.52 12.27c0-.79-.07-1.54-.2-2.27H12v4.51h6.47a5.53 5.53 0 0 1-2.4 3.63v3h3.88c2.27-2.09 3.57-5.17 3.57-8.87z" />
+                        <path fill="#34A853"
+                            d="M12 24c3.24 0 5.95-1.08 7.94-2.91l-3.88-3c-1.08.72-2.45 1.16-4.06 1.16-3.13 0-5.78-2.11-6.73-4.96H1.26v3.09A12 12 0 0 0 12 24z" />
+                        <path fill="#FBBC05"
+                            d="M5.27 14.29A7.18 7.18 0 0 1 4.89 12c0-.8.14-1.57.38-2.29V6.62H1.26A12 12 0 0 0 0 12c0 1.94.46 3.77 1.26 5.38l4.01-3.09z" />
+                        <path fill="#EA4335"
+                            d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0A12 12 0 0 0 1.26 6.62l4.01 3.09C6.22 6.86 8.87 4.75 12 4.75z" />
+                    </svg>
+                </button>
+
+                <button class="oauth-btn" id="githubBtn" aria-label="Continue with GitHub" title="Continue with GitHub">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" style="width: 24px; height: 24px; display: block;">
+                        <path fill="#181717"
+                            d="M12 .5A12 12 0 0 0 .5 12.5c0 5.26 3.44 9.72 8.2 11.3.6.11.82-.26.82-.58v-2.03c-3.34.72-4.04-1.6-4.04-1.6-.55-1.38-1.34-1.75-1.34-1.75-1.09-.74.08-.72.08-.72 1.21.09 1.85 1.24 1.85 1.24 1.07 1.83 2.8 1.3 3.49.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6.01 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.25 2.87.12 3.17.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.62-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 23.5 12.5 12 12 0 0 0 12 .5z" />
+                    </svg>
+                </button>
+            </div>
+
+            <div class="status" id="status" role="status" aria-live="polite"></div>
         </div>
     </div>
     <div class="waitlist-modal" id="waitlist-modal" aria-hidden="true">
@@ -2160,6 +2297,16 @@
                     target.scrollIntoView({ behavior: 'smooth' });
                 }
             });
+        });
+        document.getElementById('googleBtn').addEventListener('click', () => startOAuth('google'));
+        document.getElementById('githubBtn').addEventListener('click', () => startOAuth('github'));
+
+        document.getElementById('authForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value.trim();
+            const pw = document.getElementById('password').value;
+            if (!email || !pw) { setStatus('Enter email and password.', 'err'); return; }
+            setStatus('Signing in…');
         });
     </script>
 </body>
