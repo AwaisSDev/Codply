@@ -931,7 +931,7 @@
     <script>
         const PLAN_NAME = { free: 'Free', core: 'Core' };
         const $ = (id) => document.getElementById(id);
-        let sb = null, session = null, account = null;
+        let sb = null, session = null, account = null, freeMode = false;
 
         function toast(msg, isErr) {
             const t = $('toast'); t.textContent = msg; t.className = 'show' + (isErr ? ' err' : '');
@@ -993,8 +993,11 @@
                 : '<span class="models-empty">No models yet — upgrade to Core to unlock access.</span>';
 
             const isDev = new URLSearchParams(window.location.search).get('dev') === 'true';
+            const hasAccess = active || freeMode || isDev;
 
-            if (!active && !isDev) {
+            setFreeBanner(freeMode && !active);
+
+            if (!hasAccess) {
                 $('lock-screen').style.display = 'flex';
                 $('app').style.filter = 'blur(5px)';
                 $('app').style.pointerEvents = 'none';
@@ -1005,6 +1008,19 @@
                 $('app').style.pointerEvents = 'auto';
                 $('app').style.userSelect = 'auto';
             }
+        }
+
+        function setFreeBanner(show) {
+            let b = $('freeBanner');
+            if (!b) {
+                b = document.createElement('div');
+                b.id = 'freeBanner';
+                b.style.cssText = 'margin-bottom:18px;padding:14px 18px;border-radius:14px;background:#e6f4ea;border:1px solid #b7e1c1;color:#137333;font-size:.9rem;font-weight:600;line-height:1.5;';
+                b.innerHTML = '🎉 Free access is on right now — no subscription needed. The Core plan ($10/mo) will be required later.';
+                const host = $('secAccount') || document.querySelector('.main');
+                if (host) host.insertBefore(b, host.firstChild);
+            }
+            b.style.display = show ? 'block' : 'none';
         }
 
         async function loadAccount() {
@@ -1075,9 +1091,22 @@
             });
             $('lock-upgrade-btn').addEventListener('click', async () => {
                 const btn = $('lock-upgrade-btn');
+                const original = btn.textContent;
                 btn.disabled = true;
                 btn.textContent = 'Starting checkout…';
-                window.location.href = 'https://whop.com/checkout/plan_WwY4XSxwbOYdM';
+                try {
+                    const res = await authed('/api/create-checkout', {
+                        method: 'POST',
+                        body: JSON.stringify({ plan: 'starter' }),
+                    });
+                    const d = await res.json();
+                    if (!res.ok) throw new Error(d.message || 'Checkout failed.');
+                    window.location.href = d.checkoutUrl;
+                } catch (e) {
+                    toast(e.message, true);
+                    btn.disabled = false;
+                    btn.textContent = original;
+                }
             });
 
             setupNav();
@@ -1090,6 +1119,7 @@
                 const r = await fetch('/api/config');
                 cfg = await r.json();
                 if (!r.ok) throw new Error(cfg.message || 'config');
+                freeMode = !!cfg.freeMode;
             } catch (e) {
                 return fail('Could not load Supabase config. Is SUPABASE_ANON_KEY set in Vercel?');
             }
