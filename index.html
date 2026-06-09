@@ -1718,7 +1718,7 @@
             <nav>
                 <a href="/" class="logo" aria-label="Codeply" style="gap:10px;text-decoration:none">
                     <svg width="34" height="34" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;border-radius:8px">
-                      <rect width="100" height="100" fill="#000" rx="20"/>
+                      <rect width="100" height="100" fill="#fff" rx="20"/>
                       <path d="M 24.9 64.5 A 29 29 0 0 1 35.5 24.9" fill="none" stroke="#fbbc04" stroke-width="16" stroke-linecap="butt"/>
                       <path d="M 57.5 78.0 A 29 29 0 0 1 24.9 64.5" fill="none" stroke="#34a853" stroke-width="16" stroke-linecap="butt"/>
                       <path d="M 75.1 64.5 A 29 29 0 0 1 57.5 78.0" fill="none" stroke="#4285F4" stroke-width="16" stroke-linecap="butt"/>
@@ -1728,8 +1728,8 @@
                 </a>
                 <div class="nav-links">
                     <a href="#features">Features</a>
-                    <a href="https://whop.com/checkout/MN9HVEeGx1GObPQ5z-uz0u-rYbZ-C333-EYJzxEG4xD9b/" class="btn btn-primary"
-                        style="padding: 0.6rem 1.2rem; font-size: 0.85rem;" target="_blank" rel="noopener">Download Now</a>
+                    <button class="btn btn-primary auth-trigger" id="nav-auth-control" type="button"
+                        style="padding: 0.6rem 1.2rem; font-size: 0.85rem;">Get Started</button>
                 </div>
             </nav>
         </div>
@@ -1744,7 +1744,7 @@
                 <p class="reveal">The surgical desktop overlay that tells you exactly which file and lines to edit.
                     Built for the era of AI-generated code.</p>
                 <div class="hero-ctas reveal">
-                    <a href="https://whop.com/checkout/MN9HVEeGx1GObPQ5z-uz0u-rYbZ-C333-EYJzxEG4xD9b/" class="btn btn-primary" target="_blank" rel="noopener">Download Now</a>
+                    <button class="btn btn-primary auth-trigger" type="button">Get Started</button>
                     <a href="#features" class="btn btn-outline">See Features</a>
                 </div>
 
@@ -1785,7 +1785,7 @@
                         <div class="cp-popup-header">
                             <div class="cp-popup-brand">
                                 <svg width="22" height="22" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                                    <rect width="100" height="100" fill="#000" rx="18"/>
+                                    <rect width="100" height="100" fill="#fff" rx="18"/>
                                     <path d="M 24.9 64.5 A 29 29 0 0 1 35.5 24.9" fill="none" stroke="#fbbc04" stroke-width="16" stroke-linecap="butt"/>
                                     <path d="M 57.5 78.0 A 29 29 0 0 1 24.9 64.5" fill="none" stroke="#34a853" stroke-width="16" stroke-linecap="butt"/>
                                     <path d="M 75.1 64.5 A 29 29 0 0 1 57.5 78.0" fill="none" stroke="#4285F4" stroke-width="16" stroke-linecap="butt"/>
@@ -1919,9 +1919,9 @@
             <div class="container">
                 <div class="footer-cta reveal">
                     <h2>Ready for Codeply?</h2>
-                    <p>Download Codeply and stop guessing where AI code goes. Works on Windows.</p>
+                    <p>Stop guessing where AI code goes. Download Codeply and get exact file + line placement.</p>
                     <div class="hero-ctas">
-                        <a href="https://whop.com/checkout/MN9HVEeGx1GObPQ5z-uz0u-rYbZ-C333-EYJzxEG4xD9b/" class="btn btn-primary" target="_blank" rel="noopener">Download Now</a>
+                        <button class="btn btn-primary auth-trigger" type="button">Get Started</button>
                         <a href="#features" class="btn btn-outline">See Features</a>
                     </div>
                 </div>
@@ -1989,6 +1989,18 @@
 
             <div class="status-line" id="auth-status" role="status" aria-live="polite"
                 style="margin-top: 18px; min-height: 20px; text-align: center; font-size: 0.88rem; font-weight: 500;">
+            </div>
+
+            <!-- Download panel — shown after login -->
+            <div id="auth-download-panel" style="display:none; margin-top: 20px; background: #e6f4ea; border-radius: 16px; padding: 20px 22px; text-align: center;">
+                <div style="font-size: 1.4rem; margin-bottom: 6px;">🎉</div>
+                <div style="font-weight: 700; font-size: 1rem; color: #1f8f43; margin-bottom: 4px;">You're in!</div>
+                <div style="font-size: 0.88rem; color: #3c4043; margin-bottom: 16px;">Download Codeply and get started.</div>
+                <a href="https://whop.com/checkout/MN9HVEeGx1GObPQ5z-uz0u-rYbZ-C333-EYJzxEG4xD9b/"
+                   target="_blank" rel="noopener"
+                   style="display:inline-block; background: linear-gradient(135deg,#4285F4,#1a6ff0); color:#fff; font-weight:700; font-size:0.95rem; padding:12px 28px; border-radius:999px; text-decoration:none; box-shadow:0 4px 14px rgba(66,133,244,.4);">
+                    Download Now
+                </a>
             </div>
         </div>
     </div>
@@ -2187,7 +2199,7 @@
         document.getElementById('auth-close').addEventListener('click', closeAuth);
         authModal.addEventListener('click', (event) => { if (event.target === authModal) closeAuth(); });
 
-        async function initSupabaseAuth() {
+        async function initSupabaseAuth() { // returns promise
             try {
                 const response = await fetch('/api/config');
                 const config = await response.json();
@@ -2267,9 +2279,11 @@
                 return;
             }
             authStatus.className = 'status-line success';
-            authStatus.textContent = 'Signed in.';
-            closeAuth();
-            window.location.href = 'dashboard.html';
+            authStatus.textContent = 'Signed in!';
+            authForm.style.display = 'none';
+            document.querySelector('.divider').style.display = 'none';
+            document.querySelector('.oauth-row').style.display = 'none';
+            document.getElementById('auth-download-panel').style.display = 'block';
         });
 
         document.getElementById('signup-btn').addEventListener('click', async () => {
@@ -2290,11 +2304,11 @@
         });
 
         document.getElementById('google-auth-btn').addEventListener('click', async () => {
-            await supabaseBrowser.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: `${location.origin}/dashboard.html` } });
+            await supabaseBrowser.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: `${location.origin}/?download=1` } });
         });
 
         document.getElementById('github-auth-btn').addEventListener('click', async () => {
-            await supabaseBrowser.auth.signInWithOAuth({ provider: 'github', options: { redirectTo: `${location.origin}/dashboard.html` } });
+            await supabaseBrowser.auth.signInWithOAuth({ provider: 'github', options: { redirectTo: `${location.origin}/?download=1` } });
         });
 
         if (accountPill) accountPill.addEventListener('click', async () => {
@@ -2360,7 +2374,17 @@
             }
         });
 
-        initSupabaseAuth();
+        initSupabaseAuth().then(() => {
+            // After OAuth redirect, auto-show download panel
+            if (new URLSearchParams(location.search).get('download') === '1' && currentSession) {
+                openAuth();
+                authForm.style.display = 'none';
+                document.querySelector('.divider').style.display = 'none';
+                document.querySelector('.oauth-row').style.display = 'none';
+                document.getElementById('auth-download-panel').style.display = 'block';
+                history.replaceState({}, '', location.pathname);
+            }
+        });
 
         // Smooth scroll for nav links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
