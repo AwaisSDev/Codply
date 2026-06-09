@@ -976,112 +976,6 @@
             }
         }
 
-        /* Codeply App Mockup */
-        .cp-mockup {
-            width: min(950px, 100%);
-            height: 560px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 10;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 34px 90px rgba(60, 64, 67, 0.22);
-        }
-        .cp-vscode {
-            width: 100%; height: 100%;
-            background: #1e1e1e;
-            display: flex; flex-direction: column;
-        }
-        .cp-vsc-header {
-            background: #323233; height: 38px;
-            display: flex; align-items: center; gap: 8px;
-            padding: 0 14px;
-            border-bottom: 1px solid #3c3c3c;
-        }
-        .cp-vsc-title {
-            margin-left: 12px; font-size: 12px; color: #cccccc;
-            font-family: 'Fira Code', monospace;
-        }
-        .cp-vsc-body { display: flex; flex: 1; overflow: hidden; }
-        .cp-vsc-sidebar {
-            width: 185px; background: #252526;
-            border-right: 1px solid #3c3c3c;
-            padding: 16px 0;
-            font-family: 'Fira Code', monospace; font-size: 12.5px; color: #858585;
-        }
-        .cp-vsc-file { padding: 5px 16px; cursor: default; }
-        .cp-vsc-active { color: #ffffff; background: rgba(255,255,255,.06); }
-        .cp-vsc-editor {
-            flex: 1; padding: 20px 0;
-            font-family: 'Fira Code', monospace; font-size: 13.5px;
-            line-height: 1.85; color: #d4d4d4; overflow: hidden;
-        }
-        .cp-vsc-line { display: flex; align-items: baseline; padding: 0 20px; }
-        .cp-vsc-highlight { background: rgba(255,255,100,.07); border-left: 2px solid #fbbc04; }
-        .cp-ln { width: 32px; color: #555; text-align: right; padding-right: 20px; flex-shrink: 0; font-size: 12px; }
-        .cp-kw { color: #569cd6; }
-        .cp-fn { color: #dcdcaa; }
-        .cp-str { color: #ce9178; }
-        .cp-cm { color: #6a9955; }
-
-        /* The popup overlay */
-        .cp-popup {
-            position: absolute;
-            top: 52px; right: 24px;
-            width: 320px;
-            background: #ffffff;
-            border-radius: 20px;
-            box-shadow: 0 24px 64px rgba(0,0,0,.45), 0 0 0 1px rgba(0,0,0,.08);
-            overflow: hidden;
-            font-family: var(--font-serif);
-        }
-        .cp-popup-header {
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 12px 16px;
-            border-bottom: 1px solid #f0f0f0;
-            background: #fafafa;
-        }
-        .cp-popup-brand {
-            display: flex; align-items: center; gap: 8px;
-            font-weight: 700; font-size: 0.9rem; color: #202124;
-        }
-        .cp-popup-dots { display: flex; gap: 6px; }
-        .cp-dot { width: 11px; height: 11px; border-radius: 50%; display: block; }
-        .cp-popup-body { padding: 14px 16px; display: flex; flex-direction: column; gap: 12px; }
-        .cp-popup-file {
-            display: flex; align-items: center; gap: 6px;
-            font-size: 0.78rem; color: #5f6368;
-            background: #f1f3f4; border-radius: 8px; padding: 7px 10px;
-        }
-        .cp-popup-snippet {
-            background: #1e1e1e; border-radius: 10px;
-            padding: 12px 14px;
-            font-family: 'Fira Code', monospace; font-size: 11.5px;
-            color: #ce9178; line-height: 1.7;
-        }
-        .cp-popup-result {
-            background: #e6f4ea; border-radius: 10px;
-            padding: 10px 12px;
-            border-left: 3px solid #34a853;
-        }
-        .cp-result-badge {
-            font-size: 0.78rem; font-weight: 700; color: #1f8f43; margin-bottom: 4px;
-        }
-        .cp-result-text { font-size: 0.82rem; color: #3c4043; line-height: 1.45; }
-        .cp-popup-btn {
-            width: 100%; padding: 11px;
-            background: linear-gradient(135deg,#4285F4,#1a6ff0);
-            color: #fff; border: none; border-radius: 12px;
-            font-weight: 700; font-size: 0.88rem;
-            cursor: pointer; font-family: var(--font-serif);
-            box-shadow: 0 4px 14px rgba(66,133,244,.4);
-        }
-
-        @media (max-width: 768px) {
-            .cp-mockup { height: 420px; }
-            .cp-vsc-sidebar { display: none; }
-            .cp-popup { width: calc(100% - 48px); right: 24px; top: 44px; }
-        }
 
         /* Waitlist modal */
         .waitlist-modal {
@@ -1423,7 +1317,7 @@
             background: rgba(32, 33, 36, 0.48);
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.25s ease;
+            transition: opacity 0.2s ease;
         }
 
         .auth-modal.active {
@@ -1432,38 +1326,34 @@
         }
 
         .auth-dialog {
-            width: min(480px, 100%);
+            width: min(440px, 100%);
             background: #fff;
-            border-radius: 24px;
+            border-radius: 20px;
             border: 1px solid var(--border-light);
-            box-shadow: 0 32px 90px rgba(32, 33, 36, 0.28);
-            padding: 2.5rem 2.5rem 2rem;
+            box-shadow: 0 28px 80px rgba(32, 33, 36, 0.26);
+            padding: 1.5rem;
         }
 
         .auth-dialog h2 {
             color: var(--text-primary) !important;
-            font-size: 1.55rem;
-            letter-spacing: -0.5px;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.4rem;
         }
 
         .auth-dialog p {
             color: var(--text-secondary);
-            font-size: 0.95rem;
-            line-height: 1.5;
-            margin-bottom: 1.75rem;
+            margin-bottom: 1.1rem;
         }
 
         .auth-form {
             display: grid;
-            gap: 1rem;
+            gap: 0.85rem;
         }
 
         .auth-form input {
             width: 100%;
             border: 1px solid var(--border-light);
-            border-radius: 14px;
-            padding: 1rem 1.1rem;
+            border-radius: 12px;
+            padding: 0.85rem 0.95rem;
             font: inherit;
         }
 
@@ -1472,7 +1362,6 @@
             justify-content: space-between;
             align-items: flex-start;
             gap: 1rem;
-            margin-bottom: 0.25rem;
         }
 
         .auth-actions {
@@ -1494,111 +1383,6 @@
 
         .status-line.success {
             color: var(--google-green);
-        }
-
-        /* Styling to frame fields and circle buttons perfectly */
-        .field {
-            width: 100%;
-            border: none;
-            background: #edf2fc;
-            border-radius: 14px;
-            padding: 1rem 1.15rem;
-            font-size: 1rem;
-            color: #0f172a;
-            outline: 2px solid transparent;
-            transition: all .15s;
-            margin: 9px;
-            margin-left: auto;
-        }
-
-        .field:focus {
-            background: #dde9fb;
-            outline-color: rgba(37, 99, 235, 0.18);
-        }
-
-        /* Auth form button row */
-        .auth-btn-row {
-            display: flex;
-            align-items: center;
-            gap: 0.85rem;
-            margin-top: 0.5rem;
-        }
-
-        .btn-ghost {
-            background: transparent;
-            border: 1.5px solid var(--border-light);
-            color: var(--text-primary);
-            font-weight: 600;
-            padding: 0.85rem 1.6rem;
-            border-radius: 999px;
-            font-size: 0.95rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .btn-ghost:hover {
-            border-color: var(--google-blue);
-            color: var(--google-blue);
-            background: #e8f0fe;
-        }
-
-        .divider {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            margin: 1.5rem 0 1.25rem;
-            color: #9aa3b2;
-            font-size: 0.82rem;
-            letter-spacing: 0.3px;
-        }
-
-        .divider::before,
-        .divider::after {
-            content: "";
-            flex: 1;
-            height: 1px;
-            background: rgba(15, 23, 42, 0.08);
-        }
-
-        .oauth-row {
-            display: flex;
-            justify-content: center;
-            gap: 18px;
-            margin-bottom: 0.5rem;
-        }
-
-        .oauth-btn {
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            border: 1.5px solid rgba(15, 23, 42, 0.09);
-            background: #fff;
-            cursor: pointer;
-            display: grid;
-            place-items: center;
-            transition: all .2s;
-        }
-
-        .oauth-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 28px rgba(15, 23, 42, 0.13);
-            border-color: rgba(15, 23, 42, 0.18);
-        }
-
-        .status {
-            margin-top: 1rem;
-            min-height: 20px;
-            text-align: center;
-            font-size: 0.85rem;
-            color: #6b7280;
-        }
-
-        .status.ok {
-            color: #12b76a;
-        }
-
-        .status.err {
-            color: #ef4444;
         }
 
         .is-hidden {
@@ -1716,25 +1500,13 @@
     <header>
         <div class="container">
             <nav>
-                <a href="/" class="logo" aria-label="Codeply" style="gap:10px;text-decoration:none">
-                    <svg width="34" height="34" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;border-radius:8px">
-                      <rect width="100" height="100" fill="#000" rx="20"/>
-                      <path d="M 24.9 64.5 A 29 29 0 0 1 35.5 24.9" fill="none" stroke="#fbbc04" stroke-width="16" stroke-linecap="butt"/>
-                      <path d="M 57.5 78.0 A 29 29 0 0 1 24.9 64.5" fill="none" stroke="#34a853" stroke-width="16" stroke-linecap="butt"/>
-                      <path d="M 75.1 64.5 A 29 29 0 0 1 57.5 78.0" fill="none" stroke="#4285F4" stroke-width="16" stroke-linecap="butt"/>
-                      <path d="M 35.5 24.9 A 29 29 0 0 1 75.1 35.5" fill="none" stroke="#ea4335" stroke-width="16" stroke-linecap="round"/>
-                    </svg>
-                    <span style="font-size:1.3rem;font-weight:700;letter-spacing:-0.5px;color:#202124">Codeply</span>
+                <a href="/" class="logo" aria-label="Codply">
+                    <img src="Logo.png" alt="Codply AI Logo" style="height: 170px; width: auto;">
                 </a>
                 <div class="nav-links">
                     <a href="#features">Features</a>
-<<<<<<< HEAD
-                    <a href="https://whop.com/checkout/MN9HVEeGx1GObPQ5z-uz0u-rYbZ-C333-EYJzxEG4xD9b/" class="btn btn-primary"
-                        style="padding: 0.6rem 1.2rem; font-size: 0.85rem;" target="_blank" rel="noopener">Download Now</a>
-=======
                     <button class="btn btn-primary auth-trigger nav-auth-control" id="nav-auth-control" type="button"
                         style="padding: 0.6rem 1.2rem; font-size: 0.85rem;">Get Started</button>
->>>>>>> af14ddf0c6d507ed6849c620cb8ac29a06abd058
                 </div>
             </nav>
         </div>
@@ -1749,83 +1521,47 @@
                 <p class="reveal">The surgical desktop overlay that tells you exactly which file and lines to edit.
                     Built for the era of AI-generated code.</p>
                 <div class="hero-ctas reveal">
-<<<<<<< HEAD
-                    <a href="https://whop.com/checkout/MN9HVEeGx1GObPQ5z-uz0u-rYbZ-C333-EYJzxEG4xD9b/" class="btn btn-primary" target="_blank" rel="noopener">Download Now</a>
-                    <a href="#features" class="btn btn-outline">See Features</a>
-=======
                     <button class="btn btn-primary auth-trigger" type="button">Get Started</button><a href="#features"
                         class="btn btn-outline">See Features</a>
->>>>>>> af14ddf0c6d507ed6849c620cb8ac29a06abd058
                 </div>
 
-                <!-- Codeply App Mockup -->
+                <!-- Cinematic IDE Demo -->
                 <div class="ambient-glow"></div>
-                <div class="cp-mockup reveal">
-                    <!-- VS Code background -->
-                    <div class="cp-vscode">
-                        <div class="cp-vsc-header">
-                            <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
-                            <span class="cp-vsc-title">auth.py — MyProject</span>
+
+                <div class="ide-window reveal" id="ide">
+                    <div class="window-header">
+                        <div class="dot dot-r"></div>
+                        <div class="dot dot-y"></div>
+                        <div class="dot dot-g"></div>
+                    </div>
+                    <div class="workspace">
+                        <div class="sidebar">
+                            <div class="file-item">src</div>
+                            <div class="file-item file-active" style="padding-left: 15px;">auth.py</div>
+                            <div class="file-item" style="padding-left: 15px;">models.py</div>
                         </div>
-                        <div class="cp-vsc-body">
-                            <div class="cp-vsc-sidebar">
-                                <div class="cp-vsc-file">📁 src</div>
-                                <div class="cp-vsc-file cp-vsc-active">  🐍 auth.py</div>
-                                <div class="cp-vsc-file">  🐍 models.py</div>
-                                <div class="cp-vsc-file">  🐍 utils.py</div>
-                                <div class="cp-vsc-file">📁 tests</div>
+                        <div class="editor-area">
+                            <div class="tabs">
+                                <div class="tab">auth.py</div>
                             </div>
-                            <div class="cp-vsc-editor">
-                                <div class="cp-vsc-line"><span class="cp-ln">1</span><span class="cp-kw">import</span> jwt</div>
-                                <div class="cp-vsc-line"><span class="cp-ln">2</span><span class="cp-kw">from</span> datetime <span class="cp-kw">import</span> datetime</div>
-                                <div class="cp-vsc-line"><span class="cp-ln">3</span></div>
-                                <div class="cp-vsc-line"><span class="cp-ln">4</span><span class="cp-kw">def</span> <span class="cp-fn">authenticate</span>(user):</div>
-                                <div class="cp-vsc-line cp-vsc-highlight"><span class="cp-ln">5</span>    <span class="cp-cm"># Insert new code here</span></div>
-                                <div class="cp-vsc-line"><span class="cp-ln">6</span>    <span class="cp-kw">if</span> user.is_valid:</div>
-                                <div class="cp-vsc-line"><span class="cp-ln">7</span>        <span class="cp-kw">return</span> <span class="cp-str">True</span></div>
-                                <div class="cp-vsc-line"><span class="cp-ln">8</span></div>
-                                <div class="cp-vsc-line"><span class="cp-ln">9</span><span class="cp-kw">def</span> <span class="cp-fn">verify_token</span>(token):</div>
-                                <div class="cp-vsc-line"><span class="cp-ln">10</span>    payload = jwt.decode(token, SECRET)</div>
-                            </div>
+                            <div class="code-content" id="code-container"></div>
                         </div>
                     </div>
 
-                    <!-- Codeply Popup Overlay -->
-                    <div class="cp-popup">
-                        <div class="cp-popup-header">
-                            <div class="cp-popup-brand">
-                                <svg width="22" height="22" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                                    <rect width="100" height="100" fill="#000" rx="18"/>
-                                    <path d="M 24.9 64.5 A 29 29 0 0 1 35.5 24.9" fill="none" stroke="#fbbc04" stroke-width="16" stroke-linecap="butt"/>
-                                    <path d="M 57.5 78.0 A 29 29 0 0 1 24.9 64.5" fill="none" stroke="#34a853" stroke-width="16" stroke-linecap="butt"/>
-                                    <path d="M 75.1 64.5 A 29 29 0 0 1 57.5 78.0" fill="none" stroke="#4285F4" stroke-width="16" stroke-linecap="butt"/>
-                                    <path d="M 35.5 24.9 A 29 29 0 0 1 75.1 35.5" fill="none" stroke="#ea4335" stroke-width="16" stroke-linecap="round"/>
-                                </svg>
-                                <span>Codeply AI</span>
+                    <div class="brand-popup" id="popup">
+                        <div class="popup-header">CODPLY AI UPDATE</div>
+                        <div class="popup-content">
+                            <div class="update-box">
+                                token = jwt.encode(...)<br>
+                                return token<br>
+                                ...
                             </div>
-                            <div class="cp-popup-dots">
-                                <span class="cp-dot" style="background:#ff5f56"></span>
-                                <span class="cp-dot" style="background:#ffbd2e"></span>
-                                <span class="cp-dot" style="background:#27c93f"></span>
-                            </div>
-                        </div>
-                        <div class="cp-popup-body">
-                            <div class="cp-popup-file">
-                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
-                                auth.py — Auto-detected
-                            </div>
-                            <div class="cp-popup-snippet">
-                                <div>token = jwt.encode({'id': user.id},</div>
-                                <div>&nbsp;&nbsp;SECRET, algorithm='HS256')</div>
-                                <div>return token</div>
-                            </div>
-                            <div class="cp-popup-result">
-                                <div class="cp-result-badge">✓ Placement Found</div>
-                                <div class="cp-result-text">Insert after <strong>line 5</strong> in auth.py — replace existing return</div>
-                            </div>
-                            <button class="cp-popup-btn">Apply Changes</button>
+                            <div class="explanation" id="type-explanation"></div>
+                            <button class="apply-btn" id="btn-apply" type="button">Apply Changes</button>
                         </div>
                     </div>
+
+                    <div class="cursor" id="cursor" style="top: 80%; left: 10%;"></div>
                 </div>
             </div>
 
@@ -1928,62 +1664,40 @@
         <section>
             <div class="container">
                 <div class="footer-cta reveal">
-<<<<<<< HEAD
-                    <h2>Ready for Codeply?</h2>
-                    <p>Download Codeply and stop guessing where AI code goes. Works on Windows.</p>
-                    <div class="hero-ctas">
-                        <a href="https://whop.com/checkout/MN9HVEeGx1GObPQ5z-uz0u-rYbZ-C333-EYJzxEG4xD9b/" class="btn btn-primary" target="_blank" rel="noopener">Download Now</a>
-                        <a href="#features" class="btn btn-outline">See Features</a>
-=======
                     <h2>Ready for Codply?</h2>
                     <p>Create your account and choose the Codply plan that fits your workflow.</p>
                     <div class="hero-ctas">
                         <button class="btn btn-primary auth-trigger" type="button">Get Started</button><a
                             href="#features" class="btn btn-outline">See Features</a>
->>>>>>> af14ddf0c6d507ed6849c620cb8ac29a06abd058
                     </div>
                 </div>
             </div>
         </section>
     </main>
     <div class="auth-modal" id="auth-modal" aria-hidden="true">
-        <div
-            style="width: 100%; max-width: 432px; background: var(--white); border-radius: 24px; padding: 30px 32px 34px; box-shadow: 0 30px 70px rgba(15,23,42,0.18), 0 4px 14px rgba(15,23,42,0.08); position: relative; font-family: var(--font-serif);">
-            <button class="close" id="auth-close" aria-label="Close"
-                style="position: absolute; top: 24px; right: 26px; width: 30px; height: 30px; border-radius: 50%; border: 1px solid rgba(15,23,42,0.08); background: #fff; color: #6b7280; cursor: pointer; display: grid; place-items: center; font-size: 15px; line-height: 1;">&times;</button>
+        <div class="auth-dialog" role="dialog" aria-modal="true" aria-labelledby="auth-title">
+            <div class="modal-row">
+                <div>
+                    <h2 id="auth-title">Create your Codply account</h2>
+                    <p>Use email/password or Google to access your dashboard.</p>
+                </div>
+                <button class="modal-close" id="auth-close" type="button" aria-label="Close auth form">&times;</button>
+            </div>
+            <form id="authForm" novalidate>
+                <input class="field" id="email" type="email" placeholder="you@example.com" autocomplete="email"
+                    required>
+                <input class="field" id="password" type="password" placeholder="Password"
+                    autocomplete="current-password" required>
 
-            <h2
-                style="font-size: 1.7rem; font-weight: 800; letter-spacing: -0.02em; padding-right: 36px; color: var(--text-primary); margin-bottom: 8px;">
-                Create your Codply account</h2>
-            <p
-                style="color: var(--text-secondary); font-size: 0.98rem; line-height: 1.45; margin-bottom: 22px; font-weight: 400;">
-                Use email/password or a connected account to access your dashboard.</p>
-
-            <form id="auth-form" novalidate style="display: flex; flex-direction: column; gap: 12px;">
-                <input class="field" name="email" type="email" placeholder="you@example.com" autocomplete="email"
-                    required
-                    style="width: 100%; border: none; background: #e8effb; border-radius: 14px; padding: 16px 18px; font-size: 1rem; color: #0f172a; outline: 2px solid transparent; transition: all .15s;">
-                <input class="field" name="password" type="password" placeholder="Password"
-                    autocomplete="current-password" required
-                    style="width: 100%; border: none; background: #e8effb; border-radius: 14px; padding: 16px 18px; font-size: 1rem; color: #0f172a; outline: 2px solid transparent; transition: all .15s;">
-
-                <button class="btn btn-primary" id="login-btn" type="submit"
-                    style="width: 100%; border-radius: 999px; padding: 15px 20px; font-size: 1rem; font-weight: 700; margin-top: 8px;">Sign
-                    In</button>
-                <button class="btn btn-outline" id="signup-btn" type="button"
-                    style="width: 100%; border-radius: 999px; padding: 15px 20px; font-size: 1rem; font-weight: 700; border-color: rgba(15,23,42,0.08); background: transparent;">Create
-                    Account</button>
+                <button class="btn btn-primary" type="submit">Sign In</button>
+                <button class="btn btn-ghost" type="button" id="createBtn">Create Account</button>
             </form>
 
-            <div class="divider"
-                style="display: flex; align-items: center; gap: 12px; margin: 22px 0 16px; color: #9aa3b2; font-size: 0.82rem;">
-                or continue with</div>
+            <div class="divider">or continue with</div>
 
-            <div class="oauth-row" style="display: flex; justify-content: center; gap: 16px;">
-                <button class="oauth-btn" id="google-auth-btn" type="button" aria-label="Continue with Google"
-                    title="Continue with Google"
-                    style="width: 52px; height: 52px; border-radius: 50%; border: 1.5px solid rgba(15,23,42,0.08); background: #fff; cursor: pointer; display: grid; place-items: center; transition: all .15s;">
-                    <svg viewBox="0 0 24 24" aria-hidden="true" style="width: 24px; height: 24px;">
+            <div class="oauth-row">
+                <button class="oauth-btn" id="googleBtn" aria-label="Continue with Google" title="Continue with Google">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" style="width: 24px; height: 24px; display: block;">
                         <path fill="#4285F4"
                             d="M23.52 12.27c0-.79-.07-1.54-.2-2.27H12v4.51h6.47a5.53 5.53 0 0 1-2.4 3.63v3h3.88c2.27-2.09 3.57-5.17 3.57-8.87z" />
                         <path fill="#34A853"
@@ -1995,19 +1709,15 @@
                     </svg>
                 </button>
 
-                <button class="oauth-btn" id="github-auth-btn" type="button" aria-label="Continue with GitHub"
-                    title="Continue with GitHub"
-                    style="width: 52px; height: 52px; border-radius: 50%; border: 1.5px solid rgba(15,23,42,0.08); background: #fff; cursor: pointer; display: grid; place-items: center; transition: all .15s;">
-                    <svg viewBox="0 0 24 24" aria-hidden="true" style="width: 24px; height: 24px;">
+                <button class="oauth-btn" id="githubBtn" aria-label="Continue with GitHub" title="Continue with GitHub">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" style="width: 24px; height: 24px; display: block;">
                         <path fill="#181717"
                             d="M12 .5A12 12 0 0 0 .5 12.5c0 5.26 3.44 9.72 8.2 11.3.6.11.82-.26.82-.58v-2.03c-3.34.72-4.04-1.6-4.04-1.6-.55-1.38-1.34-1.75-1.34-1.75-1.09-.74.08-.72.08-.72 1.21.09 1.85 1.24 1.85 1.24 1.07 1.83 2.8 1.3 3.49.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6.01 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.25 2.87.12 3.17.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.62-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 23.5 12.5 12 12 0 0 0 12 .5z" />
                     </svg>
                 </button>
             </div>
 
-            <div class="status-line" id="auth-status" role="status" aria-live="polite"
-                style="margin-top: 18px; min-height: 20px; text-align: center; font-size: 0.88rem; font-weight: 500;">
-            </div>
+            <div class="status" id="status" role="status" aria-live="polite"></div>
         </div>
     </div>
     <div class="waitlist-modal" id="waitlist-modal" aria-hidden="true">
@@ -2036,8 +1746,8 @@
     <footer>
         <div class="container">
             <div class="footer-content">
-                <div class="footer-brand">Codeply AI</div>
-                <p>&copy; 2026 Codeply.online | Built for the vibe coders.</p>
+                <div class="footer-brand">Codply AI</div>
+                <p>&copy; 2026 Codply.online | Built for the vibe coders.</p>
             </div>
         </div>
     </footer>
@@ -2057,6 +1767,95 @@
 
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
+        // Cinematic IDE demo
+        const codeLines = [
+            "import jwt",
+            "from datetime import datetime",
+            "",
+            "def authenticate(user):",
+            "    # Old Logic Below",
+            "    if user.is_valid:",
+            "        return True"
+        ];
+
+        const container = document.getElementById('code-container');
+        const popup = document.getElementById('popup');
+        const expText = document.getElementById('type-explanation');
+        const cursor = document.getElementById('cursor');
+        const applyBtn = document.getElementById('btn-apply');
+
+        function initDemo() {
+            container.innerHTML = '';
+            codeLines.forEach((line, i) => {
+                container.innerHTML += `<div class="line" id="line-${i}"><span class="ln">${i + 1}</span><span class="txt">${line}</span></div>`;
+            });
+            popup.classList.remove('active');
+            expText.innerHTML = '';
+            cursor.style.top = '80%';
+            cursor.style.left = '10%';
+        }
+
+        function typeEffect(text, el, speed, cb) {
+            let i = 0;
+            const timer = setInterval(() => {
+                el.innerHTML += text.charAt(i);
+                i++;
+                if (i >= text.length) {
+                    clearInterval(timer);
+                    if (cb) cb();
+                }
+            }, speed);
+        }
+
+        function runCinematic() {
+            initDemo();
+
+            setTimeout(() => {
+                popup.classList.add('active');
+
+                setTimeout(() => {
+                    typeEffect('Upgrading authentication flow to use JWT secure tokens for session persistent validation.', expText, 30, () => {
+                        const btnRect = applyBtn.getBoundingClientRect();
+                        const ideRect = document.getElementById('ide').getBoundingClientRect();
+                        cursor.style.left = (btnRect.left - ideRect.left + 50) + 'px';
+                        cursor.style.top = (btnRect.top - ideRect.top + 15) + 'px';
+
+                        setTimeout(() => {
+                            applyBtn.style.transform = 'scale(0.95)';
+                            setTimeout(() => {
+                                applyBtn.style.transform = 'scale(1)';
+                                popup.classList.remove('active');
+                                surgicalUpdate();
+                            }, 150);
+                        }, 1400);
+                    });
+                }, 800);
+            }, 1000);
+        }
+
+        function surgicalUpdate() {
+            const line6 = document.getElementById('line-6');
+            line6.classList.add('line-removing');
+            line6.querySelector('.txt').style.color = 'var(--error-red)';
+
+            setTimeout(() => {
+                line6.remove();
+
+                const newLine = document.createElement('div');
+                newLine.className = 'line line-adding';
+                newLine.innerHTML = `<span class="ln">6</span><span class="txt" id="new-txt" style="color:var(--success-green)"></span>`;
+                container.appendChild(newLine);
+
+                typeEffect("        return jwt.encode({'id': user.id}, 'SECRET')", document.getElementById('new-txt'), 25, () => {
+                    setTimeout(() => {
+                        newLine.classList.remove('line-adding');
+                        setTimeout(runCinematic, 2500);
+                    }, 1000);
+                });
+            }, 1000);
+        }
+
+        runCinematic();
         // Waitlist form
         const waitlistModal = document.getElementById('waitlist-modal');
         const waitlistForm = document.getElementById('waitlist-form');
@@ -2311,10 +2110,6 @@
             await supabaseBrowser.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: `${location.origin}/dashboard.html` } });
         });
 
-        document.getElementById('github-auth-btn').addEventListener('click', async () => {
-            await supabaseBrowser.auth.signInWithOAuth({ provider: 'github', options: { redirectTo: `${location.origin}/dashboard.html` } });
-        });
-
         if (accountPill) accountPill.addEventListener('click', async () => {
             if (!currentSession) return openAuth();
             await supabaseBrowser.auth.signOut();
@@ -2390,7 +2185,6 @@
                 }
             });
         });
-
     </script>
 </body>
 

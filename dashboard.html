@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Codply</title>
+    <link rel="icon" href="Favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+    <style>
+        :root {
+            --google-blue: #1a73e8;
+            --google-red: #ea4335;
+            --google-yellow: #fbbc04;
+            --google-green: #34a853;
+            --sand: #f8fafd;
+            --surface: #ffffff;
+            --border-light: #dadce0;
+            --border: #e8eaed;
+            --text-primary: #202124;
+            --text-secondary: #5f6368;
+            --text-muted: #80868b;
+            --surface-soft: #f1f3f4;
+            --sans: 'Inter', Arial, sans-serif;
+            --mono: 'Fira Code', monospace;
+            --sidebar-w: 252px;
+            --shadow: 0 1px 3px rgba(60, 64, 67, .10), 0 4px 16px rgba(60, 64, 67, .07);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--sans);
+            background: var(--sand);
+            color: var(--text-primary);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* ── Loader ─────────────────────────────── */
+        #loader {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: var(--sand);
+            z-index: 50;
+            font-family: var(--mono);
+            color: var(--text-secondary);
+            font-size: .82rem;
+        }
+
+        #loader .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            animation: pulse 1s infinite ease-in-out;
+        }
+
+        #loader .dot:nth-child(1) {
+            background: var(--google-blue);
+            animation-delay: 0s;
+        }
+
+        #loader .dot:nth-child(2) {
+            background: var(--google-red);
+            animation-delay: .15s;
+        }
+
+        #loader .dot:nth-child(3) {
+            background: var(--google-yellow);
+            animation-delay: .3s;
+        }
+
+        #loader .dot:nth-child(4) {
+            background: var(--google-green);
+            animation-delay: .45s;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(.6);
+                opacity: .4;
+            }
+
+            50% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* ── Layout ─────────────────────────────── */
+        #app {
+            display: none;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: var(--sidebar-w);
+            background: var(--surface);
+            border-right: 1px solid var(--border-light);
+            display: flex;
+            flex-direction: column;
+            padding: 0 12px 24px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            height: 72px;
+            padding: 0 8px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 10px;
+        }
+
+        .brand img {
+            height: 60px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .nav-label {
+            font-family: var(--mono);
+            font-size: .58rem;
+            letter-spacing: .12em;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            padding: 16px 10px 6px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 10px 12px;
+            border-radius: 999px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: .88rem;
+            cursor: pointer;
+            transition: background .15s, color .15s;
+        }
+
+        .nav-item svg {
+            width: 18px;
+            height: 18px;
+            flex: none;
+        }
+
+        .nav-item:hover {
+            background: var(--surface-soft);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            background: #e8f0fe;
+            color: var(--google-blue);
+        }
+
+        .user-chip {
+            margin-top: auto;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            background: var(--sand);
+        }
+
+        .avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: var(--google-blue);
+            color: #fff;
+            display: grid;
+            place-items: center;
+            font-weight: 700;
+            font-size: .95rem;
+            flex: none;
+        }
+
+        .user-chip .nm {
+            font-weight: 600;
+            font-size: .82rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .user-chip .pl {
+            font-family: var(--mono);
+            font-size: .62rem;
+            color: var(--text-muted);
+        }
+
+        /* ── Main ─────────────────────────────────── */
+        .main {
+            margin-left: var(--sidebar-w);
+            padding: 44px 52px 72px;
+            max-width: 1160px;
+        }
+
+        .section {
+            margin-bottom: 52px;
+            scroll-margin-top: 32px;
+        }
+
+        .section-head {
+            margin-bottom: 26px;
+        }
+
+        .section-head h2 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -.025em;
+        }
+
+        .section-head p {
+            color: var(--text-secondary);
+            margin-top: 4px;
+            font-size: .9rem;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+        }
+
+        .card-pad {
+            padding: 24px;
+        }
+
+        .card-title {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            font-weight: 700;
+            font-size: .92rem;
+            margin-bottom: 18px;
+        }
+
+        .card-title svg {
+            width: 17px;
+            height: 17px;
+            color: var(--text-secondary);
+        }
+
+        /* ── Profile ─────────────────────────────── */
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .profile .avatar {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            font-size: 1.3rem;
+        }
+
+        .profile .who b {
+            font-size: 1.05rem;
+            font-weight: 700;
+        }
+
+        .profile .who span {
+            display: block;
+            color: var(--text-secondary);
+            font-size: .85rem;
+            margin-top: 2px;
+        }
+
+        .btn-ghost {
+            margin-left: auto;
+            border: 1px solid var(--border-light);
+            background: var(--surface);
+            color: var(--text-secondary);
+            padding: 8px 18px;
+            border-radius: 999px;
+            font-family: var(--sans);
+            font-weight: 600;
+            font-size: .82rem;
+            cursor: pointer;
+            transition: all .15s;
+        }
+
+        .btn-ghost:hover {
+            border-color: var(--google-blue);
+            color: var(--google-blue);
+            background: #e8f0fe;
+        }
+
+        /* ── Stats ───────────────────────────────── */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .stat {
+            background: var(--surface);
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            padding: 22px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+        }
+
+        .stat.b::before {
+            background: var(--google-blue);
+        }
+
+        .stat.g::before {
+            background: var(--google-green);
+        }
+
+        .stat.y::before {
+            background: var(--google-yellow);
+        }
+
+        .stat .lbl {
+            font-family: var(--mono);
+            font-size: .6rem;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .stat .val {
+            font-size: 1.65rem;
+            font-weight: 800;
+            letter-spacing: -.02em;
+            margin-top: 10px;
+        }
+
+        .stat .val.blue {
+            color: var(--google-blue);
+        }
+
+        .pill {
+            display: inline-block;
+            margin-top: 10px;
+            font-family: var(--mono);
+            font-size: .62rem;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 999px;
+        }
+
+        .pill.ok {
+            background: #e6f4ea;
+            color: #137333;
+        }
+
+        .pill.off {
+            background: var(--surface-soft);
+            color: var(--text-muted);
+        }
+
+        /* ── API Keys ────────────────────────────── */
+        .keys-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 14px;
+        }
+
+        .key-card {
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 18px;
+            background: var(--sand);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            position: relative;
+        }
+
+        .key-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .key-card-name {
+            font-weight: 700;
+            font-size: .9rem;
+            color: var(--text-primary);
+        }
+
+        .key-card-delete {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            display: grid;
+            place-items: center;
+            color: var(--text-muted);
+            transition: all .15s;
+            flex: none;
+        }
+
+        .key-card-delete:hover {
+            background: #fce8e6;
+            color: var(--google-red);
+        }
+
+        .key-card-delete svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .key-input-wrap {
+            position: relative;
+        }
+
+        .key-input-wrap input {
+            width: 100%;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            padding: 8px 36px 8px 11px;
+            font-family: var(--mono);
+            font-size: .76rem;
+            background: var(--surface);
+            color: var(--text-primary);
+            outline: none;
+            transition: border-color .15s;
+        }
+
+        .key-input-wrap input:focus {
+            border-color: var(--google-blue);
+        }
+
+        .key-toggle {
+            position: absolute;
+            right: 9px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-muted);
+            padding: 2px;
+            display: grid;
+            place-items: center;
+        }
+
+        .key-toggle:hover {
+            color: var(--text-primary);
+        }
+
+        .key-toggle svg {
+            width: 15px;
+            height: 15px;
+        }
+
+        .key-hint {
+            font-family: var(--mono);
+            font-size: .68rem;
+            color: var(--text-muted);
+            min-height: 1em;
+        }
+
+        .key-hint.saved {
+            color: var(--google-green);
+        }
+
+        .key-save-btn {
+            border: 1px solid var(--google-blue);
+            background: #e8f0fe;
+            color: var(--google-blue);
+            border-radius: 999px;
+            padding: 6px 16px;
+            font-family: var(--sans);
+            font-size: .76rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .15s;
+            align-self: flex-start;
+        }
+
+        .key-save-btn:hover {
+            background: var(--google-blue);
+            color: #fff;
+        }
+
+        /* ── Add key card ────────────────────────── */
+        .key-card-add {
+            border: 2px dashed var(--border-light);
+            border-radius: 12px;
+            padding: 18px;
+            background: transparent;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            cursor: pointer;
+            transition: border-color .15s, background .15s;
+        }
+
+        .key-card-add:hover {
+            border-color: var(--google-blue);
+            background: #f0f6ff;
+        }
+
+        .key-card-add.open {
+            border-style: solid;
+            border-color: var(--google-blue);
+            background: var(--surface);
+            cursor: default;
+        }
+
+        .add-trigger {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: .88rem;
+        }
+
+        .add-trigger svg {
+            width: 18px;
+            height: 18px;
+            color: var(--google-blue);
+        }
+
+        .add-form {
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .key-card-add.open .add-trigger {
+            display: none;
+        }
+
+        .key-card-add.open .add-form {
+            display: flex;
+        }
+
+        .add-form input {
+            width: 100%;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            padding: 8px 11px;
+            font-family: var(--sans);
+            font-size: .85rem;
+            background: var(--sand);
+            color: var(--text-primary);
+            outline: none;
+            transition: border-color .15s;
+        }
+
+        .add-form input:focus {
+            border-color: var(--google-blue);
+        }
+
+        .add-form input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .add-form-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-add-confirm {
+            border: none;
+            background: var(--google-blue);
+            color: #fff;
+            border-radius: 999px;
+            padding: 7px 18px;
+            font-family: var(--sans);
+            font-size: .78rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: filter .15s;
+        }
+
+        .btn-add-confirm:hover {
+            filter: brightness(1.08);
+        }
+
+        .btn-add-cancel {
+            border: 1px solid var(--border-light);
+            background: var(--surface);
+            color: var(--text-secondary);
+            border-radius: 999px;
+            padding: 7px 14px;
+            font-family: var(--sans);
+            font-size: .78rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .15s;
+        }
+
+        .btn-add-cancel:hover {
+            border-color: var(--google-red);
+            color: var(--google-red);
+        }
+
+        /* ── Models ──────────────────────────────── */
+        .models {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .model-tag {
+            font-size: .78rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            background: var(--surface-soft);
+            border: 1px solid var(--border);
+            padding: 6px 14px;
+            border-radius: 999px;
+        }
+
+        .models-empty {
+            color: var(--text-secondary);
+            font-size: .85rem;
+        }
+
+        .section-gap {
+            margin-top: 20px;
+        }
+
+        /* ── Toast ───────────────────────────────── */
+        #toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--text-primary);
+            color: #fff;
+            padding: 10px 22px;
+            border-radius: 999px;
+            font-size: .84rem;
+            font-weight: 600;
+            opacity: 0;
+            pointer-events: none;
+            transition: all .25s;
+            z-index: 60;
+        }
+
+        #toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        #toast.err {
+            background: var(--google-red);
+        }
+
+        #toast.ok {
+            background: var(--google-green);
+        }
+
+        /* ── Reveal ──────────────────────────────── */
+        .reveal {
+            animation: rise .45s ease both;
+        }
+
+        @keyframes rise {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 28px 20px 56px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="loader">
+        <span class="dot"></span><span class="dot"></span>
+        <span class="dot"></span><span class="dot"></span>
+        Loading your dashboard…
+    </div>
+
+    <div id="app">
+        <aside class="sidebar">
+            <div class="brand">
+                <img src="Logo.png" alt="Codply" />
+            </div>
+
+            <div class="nav-label">Main</div>
+            <div class="nav-item active" id="navAccount" data-target="secAccount">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                    <circle cx="12" cy="7" r="4" />
+                </svg>
+                Account
+            </div>
+            <div class="nav-item" id="navKeys" data-target="secKeys">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path
+                        d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4" />
+                </svg>
+                API Keys
+            </div>
+            <div class="nav-item" id="navModels" data-target="secModels">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                    <path d="M2 17l10 5 10-5" />
+                    <path d="M2 12l10 5 10-5" />
+                </svg>
+                Models
+            </div>
+
+            <div class="nav-label">More</div>
+            <a class="nav-item" href="index.html">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="M19 12H5" />
+                    <path d="M12 19l-7-7 7-7" />
+                </svg>
+                Back to site
+            </a>
+
+            <div class="user-chip">
+                <div class="avatar" id="sbAvatar">?</div>
+                <div class="meta">
+                    <div class="nm" id="sbName">—</div>
+                    <div class="pl" id="sbPlan">Free plan</div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main">
+
+            <!-- Account -->
+            <section class="section reveal" id="secAccount">
+                <div class="section-head">
+                    <h2 id="greeting">Your Account</h2>
+                    <p>Manage your profile and session.</p>
+                </div>
+                <div class="card card-pad">
+                    <div class="profile">
+                        <div class="avatar" id="pfAvatar">?</div>
+                        <div class="who">
+                            <b id="pfName">—</b>
+                            <span id="pfEmail">—</span>
+                        </div>
+                        <button class="btn-ghost" id="signOutBtn">Sign out</button>
+                    </div>
+                </div>
+                <div class="stats">
+                    <div class="stat b">
+                        <div class="lbl">Plan</div>
+                        <div class="val blue" id="stPlan">Free</div>
+                    </div>
+                    <div class="stat g">
+                        <div class="lbl">Status</div>
+                        <div class="val" id="stStatusVal" style="font-size:1.15rem">—</div>
+                        <span class="pill off" id="stStatus">inactive</span>
+                    </div>
+                    <div class="stat y">
+                        <div class="lbl">Keys saved</div>
+                        <div class="val" id="stKeyCount" style="font-size:1.65rem">0</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- API Keys -->
+            <section class="section reveal" id="secKeys" style="animation-delay:.08s">
+                <div class="section-head">
+                    <h2>API Keys</h2>
+                    <p>Add keys for any AI provider. Stored locally on your device.</p>
+                </div>
+                <div class="card card-pad">
+                    <div class="card-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path
+                                d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4" />
+                        </svg>
+                        Your Keys
+                    </div>
+                    <div class="keys-grid" id="keysGrid"></div>
+                </div>
+            </section>
+
+            <!-- Models -->
+            <section class="section reveal" id="secModels" style="animation-delay:.16s">
+                <div class="section-head">
+                    <h2>Model Access</h2>
+                    <p>AI models available on your account.</p>
+                </div>
+                <div class="card card-pad">
+                    <div class="card-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                            <path d="M2 17l10 5 10-5" />
+                            <path d="M2 12l10 5 10-5" />
+                        </svg>
+                        Enabled Models
+                    </div>
+                    <div class="models" id="models">
+                        <span class="models-empty">No models enabled yet.</span>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <div id="toast"></div>
+
+    <script>
+        const PLAN_NAME = { free: 'Free', core: 'Core', starter: 'Starter', pro: 'Pro' };
+        const $ = id => document.getElementById(id);
+        let sb = null, session = null, account = null;
+
+        /* ── localStorage key storage ────────────────────────── */
+        const LS_KEY = 'codply_api_keys'; // { name, hint, key }[]
+
+        function loadKeys() {
+            try { return JSON.parse(localStorage.getItem(LS_KEY) || '[]'); }
+            catch { return []; }
+        }
+        function saveKeys(keys) {
+            localStorage.setItem(LS_KEY, JSON.stringify(keys));
+        }
+        function maskKey(k) {
+            if (!k || k.length < 8) return '****';
+            return k.slice(0, 4) + '••••' + k.slice(-4);
+        }
+
+        /* ── Toast ───────────────────────────────────────────── */
+        function toast(msg, type) {
+            const t = $('toast');
+            t.textContent = msg;
+            t.className = 'show' + (type ? ' ' + type : '');
+            clearTimeout(t._t);
+            t._t = setTimeout(() => { t.className = ''; }, 2500);
+        }
+
+        /* ── Render keys grid ────────────────────────────────── */
+        function renderKeys() {
+            const keys = loadKeys();
+            const grid = $('keysGrid');
+            grid.innerHTML = '';
+
+            keys.forEach((entry, idx) => {
+                const card = document.createElement('div');
+                card.className = 'key-card';
+                card.innerHTML = `
+                <div class="key-card-header">
+                    <span class="key-card-name">${escHtml(entry.name)}</span>
+                    <button class="key-card-delete" data-idx="${idx}" title="Remove key">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="key-input-wrap">
+                    <input type="password" placeholder="Paste new key to update" data-idx="${idx}" autocomplete="off" spellcheck="false">
+                    <button class="key-toggle" data-idx="${idx}" title="Show/hide">
+                        <svg class="eye-show" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+                        </svg>
+                        <svg class="eye-hide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none">
+                            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+                            <line x1="1" y1="1" x2="23" y2="23"/>
+                        </svg>
+                    </button>
+                </div>
+                <p class="key-hint saved" id="hint-${idx}">Saved: ${escHtml(entry.hint)}</p>
+                <button class="key-save-btn" data-idx="${idx}">Update key</button>
+            `;
+                grid.appendChild(card);
+            });
+
+            // Add-key card
+            const addCard = document.createElement('div');
+            addCard.className = 'key-card-add';
+            addCard.id = 'addCard';
+            addCard.innerHTML = `
+            <div class="add-trigger">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                    <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+                </svg>
+                Add Model API
+            </div>
+            <div class="add-form">
+                <input id="addName" type="text" placeholder="Provider name  (e.g. OpenAI, Gemini…)" autocomplete="off">
+                <input id="addKey"  type="password" placeholder="Paste API key" autocomplete="off" spellcheck="false">
+                <div class="add-form-actions">
+                    <button class="btn-add-confirm" id="addConfirm">Save</button>
+                    <button class="btn-add-cancel"  id="addCancel">Cancel</button>
+                </div>
+            </div>
+        `;
+            grid.appendChild(addCard);
+
+            // Update stat
+            $('stKeyCount').textContent = keys.length;
+
+            wireKeyEvents();
+        }
+
+        function escHtml(s) {
+            return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+
+        function wireKeyEvents() {
+            const grid = $('keysGrid');
+
+            // Delete
+            grid.querySelectorAll('.key-card-delete').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const idx = +btn.dataset.idx;
+                    const keys = loadKeys();
+                    keys.splice(idx, 1);
+                    saveKeys(keys);
+                    toast('Key removed', 'err');
+                    renderKeys();
+                });
+            });
+
+            // Toggle visibility
+            grid.querySelectorAll('.key-toggle').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const idx = +btn.dataset.idx;
+                    const input = grid.querySelector(`input[data-idx="${idx}"]`);
+                    const show = input.type === 'password';
+                    input.type = show ? 'text' : 'password';
+                    btn.querySelector('.eye-show').style.display = show ? 'none' : '';
+                    btn.querySelector('.eye-hide').style.display = show ? '' : 'none';
+                });
+            });
+
+            // Update (save btn on existing card)
+            grid.querySelectorAll('.key-save-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const idx = +btn.dataset.idx;
+                    const input = grid.querySelector(`input[data-idx="${idx}"]`);
+                    const val = input.value.trim();
+                    if (!val) { toast('Paste a key first', 'err'); return; }
+                    const keys = loadKeys();
+                    keys[idx].key = val;
+                    keys[idx].hint = maskKey(val);
+                    saveKeys(keys);
+                    input.value = '';
+                    toast('Key updated', 'ok');
+                    renderKeys();
+                });
+            });
+
+            // Open add form
+            const addCard = $('addCard');
+            const addTrigger = addCard.querySelector('.add-trigger');
+            addTrigger.addEventListener('click', () => addCard.classList.add('open'));
+
+            // Confirm add
+            $('addConfirm').addEventListener('click', () => {
+                const name = $('addName').value.trim();
+                const key = $('addKey').value.trim();
+                if (!name) { toast('Enter a provider name', 'err'); return; }
+                if (!key) { toast('Paste an API key', 'err'); return; }
+                const keys = loadKeys();
+                keys.push({ name, key, hint: maskKey(key) });
+                saveKeys(keys);
+                toast('Key saved', 'ok');
+                renderKeys();
+            });
+
+            // Cancel add
+            $('addCancel').addEventListener('click', () => {
+                $('addName').value = '';
+                $('addKey').value = '';
+                $('addCard').classList.remove('open');
+            });
+        }
+
+        /* ── Auth render ─────────────────────────────────────── */
+        function render() {
+            const email = (session.user && session.user.email) || '';
+            const name = email.split('@')[0] || 'there';
+            const initial = (email[0] || '?').toUpperCase();
+
+            $('greeting').textContent = 'Welcome back, ' + name;
+            $('sbAvatar').textContent = initial;
+            $('pfAvatar').textContent = initial;
+            $('sbName').textContent = name;
+            $('pfName').textContent = name;
+            $('pfEmail').textContent = email;
+
+            const sub = (account && account.subscription) || { plan: 'free', status: 'inactive' };
+            const rawPlan = sub.status === 'active' ? sub.plan : 'free';
+            const plan = (['starter', 'pro'].includes(rawPlan)) ? 'core' : rawPlan;
+            const active = sub.status === 'active';
+
+            $('stPlan').textContent = PLAN_NAME[plan] || plan;
+            $('stStatusVal').textContent = active ? 'Active' : 'Inactive';
+            $('stStatus').textContent = sub.status || 'inactive';
+            $('stStatus').className = 'pill ' + (active ? 'ok' : 'off');
+            $('sbPlan').textContent = (PLAN_NAME[plan] || plan) + ' plan';
+
+            // Models
+            const models = (account && account.enabledProviders) || [];
+            $('models').innerHTML = models.length
+                ? models.map(m => '<span class="model-tag">' + escHtml(m.label || m.provider) + '</span>').join('')
+                : '<span class="models-empty">No models enabled yet.</span>';
+
+            renderKeys();
+        }
+
+        async function loadAccount() {
+            try {
+                const r = await authed('/api/account');
+                account = r.ok ? await r.json() : null;
+            } catch { account = null; }
+            render();
+        }
+
+        async function authed(path, opts) {
+            opts = opts || {};
+            const headers = Object.assign({ 'Content-Type': 'application/json' }, opts.headers || {});
+            if (session && session.access_token) headers.Authorization = 'Bearer ' + session.access_token;
+            return fetch(path, Object.assign({}, opts, { headers }));
+        }
+
+        /* ── Nav ─────────────────────────────────────────────── */
+        function setupNav() {
+            const items = document.querySelectorAll('.nav-item[data-target]');
+            items.forEach(item => {
+                item.addEventListener('click', () => {
+                    items.forEach(x => x.classList.remove('active'));
+                    item.classList.add('active');
+                    const t = $(item.dataset.target);
+                    if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                });
+            });
+            const sections = [
+                { el: $('secAccount'), nav: $('navAccount') },
+                { el: $('secKeys'), nav: $('navKeys') },
+                { el: $('secModels'), nav: $('navModels') },
+            ];
+            window.addEventListener('scroll', () => {
+                let active = sections[0];
+                for (const s of sections) {
+                    if (s.el && s.el.getBoundingClientRect().top <= 140) active = s;
+                }
+                sections.forEach(s => s.nav && s.nav.classList.remove('active'));
+                active.nav && active.nav.classList.add('active');
+            }, { passive: true });
+        }
+
+        /* ── Boot ────────────────────────────────────────────── */
+        async function boot() {
+            let cfg;
+            try {
+                const r = await fetch('/api/config');
+                cfg = await r.json();
+                if (!r.ok) throw new Error(cfg.message || 'config');
+            } catch {
+                $('loader').innerHTML = '<span style="color:var(--google-red)">Could not load config. Is SUPABASE_ANON_KEY set?</span>';
+                return;
+            }
+
+            if (!window.supabase) {
+                $('loader').innerHTML = '<span style="color:var(--google-red)">Supabase library failed to load.</span>';
+                return;
+            }
+            sb = window.supabase.createClient(cfg.url, cfg.anonKey);
+
+            const { data } = await sb.auth.getSession();
+            session = data.session;
+            if (!session) { location.href = 'index.html'; return; }
+
+            sb.auth.onAuthStateChange((_e, s) => { if (!s) location.href = 'index.html'; });
+
+            $('signOutBtn').addEventListener('click', async () => {
+                if (sb) await sb.auth.signOut();
+                location.href = 'index.html';
+            });
+
+            setupNav();
+            window.addEventListener('focus', () => { if (session) loadAccount(); });
+
+            await loadAccount();
+            $('loader').style.display = 'none';
+            $('app').style.display = 'block';
+        }
+
+        function escHtml(s) {
+            return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+
+        boot();
+    </script>
+</body>
+
+</html>

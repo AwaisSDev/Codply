@@ -13,3 +13,8 @@ export const supabase = createClient(supabaseUrl, supabaseServiceRoleKey, {
     autoRefreshToken: false,
   },
 });
+
+export const publicSupabaseConfig = {
+  url: supabaseUrl,
+  anonKey: process.env.SUPABASE_ANON_KEY || '',
+};
