@@ -4,13 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Codply AI</title>
+    <title>Codeply</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap"
         rel="stylesheet">
-    <link rel="icon" type="image/png" href="Favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16"  href="favicons/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32"  href="favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48"  href="favicons/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="64x64"  href="favicons/favicon-64x64.png">
+    <link rel="icon" type="image/png" sizes="128x128" href="favicons/favicon-128x128.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="favicons/favicon-192x192.png">
+    <link rel="icon" type="image/png" sizes="256x256" href="favicons/favicon-256x256.png">
+    <link rel="apple-touch-icon" sizes="180x180"      href="favicons/favicon-180x180.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="favicons/favicon-512x512.png">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 
     <style>
@@ -467,7 +475,7 @@
             position: absolute;
             width: 20px;
             height: 20px;
-            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%231a73e8'%3E%3Cpath d='M4.5 3V17l4.2-4.2 3.3 7.3 2.7-1.2-3.3-7.3H18.5L4.5 3z' stroke='white' stroke-width='1'/%3E%3C/svg%3E") no-repeat;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23000000'%3E%3Cpath d='M4.5 3V17l4.2-4.2 3.3 7.3 2.7-1.2-3.3-7.3H18.5L4.5 3z' stroke='white' stroke-width='1'/%3E%3C/svg%3E") no-repeat;
             z-index: 999;
             pointer-events: none;
             transition: all 1.2s cubic-bezier(0.45, 0, 0.55, 1);
@@ -1012,99 +1020,180 @@
         .cp-vsc-file { padding: 5px 16px; cursor: default; }
         .cp-vsc-active { color: #ffffff; background: rgba(255,255,255,.06); }
         .cp-vsc-editor {
-            flex: 1; padding: 20px 0;
+            flex: 1; padding: 20px 340px 20px 0;
             font-family: 'Fira Code', monospace; font-size: 13.5px;
             line-height: 1.85; color: #d4d4d4; overflow: hidden;
+            text-align: left;
         }
-        .cp-vsc-line { display: flex; align-items: baseline; padding: 0 20px; }
+        .cp-vsc-line { display: block; padding: 0 20px; white-space: pre; }
         .cp-vsc-highlight { background: rgba(255,255,100,.07); border-left: 2px solid #fbbc04; }
-        .cp-ln { width: 32px; color: #555; text-align: right; padding-right: 20px; flex-shrink: 0; font-size: 12px; }
+        .cp-ln { display: inline-block; width: 28px; color: #555; text-align: right; padding-right: 16px; font-size: 12px; user-select:none; }
         .cp-kw { color: #569cd6; }
         .cp-fn { color: #dcdcaa; }
         .cp-str { color: #ce9178; }
         .cp-cm { color: #6a9955; }
 
-        /* The popup overlay */
+        /* ── Codeply popup overlay ── */
         .cp-popup {
             position: absolute;
-            top: 52px; right: 24px;
-            width: 320px;
-            background: #ffffff;
-            border-radius: 20px;
+            top: 44px; right: 20px;
+            width: 310px;
+            background: #fff;
+            border-radius: 18px;
             box-shadow: 0 24px 64px rgba(0,0,0,.45), 0 0 0 1px rgba(0,0,0,.08);
             overflow: hidden;
             font-family: var(--font-serif);
+            user-select: none;
+            text-align: left;
         }
-        .cp-popup-header {
+        /* Title bar */
+        .cp-titlebar {
             display: flex; align-items: center; justify-content: space-between;
-            padding: 12px 16px;
-            border-bottom: 1px solid #f0f0f0;
-            background: #fafafa;
+            padding: 10px 14px;
+            border-bottom: 1px solid #ebebeb;
+            background: #f7f7f7;
         }
-        .cp-popup-brand {
-            display: flex; align-items: center; gap: 8px;
-            font-weight: 700; font-size: 0.9rem; color: #202124;
+        .cp-popup-dots { display: flex; gap: 6px; align-items: center; }
+        .cp-dot { width: 11px; height: 11px; border-radius: 50%; display: block; flex-shrink:0; }
+        .cp-titlebar-brand {
+            display: flex; align-items: center; gap: 0;
+            font-weight: 700; font-size: 0.95rem; color: #202124;
+            margin-right: 15px;
         }
-        .cp-popup-dots { display: flex; gap: 6px; }
-        .cp-dot { width: 11px; height: 11px; border-radius: 50%; display: block; }
-        .cp-popup-body { padding: 14px 16px; display: flex; flex-direction: column; gap: 12px; }
-        .cp-popup-file {
+        .cp-reload-btn {
+            background: none; border: none; cursor: pointer; padding: 4px;
+            color: #9aa0a6; border-radius: 7px; display:flex; align-items:center;
+            transition: color .2s, background .2s;
+        }
+        .cp-reload-btn:hover { color: #4285F4; background: #f1f3f4; }
+        .cp-reload-btn.spinning svg { animation: cpspin .5s linear; }
+        /* File bar */
+        .cp-filebar {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 8px 14px; border-bottom: 1px solid #f0f0f0;
+        }
+        .cp-file-pill {
             display: flex; align-items: center; gap: 6px;
-            font-size: 0.78rem; color: #5f6368;
-            background: #f1f3f4; border-radius: 8px; padding: 7px 10px;
+            background: #e6f4ea; border-radius: 20px;
+            padding: 4px 11px; font-size: 0.77rem; font-weight: 600; color: #1a7a3c;
         }
-        .cp-popup-snippet {
-            background: #1e1e1e; border-radius: 10px;
-            padding: 12px 14px;
-            font-family: 'Fira Code', monospace; font-size: 11.5px;
-            color: #ce9178; line-height: 1.7;
+        .cp-file-dot { width:7px; height:7px; border-radius:50%; background:#34a853; flex-shrink:0; }
+        .cp-file-actions { display:flex; gap:6px; }
+        .cp-file-btn {
+            background: #f1f3f4; border: none; border-radius: 8px;
+            font-size: 0.72rem; padding: 4px 9px; color: #5f6368;
+            cursor: default; font-family: var(--font-serif); font-weight:500;
+            display:flex;align-items:center;gap:4px;
         }
-        .cp-popup-result {
-            background: #e6f4ea; border-radius: 10px;
-            padding: 10px 12px;
-            border-left: 3px solid #34a853;
+        /* Code input area */
+        .cp-code-area {
+            min-height: 108px; max-height: 120px;
+            background: #fafafa; border-bottom: 1px solid #f0f0f0;
+            padding: 12px 14px; position: relative; overflow: hidden;
+            font-family: 'Fira Code', monospace; font-size: 12px;
+            color: #3c4043; line-height: 1.75; text-align: left;
         }
-        .cp-result-badge {
-            font-size: 0.78rem; font-weight: 700; color: #1f8f43; margin-bottom: 4px;
+        .cp-placeholder {
+            position: absolute; top: 12px; left: 14px;
+            color: #bdc1c6; font-size: 12px; font-family: 'Fira Code', monospace;
+            pointer-events:none; white-space: pre-wrap; text-align: left;
         }
-        .cp-result-text { font-size: 0.82rem; color: #3c4043; line-height: 1.45; }
-        .cp-popup-btn {
-            width: 100%; padding: 11px;
-            background: linear-gradient(135deg,#4285F4,#1a6ff0);
-            color: #fff; border: none; border-radius: 12px;
-            font-weight: 700; font-size: 0.88rem;
-            cursor: pointer; font-family: var(--font-serif);
-            box-shadow: 0 4px 14px rgba(66,133,244,.4);
-            transition: opacity .2s;
+        #cpCode { white-space: pre; position: relative; z-index:1; text-align:left; display:block; }
+        .cp-cursor {
+            display:inline-block; width:1.5px; height:13px;
+            background:#4285F4; margin-left:1px; vertical-align:middle;
+            animation: cpblink 1s step-end infinite; position:relative; z-index:1;
         }
-        .cp-popup-btn:active { opacity: .8; transform: scale(.98); }
-        .cp-popup-result { transition: opacity .3s, transform .3s; }
-        .cp-popup-result.hidden { opacity:0; transform:translateY(4px); pointer-events:none; }
-        /* Analyzing state */
-        .cp-analyzing {
-            display:none; align-items:center; gap:8px;
-            font-size:0.82rem; color:#5f6368; padding: 8px 0;
+        .cp-cursor.hidden { display:none; }
+        @keyframes cpblink { 50%{opacity:0} }
+        /* Status area */
+        .cp-status-area {
+            display: flex; align-items: flex-start; gap: 10px;
+            padding: 10px 14px; border-bottom: 1px solid #f0f0f0;
+            min-height: 52px; text-align: left;
         }
-        .cp-analyzing.active { display:flex; }
+        .cp-status-icon { font-size: 13px; color: #9aa0a6; flex-shrink:0; padding-top:1px; }
+        .cp-status-title { font-size: 0.83rem; font-weight: 800; color: #202124; }
+        .cp-status-title.green { color: #34a853; }
+        .cp-status-sub { font-size: 0.73rem; color: #80868b; line-height:1.4; margin-top:1px; }
+        /* Spinner */
         .cp-spinner {
-            width:16px; height:16px; border:2px solid #e0e0e0;
+            width:13px; height:13px; border:2px solid #e0e0e0;
             border-top-color:#4285F4; border-radius:50%;
-            animation: cpspin .7s linear infinite;
-            flex-shrink:0;
+            animation: cpspin .7s linear infinite; flex-shrink:0; margin-top:2px;
+            display:inline-block;
         }
         @keyframes cpspin { to { transform:rotate(360deg); } }
-        /* Cursor blink in snippet */
-        .cp-cursor {
-            display:inline-block; width:2px; height:1em;
-            background:#ce9178; margin-left:1px; vertical-align:middle;
-            animation: cpblink 1s step-end infinite;
+        /* Button row */
+        .cp-btn-row { display: flex; gap: 8px; padding: 10px 14px; }
+        .cp-btn-analyze {
+            flex: 1; padding: 9px 0;
+            background: #d2e3fc; color: #1a73e8; border: none; border-radius: 10px;
+            font-weight: 700; font-size: 0.83rem; cursor: pointer;
+            font-family: var(--font-serif); transition: background .2s, transform .12s;
         }
-        @keyframes cpblink { 50%{opacity:0} }
+        .cp-btn-analyze:hover:not(:disabled) { background: #b8d0f8; }
+        .cp-btn-analyze:active:not(:disabled) { transform: scale(.97); }
+        .cp-btn-analyze:disabled { opacity:.5; cursor:default; }
+        .cp-btn-apply {
+            flex: 1; padding: 9px 0;
+            background: #fff; color: #34a853; border: 1.5px solid #34a853;
+            border-radius: 10px; font-weight: 700; font-size: 0.83rem; cursor: pointer;
+            font-family: var(--font-serif); transition: background .2s, color .2s, transform .12s;
+        }
+        .cp-btn-apply:hover:not(:disabled) { background: #e6f4ea; }
+        .cp-btn-apply:active:not(:disabled) { transform: scale(.97); }
+        .cp-btn-apply:disabled { opacity:.4; cursor:default; }
+
+        /* Demo cursor */
+        #cpDemoCursor {
+            position: absolute; pointer-events: none; z-index: 200;
+            opacity: 0; transition: left .55s cubic-bezier(.4,0,.2,1), top .55s cubic-bezier(.4,0,.2,1), opacity .3s;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,.35));
+        }
+        .cp-click-ripple {
+            position: absolute; border-radius: 50%;
+            background: rgba(66,133,244,.35);
+            width: 28px; height: 28px;
+            transform: translate(-50%,-50%) scale(0);
+            animation: cpripple .4s ease-out forwards;
+            pointer-events: none; z-index: 201;
+        }
+        @keyframes cpripple { to { transform: translate(-50%,-50%) scale(2); opacity: 0; } }
 
         @media (max-width: 768px) {
-            .cp-mockup { height: 420px; }
+            /* Mockup stacks vertically: editor on top, popup below */
+            .cp-mockup {
+                height: auto;
+                display: flex;
+                flex-direction: column;
+                overflow: visible;
+                box-shadow: none;
+                gap: 12px;
+            }
+            .cp-vscode {
+                height: 280px;
+                border-radius: 14px;
+                overflow: hidden;
+                box-shadow: 0 12px 40px rgba(0,0,0,.3);
+            }
             .cp-vsc-sidebar { display: none; }
-            .cp-popup { width: calc(100% - 48px); right: 24px; top: 44px; }
+            .cp-vsc-editor {
+                padding: 14px 10px;
+                font-size: 11.5px;
+                line-height: 1.7;
+            }
+            .cp-ln { width: 20px; padding-right: 10px; font-size: 10px; }
+            /* Popup sits below editor, full width */
+            .cp-popup {
+                position: relative;
+                top: auto; right: auto;
+                width: 100%;
+                border-radius: 14px;
+                box-shadow: 0 12px 40px rgba(0,0,0,.25);
+            }
+            /* Demo cursor hidden on mobile */
+            #cpDemoCursor { display: none; }
         }
 
         /* Waitlist modal */
@@ -1659,7 +1748,12 @@
             }
 
             .logo img {
-                height: 120px !important;
+                height: 50px !important;
+                width: 50px !important;
+            }
+            .cp-titlebar-brand img {
+                height: 30px !important;
+                width: 30px !important;
             }
 
             .nav-links {
@@ -1752,15 +1846,9 @@
     <header>
         <div class="container">
             <nav>
-                <a href="/" class="logo" aria-label="Codeply" style="gap:10px;text-decoration:none">
-                    <svg width="34" height="34" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;border-radius:8px">
-                      <rect width="100" height="100" fill="#fff" rx="20"/>
-                      <path d="M 24.9 64.5 A 29 29 0 0 1 35.5 24.9" fill="none" stroke="#fbbc04" stroke-width="16" stroke-linecap="butt"/>
-                      <path d="M 57.5 78.0 A 29 29 0 0 1 24.9 64.5" fill="none" stroke="#34a853" stroke-width="16" stroke-linecap="butt"/>
-                      <path d="M 75.1 64.5 A 29 29 0 0 1 57.5 78.0" fill="none" stroke="#4285F4" stroke-width="16" stroke-linecap="butt"/>
-                      <path d="M 35.5 24.9 A 29 29 0 0 1 75.1 35.5" fill="none" stroke="#ea4335" stroke-width="16" stroke-linecap="round"/>
-                    </svg>
-                    <span style="font-size:1.3rem;font-weight:700;letter-spacing:-0.5px;color:#202124">Codeply</span>
+                <a href="/" class="logo" aria-label="Codeply" style="text-decoration:none">
+                    <img src="Favicon.png" alt="Codeply" style="flex-shrink:0;display:block;height:40px;width:40px;margin-right:4px;">
+                    <span style="font-size:1.55rem;font-weight:800;letter-spacing:-0.5px;color:#202124;margin-top:2px">Codeply</span>
                 </a>
                 <div class="nav-links">
                     <a href="#features">Features</a>
@@ -1801,63 +1889,80 @@
                                 <div class="cp-vsc-file">  🐍 utils.py</div>
                                 <div class="cp-vsc-file">📁 tests</div>
                             </div>
-                            <div class="cp-vsc-editor">
-                                <div class="cp-vsc-line"><span class="cp-ln">1</span><span class="cp-kw">import</span> jwt</div>
-                                <div class="cp-vsc-line"><span class="cp-ln">2</span><span class="cp-kw">from</span> datetime <span class="cp-kw">import</span> datetime</div>
-                                <div class="cp-vsc-line"><span class="cp-ln">3</span></div>
-                                <div class="cp-vsc-line"><span class="cp-ln">4</span><span class="cp-kw">def</span> <span class="cp-fn">authenticate</span>(user):</div>
-                                <div class="cp-vsc-line cp-vsc-highlight"><span class="cp-ln">5</span>    <span class="cp-cm"># Insert new code here</span></div>
-                                <div class="cp-vsc-line"><span class="cp-ln">6</span>    <span class="cp-kw">if</span> user.is_valid:</div>
-                                <div class="cp-vsc-line"><span class="cp-ln">7</span>        <span class="cp-kw">return</span> <span class="cp-str">True</span></div>
-                                <div class="cp-vsc-line"><span class="cp-ln">8</span></div>
-                                <div class="cp-vsc-line"><span class="cp-ln">9</span><span class="cp-kw">def</span> <span class="cp-fn">verify_token</span>(token):</div>
-                                <div class="cp-vsc-line"><span class="cp-ln">10</span>    payload = jwt.decode(token, SECRET)</div>
+                            <div class="cp-vsc-editor" id="cpVscEditor" style="position:relative;">
+                                <div class="cp-vsc-line" id="vcl1"><span class="cp-ln">1</span><span class="cp-kw">import</span> jwt</div>
+                                <div class="cp-vsc-line" id="vcl2"><span class="cp-ln">2</span><span class="cp-kw">from</span> datetime <span class="cp-kw">import</span> datetime</div>
+                                <div class="cp-vsc-line" id="vcl3"><span class="cp-ln">3</span></div>
+                                <div class="cp-vsc-line" id="vcl4"><span class="cp-ln">4</span><span class="cp-kw">def</span> <span class="cp-fn">authenticate</span>(user):</div>
+                                <div class="cp-vsc-line cp-vsc-highlight" id="vcl5"><span class="cp-ln">5</span>    token = jwt.encode(user.id, key)</div>
+                                <div class="cp-vsc-line" id="vcl6"><span class="cp-ln">6</span>    <span class="cp-kw">if</span> user.is_valid:</div>
+                                <div class="cp-vsc-line" id="vcl7"><span class="cp-ln">7</span>        <span class="cp-kw">return</span> <span class="cp-str">True</span></div>
+                                <div class="cp-vsc-line" id="vcl8"><span class="cp-ln">8</span></div>
+                                <div class="cp-vsc-line" id="vcl9"><span class="cp-ln">9</span><span class="cp-kw">def</span> <span class="cp-fn">verify_token</span>(token):</div>
+                                <div class="cp-vsc-line" id="vcl10"><span class="cp-ln">10</span>    payload = jwt.decode(token, SECRET)</div>
                             </div>
                         </div>
                     </div>
 
+                    <!-- Animated demo cursor -->
+                    <div id="cpDemoCursor">
+                        <svg width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4.5 3V17l4.2-4.2 3.3 7.3 2.7-1.2-3.3-7.3H18.5L4.5 3z" fill="#000000" stroke="white" stroke-width="1"/>
+                        </svg>
+                    </div>
+
                     <!-- Codeply Popup Overlay -->
-                    <div class="cp-popup">
-                        <div class="cp-popup-header">
-                            <div class="cp-popup-brand">
-                                <svg width="22" height="22" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
-                                    <rect width="100" height="100" fill="#fff" rx="18"/>
-                                    <path d="M 24.9 64.5 A 29 29 0 0 1 35.5 24.9" fill="none" stroke="#fbbc04" stroke-width="16" stroke-linecap="butt"/>
-                                    <path d="M 57.5 78.0 A 29 29 0 0 1 24.9 64.5" fill="none" stroke="#34a853" stroke-width="16" stroke-linecap="butt"/>
-                                    <path d="M 75.1 64.5 A 29 29 0 0 1 57.5 78.0" fill="none" stroke="#4285F4" stroke-width="16" stroke-linecap="butt"/>
-                                    <path d="M 35.5 24.9 A 29 29 0 0 1 75.1 35.5" fill="none" stroke="#ea4335" stroke-width="16" stroke-linecap="round"/>
-                                </svg>
-                                <span>Codeply AI</span>
-                                <!-- refresh icon -->
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9aa0a6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin-left:4px;cursor:pointer"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
-                            </div>
+
+                    <div class="cp-popup" id="cpPopupEl">
+                        <!-- Title bar -->
+                        <div class="cp-titlebar">
                             <div class="cp-popup-dots">
                                 <span class="cp-dot" style="background:#ff5f56"></span>
                                 <span class="cp-dot" style="background:#ffbd2e"></span>
                                 <span class="cp-dot" style="background:#27c93f"></span>
                             </div>
+                            <div class="cp-titlebar-brand">
+                                <img src="Favicon-RBG.png" alt="" style="flex-shrink:0;display:block;height:30px;width:30px;margin-right:4px;">
+                                <span>Codeply</span>
+                            </div>
+                            <button class="cp-reload-btn" id="cpReloadBtn" title="Reset">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+                            </button>
                         </div>
-                        <div class="cp-popup-body">
-                            <div class="cp-popup-file" id="cpFile">
-                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
-                                <span id="cpFileName">auth.py</span> &mdash; Auto-detected
+                        <!-- File bar -->
+                        <div class="cp-filebar">
+                            <div class="cp-file-pill">
+                                <span class="cp-file-dot"></span>
+                                <span id="cpFileName">auth.py</span>
                             </div>
-                            <div class="cp-popup-snippet" id="cpSnippet" style="position:relative;min-height:76px;cursor:text;">
-                                <div id="cpCode" style="white-space:pre;"></div>
-                                <span class="cp-cursor" id="cpCursor"></span>
+                            <div class="cp-file-actions">
+                                <button class="cp-file-btn">
+                                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                                    Watch
+                                </button>
+                                <button class="cp-file-btn">
+                                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                                    File
+                                </button>
                             </div>
-                            <div class="cp-analyzing" id="cpAnalyzing">
-                                <div class="cp-spinner"></div>
-                                <span>Scanning your project…</span>
+                        </div>
+                        <!-- Code input -->
+                        <div class="cp-code-area">
+                            <div id="cpPlaceholder" class="cp-placeholder">// Copy code OR type an instruction…</div>
+                            <div id="cpCode"></div><span class="cp-cursor hidden" id="cpCursor"></span>
+                        </div>
+                        <!-- Status -->
+                        <div class="cp-status-area" id="cpStatusArea">
+                            <div class="cp-status-icon" id="cpStatusIcon">◈</div>
+                            <div>
+                                <div class="cp-status-title" id="cpStatusTitle">Waiting for code</div>
+                                <div class="cp-status-sub" id="cpStatusSub">Copy code or type an instruction to get started.</div>
                             </div>
-                            <div class="cp-popup-result" id="cpResult">
-                                <div class="cp-result-badge">✓ Placement Found</div>
-                                <div class="cp-result-text">Insert after <strong>line 5</strong> in auth.py — replace existing return</div>
-                            </div>
-                            <div style="display:flex;gap:8px;">
-                                <button id="cpBtnAnalyze" class="cp-popup-btn" style="background:#f1f3f4;color:#3c4043;font-weight:600;border:none;flex:1;padding:10px;border-radius:10px;font-size:0.85rem;cursor:pointer;">Analyze</button>
-                                <button id="cpBtnApply" class="cp-popup-btn" style="flex:2;">Apply Changes</button>
-                            </div>
+                        </div>
+                        <!-- Buttons -->
+                        <div class="cp-btn-row">
+                            <button id="cpBtnAnalyze" class="cp-btn-analyze" disabled>Analyze</button>
+                            <button id="cpBtnApply" class="cp-btn-apply" disabled>Apply</button>
                         </div>
                     </div>
                 </div>
@@ -2447,101 +2552,216 @@
 
         // ── Interactive popup demo ──────────────────────────────────────────
         (function initPopupDemo() {
-            const cpCode     = document.getElementById('cpCode');
-            const cpCursor   = document.getElementById('cpCursor');
-            const cpAnalyzing= document.getElementById('cpAnalyzing');
-            const cpResult   = document.getElementById('cpResult');
-            const cpBtnAnalyze = document.getElementById('cpBtnAnalyze');
-            const cpBtnApply   = document.getElementById('cpBtnApply');
-            if (!cpCode) return;
+            const elCode        = document.getElementById('cpCode');
+            const elCursor      = document.getElementById('cpCursor');
+            const elPlaceholder = document.getElementById('cpPlaceholder');
+            const elStatusIcon  = document.getElementById('cpStatusIcon');
+            const elStatusTitle = document.getElementById('cpStatusTitle');
+            const elStatusSub   = document.getElementById('cpStatusSub');
+            const elStatusArea  = document.getElementById('cpStatusArea');
+            const elBtnAnalyze  = document.getElementById('cpBtnAnalyze');
+            const elBtnApply    = document.getElementById('cpBtnApply');
+            const elReloadBtn   = document.getElementById('cpReloadBtn');
+            const elFileName    = document.getElementById('cpFileName');
+            const elMockup      = document.querySelector('.cp-mockup');
+            const elDemoCursor  = document.getElementById('cpDemoCursor');
+            if (!elCode) return;
 
-            const demoFiles = [
-                { name: 'auth.py',       result: 'Insert after <strong>line 5</strong> in auth.py — replace existing return' },
-                { name: 'dashboard.js',  result: 'Add after <strong>line 23</strong> in dashboard.js — inside useEffect' },
-                { name: 'models.py',     result: 'Append to <strong>line 41</strong> in models.py — end of class body' },
-            ];
-            const demoCode = [
-                "token = jwt.encode(\n  {'id': user.id},\n  SECRET, algorithm='HS256'\n)\nreturn token",
-                "useEffect(() => {\n  fetchData(userId)\n    .then(setData)\n    .catch(console.error);\n}, [userId]);",
-                "def save(self, *args, **kwargs):\n  self.updated_at = now()\n  super().save(\n    *args, **kwargs\n  )",
-            ];
+            const STATES = { IDLE:0, TYPING:1, READY:2, ANALYZING:3, DONE:4, APPLIED:5 };
+            let state = STATES.IDLE, typingCancel = false, autoTimer = null;
 
-            let demoIdx = 0, autoTimer = null, isUserInteracting = false;
-
-            function setFile(idx) {
-                document.getElementById('cpFileName').textContent = demoFiles[idx].name;
-                cpResult.querySelector('.cp-result-text').innerHTML =
-                    demoFiles[idx].result;
-            }
+            // ── Demo: popup shows enhanced JWT → replaces basic version on line 5 ──
+            const DEMO = {
+                file: 'auth.py',
+                // Enhanced version types in popup code area
+                code: "token = jwt.encode(\n  {'id': user.id}, key\n)",
+                statusTitle: 'Enhancement Found',
+                statusSub:   'Upgrade line 5 — use payload dict for JWT encoding',
+                applyLineId: 'vcl5',
+                removeHtml: `<span class="cp-ln">5</span>    token = jwt.encode(user.id, key)`,
+                addHtml:    `<span class="cp-ln">5</span>    token = jwt.encode({<span class="cp-str">'id'</span>: user.id}, key)`,
+                addText:    "    token = jwt.encode({'id': user.id}, key)",
+            };
 
             function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
 
-            async function runDemo(idx) {
-                setFile(idx);
-                // Reset
-                cpCode.textContent = '';
-                cpCursor.style.display = 'inline-block';
-                cpResult.classList.add('hidden');
-                cpAnalyzing.classList.remove('active');
+            function setStatus(icon, title, sub, spinner=false, green=false) {
+                elStatusIcon.innerHTML = spinner ? '<div class="cp-spinner"></div>' : icon;
+                elStatusIcon.style.display = '';
+                elStatusTitle.textContent = title;
+                elStatusTitle.className = green ? 'cp-status-title green' : 'cp-status-title';
+                elStatusSub.textContent = sub;
+            }
 
-                // Type the code
-                const code = demoCode[idx];
-                for (let i = 0; i < code.length; i++) {
-                    if (isUserInteracting) return;
-                    cpCode.textContent += code[i];
-                    await delay(code[i] === '\n' ? 60 : 28 + Math.random() * 30);
+            function restoreLine5() {
+                const el = document.getElementById(DEMO.applyLineId);
+                if (el) {
+                    el.innerHTML = DEMO.removeHtml;
+                    el.style.cssText = '';
+                    el.classList.add('cp-vsc-highlight');
+                }
+            }
+
+            // ── Cursor helpers ──
+            function cursorTo(el, offX=0, offY=0) {
+                if (!el || !elMockup || !elDemoCursor) return;
+                const mRect = elMockup.getBoundingClientRect();
+                const eRect = el.getBoundingClientRect();
+                elDemoCursor.style.left = (eRect.left - mRect.left + eRect.width/2 + offX - 5) + 'px';
+                elDemoCursor.style.top  = (eRect.top  - mRect.top  + eRect.height/2 + offY - 5) + 'px';
+            }
+            function cursorShow() { if (elDemoCursor) elDemoCursor.style.opacity = '1'; }
+            function cursorHide() { if (elDemoCursor) elDemoCursor.style.opacity = '0'; }
+
+            function spawnRipple(el) {
+                if (!el || !elMockup) return;
+                const mRect = elMockup.getBoundingClientRect();
+                const eRect = el.getBoundingClientRect();
+                const r = document.createElement('div');
+                r.className = 'cp-click-ripple';
+                r.style.left = (eRect.left - mRect.left + eRect.width/2) + 'px';
+                r.style.top  = (eRect.top  - mRect.top  + eRect.height/2) + 'px';
+                r.style.position = 'absolute';
+                elMockup.appendChild(r);
+                setTimeout(() => r.remove(), 500);
+            }
+
+            async function autoCursorClick(btn) {
+                cursorTo(btn);
+                await delay(580);
+                spawnRipple(btn);
+                btn.style.transform = 'scale(.93)';
+                await delay(130);
+                btn.style.transform = '';
+                btn.click();
+            }
+
+            function reset(spin=false) {
+                typingCancel = true;
+                clearTimeout(autoTimer);
+                cursorHide();
+                elCode.textContent = '';
+                elPlaceholder.style.display = 'block';
+                elCursor.className = 'cp-cursor hidden';
+                elBtnAnalyze.disabled = true;
+                elBtnApply.disabled = true;
+                elBtnApply.textContent = 'Apply';
+                elBtnApply.style.cssText = '';
+                elBtnAnalyze.textContent = 'Analyze';
+                elBtnAnalyze.style.cssText = '';
+                restoreLine5();
+                setStatus('◈', 'Waiting for code', 'Copy code or type an instruction to get started.');
+                state = STATES.IDLE;
+                if (spin && elReloadBtn) {
+                    elReloadBtn.classList.add('spinning');
+                    setTimeout(() => elReloadBtn.classList.remove('spinning'), 500);
+                }
+            }
+
+            async function startTyping() {
+                typingCancel = false;
+                state = STATES.TYPING;
+                elPlaceholder.style.display = 'none';
+                elCursor.className = 'cp-cursor';
+                elCode.textContent = '';
+                elBtnAnalyze.disabled = true;
+                elBtnApply.disabled = true;
+
+                for (let ch of DEMO.code) {
+                    if (typingCancel) return;
+                    elCode.textContent += ch;
+                    await delay(ch === '\n' ? 55 : 18 + Math.random() * 24);
+                }
+                if (typingCancel) return;
+                elCursor.className = 'cp-cursor hidden';
+                state = STATES.READY;
+                elBtnAnalyze.disabled = false;
+
+                // Cursor appears at popup top, glides to Analyze
+                await delay(380);
+                if (typingCancel || state !== STATES.READY) return;
+                const popupEl = document.getElementById('cpPopupEl');
+                elDemoCursor.style.transition = 'opacity .3s';
+                cursorTo(popupEl, 0, -45);
+                cursorShow();
+                await delay(320);
+                elDemoCursor.style.transition = 'left .55s cubic-bezier(.4,0,.2,1), top .55s cubic-bezier(.4,0,.2,1), opacity .3s';
+                await autoCursorClick(elBtnAnalyze);
+            }
+
+            async function doAnalyze() {
+                if (state !== STATES.READY) return;
+                state = STATES.ANALYZING;
+                elBtnAnalyze.disabled = true;
+                setStatus('', 'Analyzing…', 'Scanning project for best placement…', true);
+                await delay(1400);
+                if (state !== STATES.ANALYZING) return;
+                state = STATES.DONE;
+                setStatus('✓', DEMO.statusTitle, DEMO.statusSub, false, true);
+                elBtnApply.disabled = false;
+
+                // Cursor glides to Apply
+                await delay(500);
+                if (state !== STATES.DONE) return;
+                await autoCursorClick(elBtnApply);
+            }
+
+            async function doApply() {
+                if (state !== STATES.DONE) return;
+                state = STATES.APPLIED;
+                elBtnApply.disabled = true;
+                elBtnAnalyze.disabled = true;
+                cursorHide();
+
+                const tl = document.getElementById(DEMO.applyLineId);
+                if (tl) {
+                    // RED — show old code struck out
+                    tl.classList.remove('cp-vsc-highlight');
+                    tl.style.transition = 'background .2s';
+                    tl.style.background = 'rgba(255, 59, 48, 0.5)';
+                    tl.style.borderLeft = '4px solid #ff3b30';
+                    tl.style.color = '#ffcccc';
+                    tl.innerHTML = DEMO.removeHtml;
+                    await delay(900);
+
+                    // GREEN — typewriter the new code (same as what was in the popup)
+                    tl.style.transition = 'background .2s';
+                    tl.style.background = 'rgba(40, 205, 100, 0.45)';
+                    tl.style.borderLeft = '4px solid #28cd64';
+                    tl.style.color = '#d4ffe0';
+                    tl.innerHTML = '<span class="cp-ln">5</span>';
+                    const ts = document.createElement('span');
+                    tl.appendChild(ts);
+                    for (let ch of DEMO.addText) {
+                        ts.textContent += ch;
+                        await delay(36 + Math.random() * 26);
+                    }
+                    await delay(320);
+                    tl.innerHTML = DEMO.addHtml;
+                    await delay(900);
+
+                    // Fade clean
+                    tl.style.transition = 'background .85s, border-left .85s, color .85s';
+                    tl.style.background = '';
+                    tl.style.borderLeft = '';
+                    tl.style.color = '';
                 }
 
-                await delay(500);
-                if (isUserInteracting) return;
+                elBtnApply.textContent = '✓ Applied!';
+                elBtnApply.style.background = '#e6f4ea';
+                elBtnApply.style.color = '#0d9040';
+                elBtnApply.style.borderColor = '#34a853';
+                setStatus('✓', 'Changes Applied', 'auth.py line 5 updated successfully.', false, true);
 
-                // Analyzing state
-                cpCursor.style.display = 'none';
-                cpAnalyzing.classList.add('active');
-                await delay(1400);
-                if (isUserInteracting) return;
-
-                // Show result
-                cpAnalyzing.classList.remove('active');
-                cpResult.classList.remove('hidden');
-                await delay(3200);
-                if (isUserInteracting) return;
-
-                // Next demo
-                demoIdx = (idx + 1) % demoFiles.length;
-                runDemo(demoIdx);
+                autoTimer = setTimeout(() => { reset(); setTimeout(startTyping, 700); }, 4200);
             }
 
-            // Manual Analyze click
-            async function triggerAnalyze() {
-                isUserInteracting = true;
-                clearTimeout(autoTimer);
-                cpResult.classList.add('hidden');
-                cpAnalyzing.classList.add('active');
-                cpCursor.style.display = 'none';
-                await delay(1500);
-                cpAnalyzing.classList.remove('active');
-                cpResult.classList.remove('hidden');
-                isUserInteracting = false;
-                // Resume auto after 4s
-                autoTimer = setTimeout(() => {
-                    demoIdx = (demoIdx + 1) % demoFiles.length;
-                    runDemo(demoIdx);
-                }, 4000);
-            }
+            elBtnAnalyze.addEventListener('click', doAnalyze);
+            elBtnApply.addEventListener('click', doApply);
+            if (elReloadBtn) elReloadBtn.addEventListener('click', () => { reset(true); setTimeout(startTyping, 700); });
 
-            cpBtnAnalyze.addEventListener('click', triggerAnalyze);
-            cpBtnApply.addEventListener('click', () => {
-                cpBtnApply.textContent = '✓ Applied!';
-                cpBtnApply.style.background = '#34a853';
-                setTimeout(() => {
-                    cpBtnApply.textContent = 'Apply Changes';
-                    cpBtnApply.style.background = '';
-                }, 1800);
-            });
-
-            // Kick off
-            runDemo(0);
+            elFileName.textContent = DEMO.file;
+            setTimeout(startTyping, 900);
         })();
         // ───────────────────────────────────────────────────────────────────
 
