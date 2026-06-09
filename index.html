@@ -1075,7 +1075,31 @@
             font-weight: 700; font-size: 0.88rem;
             cursor: pointer; font-family: var(--font-serif);
             box-shadow: 0 4px 14px rgba(66,133,244,.4);
+            transition: opacity .2s;
         }
+        .cp-popup-btn:active { opacity: .8; transform: scale(.98); }
+        .cp-popup-result { transition: opacity .3s, transform .3s; }
+        .cp-popup-result.hidden { opacity:0; transform:translateY(4px); pointer-events:none; }
+        /* Analyzing state */
+        .cp-analyzing {
+            display:none; align-items:center; gap:8px;
+            font-size:0.82rem; color:#5f6368; padding: 8px 0;
+        }
+        .cp-analyzing.active { display:flex; }
+        .cp-spinner {
+            width:16px; height:16px; border:2px solid #e0e0e0;
+            border-top-color:#4285F4; border-radius:50%;
+            animation: cpspin .7s linear infinite;
+            flex-shrink:0;
+        }
+        @keyframes cpspin { to { transform:rotate(360deg); } }
+        /* Cursor blink in snippet */
+        .cp-cursor {
+            display:inline-block; width:2px; height:1em;
+            background:#ce9178; margin-left:1px; vertical-align:middle;
+            animation: cpblink 1s step-end infinite;
+        }
+        @keyframes cpblink { 50%{opacity:0} }
 
         @media (max-width: 768px) {
             .cp-mockup { height: 420px; }
@@ -1814,24 +1838,25 @@
                             </div>
                         </div>
                         <div class="cp-popup-body">
-                            <div class="cp-popup-file">
+                            <div class="cp-popup-file" id="cpFile">
                                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
-                                auth.py &mdash; Auto-detected
+                                <span id="cpFileName">auth.py</span> &mdash; Auto-detected
                             </div>
-                            <div class="cp-popup-snippet" style="position:relative; min-height:72px;">
-                                <div style="opacity:0.45; font-size:0.75rem; margin-bottom:6px; color:#9aa0a6; font-family:var(--font-serif);">Paste your AI-generated code here…</div>
-                                <div>token = jwt.encode({'id': user.id},</div>
-                                <div>&nbsp;&nbsp;SECRET, algorithm='HS256')</div>
-                                <div>return token</div>
-                                <div style="position:absolute;bottom:10px;right:12px;width:8px;height:8px;border-right:2px solid #4285F4;border-bottom:2px solid #4285F4;opacity:0.5;cursor:nwse-resize"></div>
+                            <div class="cp-popup-snippet" id="cpSnippet" style="position:relative;min-height:76px;cursor:text;">
+                                <div id="cpCode" style="white-space:pre;"></div>
+                                <span class="cp-cursor" id="cpCursor"></span>
                             </div>
-                            <div class="cp-popup-result">
+                            <div class="cp-analyzing" id="cpAnalyzing">
+                                <div class="cp-spinner"></div>
+                                <span>Scanning your project…</span>
+                            </div>
+                            <div class="cp-popup-result" id="cpResult">
                                 <div class="cp-result-badge">✓ Placement Found</div>
                                 <div class="cp-result-text">Insert after <strong>line 5</strong> in auth.py — replace existing return</div>
                             </div>
                             <div style="display:flex;gap:8px;">
-                                <button class="cp-popup-btn" style="background:#f1f3f4;color:#3c4043;font-weight:600;border:none;flex:1;padding:10px;border-radius:10px;font-size:0.85rem;cursor:pointer;">Analyze</button>
-                                <button class="cp-popup-btn" style="flex:2;">Apply Changes</button>
+                                <button id="cpBtnAnalyze" class="cp-popup-btn" style="background:#f1f3f4;color:#3c4043;font-weight:600;border:none;flex:1;padding:10px;border-radius:10px;font-size:0.85rem;cursor:pointer;">Analyze</button>
+                                <button id="cpBtnApply" class="cp-popup-btn" style="flex:2;">Apply Changes</button>
                             </div>
                         </div>
                     </div>
@@ -2214,7 +2239,9 @@
                 width: '42px', height: '42px', minWidth: '42px', maxWidth: '42px',
                 padding: '0', borderRadius: '50%', overflow: 'hidden',
                 display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: '1.05rem', lineHeight: '1', boxSizing: 'border-box'
+                fontSize: '1.05rem', lineHeight: '1', boxSizing: 'border-box',
+                background: 'transparent', backgroundColor: 'transparent',
+                border: 'none', boxShadow: '0 2px 8px rgba(0,0,0,0.18)'
             });
             const avatar = currentSession.user?.user_metadata?.avatar_url
                         || currentSession.user?.user_metadata?.picture;
@@ -2417,6 +2444,106 @@
                 history.replaceState({}, '', location.pathname);
             }
         });
+
+        // ── Interactive popup demo ──────────────────────────────────────────
+        (function initPopupDemo() {
+            const cpCode     = document.getElementById('cpCode');
+            const cpCursor   = document.getElementById('cpCursor');
+            const cpAnalyzing= document.getElementById('cpAnalyzing');
+            const cpResult   = document.getElementById('cpResult');
+            const cpBtnAnalyze = document.getElementById('cpBtnAnalyze');
+            const cpBtnApply   = document.getElementById('cpBtnApply');
+            if (!cpCode) return;
+
+            const demoFiles = [
+                { name: 'auth.py',       result: 'Insert after <strong>line 5</strong> in auth.py — replace existing return' },
+                { name: 'dashboard.js',  result: 'Add after <strong>line 23</strong> in dashboard.js — inside useEffect' },
+                { name: 'models.py',     result: 'Append to <strong>line 41</strong> in models.py — end of class body' },
+            ];
+            const demoCode = [
+                "token = jwt.encode(\n  {'id': user.id},\n  SECRET, algorithm='HS256'\n)\nreturn token",
+                "useEffect(() => {\n  fetchData(userId)\n    .then(setData)\n    .catch(console.error);\n}, [userId]);",
+                "def save(self, *args, **kwargs):\n  self.updated_at = now()\n  super().save(\n    *args, **kwargs\n  )",
+            ];
+
+            let demoIdx = 0, autoTimer = null, isUserInteracting = false;
+
+            function setFile(idx) {
+                document.getElementById('cpFileName').textContent = demoFiles[idx].name;
+                cpResult.querySelector('.cp-result-text').innerHTML =
+                    demoFiles[idx].result;
+            }
+
+            function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+            async function runDemo(idx) {
+                setFile(idx);
+                // Reset
+                cpCode.textContent = '';
+                cpCursor.style.display = 'inline-block';
+                cpResult.classList.add('hidden');
+                cpAnalyzing.classList.remove('active');
+
+                // Type the code
+                const code = demoCode[idx];
+                for (let i = 0; i < code.length; i++) {
+                    if (isUserInteracting) return;
+                    cpCode.textContent += code[i];
+                    await delay(code[i] === '\n' ? 60 : 28 + Math.random() * 30);
+                }
+
+                await delay(500);
+                if (isUserInteracting) return;
+
+                // Analyzing state
+                cpCursor.style.display = 'none';
+                cpAnalyzing.classList.add('active');
+                await delay(1400);
+                if (isUserInteracting) return;
+
+                // Show result
+                cpAnalyzing.classList.remove('active');
+                cpResult.classList.remove('hidden');
+                await delay(3200);
+                if (isUserInteracting) return;
+
+                // Next demo
+                demoIdx = (idx + 1) % demoFiles.length;
+                runDemo(demoIdx);
+            }
+
+            // Manual Analyze click
+            async function triggerAnalyze() {
+                isUserInteracting = true;
+                clearTimeout(autoTimer);
+                cpResult.classList.add('hidden');
+                cpAnalyzing.classList.add('active');
+                cpCursor.style.display = 'none';
+                await delay(1500);
+                cpAnalyzing.classList.remove('active');
+                cpResult.classList.remove('hidden');
+                isUserInteracting = false;
+                // Resume auto after 4s
+                autoTimer = setTimeout(() => {
+                    demoIdx = (demoIdx + 1) % demoFiles.length;
+                    runDemo(demoIdx);
+                }, 4000);
+            }
+
+            cpBtnAnalyze.addEventListener('click', triggerAnalyze);
+            cpBtnApply.addEventListener('click', () => {
+                cpBtnApply.textContent = '✓ Applied!';
+                cpBtnApply.style.background = '#34a853';
+                setTimeout(() => {
+                    cpBtnApply.textContent = 'Apply Changes';
+                    cpBtnApply.style.background = '';
+                }, 1800);
+            });
+
+            // Kick off
+            runDemo(0);
+        })();
+        // ───────────────────────────────────────────────────────────────────
 
         // Smooth scroll for nav links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
