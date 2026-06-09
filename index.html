@@ -974,6 +974,112 @@
             }
         }
 
+        /* Codeply App Mockup */
+        .cp-mockup {
+            width: min(950px, 100%);
+            height: 560px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 34px 90px rgba(60, 64, 67, 0.22);
+        }
+        .cp-vscode {
+            width: 100%; height: 100%;
+            background: #1e1e1e;
+            display: flex; flex-direction: column;
+        }
+        .cp-vsc-header {
+            background: #323233; height: 38px;
+            display: flex; align-items: center; gap: 8px;
+            padding: 0 14px;
+            border-bottom: 1px solid #3c3c3c;
+        }
+        .cp-vsc-title {
+            margin-left: 12px; font-size: 12px; color: #cccccc;
+            font-family: 'Fira Code', monospace;
+        }
+        .cp-vsc-body { display: flex; flex: 1; overflow: hidden; }
+        .cp-vsc-sidebar {
+            width: 185px; background: #252526;
+            border-right: 1px solid #3c3c3c;
+            padding: 16px 0;
+            font-family: 'Fira Code', monospace; font-size: 12.5px; color: #858585;
+        }
+        .cp-vsc-file { padding: 5px 16px; cursor: default; }
+        .cp-vsc-active { color: #ffffff; background: rgba(255,255,255,.06); }
+        .cp-vsc-editor {
+            flex: 1; padding: 20px 0;
+            font-family: 'Fira Code', monospace; font-size: 13.5px;
+            line-height: 1.85; color: #d4d4d4; overflow: hidden;
+        }
+        .cp-vsc-line { display: flex; align-items: baseline; padding: 0 20px; }
+        .cp-vsc-highlight { background: rgba(255,255,100,.07); border-left: 2px solid #fbbc04; }
+        .cp-ln { width: 32px; color: #555; text-align: right; padding-right: 20px; flex-shrink: 0; font-size: 12px; }
+        .cp-kw { color: #569cd6; }
+        .cp-fn { color: #dcdcaa; }
+        .cp-str { color: #ce9178; }
+        .cp-cm { color: #6a9955; }
+
+        /* The popup overlay */
+        .cp-popup {
+            position: absolute;
+            top: 52px; right: 24px;
+            width: 320px;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 24px 64px rgba(0,0,0,.45), 0 0 0 1px rgba(0,0,0,.08);
+            overflow: hidden;
+            font-family: var(--font-serif);
+        }
+        .cp-popup-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 12px 16px;
+            border-bottom: 1px solid #f0f0f0;
+            background: #fafafa;
+        }
+        .cp-popup-brand {
+            display: flex; align-items: center; gap: 8px;
+            font-weight: 700; font-size: 0.9rem; color: #202124;
+        }
+        .cp-popup-dots { display: flex; gap: 6px; }
+        .cp-dot { width: 11px; height: 11px; border-radius: 50%; display: block; }
+        .cp-popup-body { padding: 14px 16px; display: flex; flex-direction: column; gap: 12px; }
+        .cp-popup-file {
+            display: flex; align-items: center; gap: 6px;
+            font-size: 0.78rem; color: #5f6368;
+            background: #f1f3f4; border-radius: 8px; padding: 7px 10px;
+        }
+        .cp-popup-snippet {
+            background: #1e1e1e; border-radius: 10px;
+            padding: 12px 14px;
+            font-family: 'Fira Code', monospace; font-size: 11.5px;
+            color: #ce9178; line-height: 1.7;
+        }
+        .cp-popup-result {
+            background: #e6f4ea; border-radius: 10px;
+            padding: 10px 12px;
+            border-left: 3px solid #34a853;
+        }
+        .cp-result-badge {
+            font-size: 0.78rem; font-weight: 700; color: #1f8f43; margin-bottom: 4px;
+        }
+        .cp-result-text { font-size: 0.82rem; color: #3c4043; line-height: 1.45; }
+        .cp-popup-btn {
+            width: 100%; padding: 11px;
+            background: linear-gradient(135deg,#4285F4,#1a6ff0);
+            color: #fff; border: none; border-radius: 12px;
+            font-weight: 700; font-size: 0.88rem;
+            cursor: pointer; font-family: var(--font-serif);
+            box-shadow: 0 4px 14px rgba(66,133,244,.4);
+        }
+
+        @media (max-width: 768px) {
+            .cp-mockup { height: 420px; }
+            .cp-vsc-sidebar { display: none; }
+            .cp-popup { width: calc(100% - 48px); right: 24px; top: 44px; }
+        }
 
         /* Waitlist modal */
         .waitlist-modal {
@@ -1191,13 +1297,20 @@
     <header>
         <div class="container">
             <nav>
-                <a href="/" class="logo" aria-label="Codply">
-                    <img src="Logo.png" alt="Codply AI Logo" style="height: 170px; width: auto;">
+                <a href="/" class="logo" aria-label="Codeply" style="gap:10px;text-decoration:none">
+                    <svg width="34" height="34" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;border-radius:8px">
+                      <rect width="100" height="100" fill="#000" rx="20"/>
+                      <path d="M 24.9 64.5 A 29 29 0 0 1 35.5 24.9" fill="none" stroke="#fbbc04" stroke-width="16" stroke-linecap="butt"/>
+                      <path d="M 57.5 78.0 A 29 29 0 0 1 24.9 64.5" fill="none" stroke="#34a853" stroke-width="16" stroke-linecap="butt"/>
+                      <path d="M 75.1 64.5 A 29 29 0 0 1 57.5 78.0" fill="none" stroke="#4285F4" stroke-width="16" stroke-linecap="butt"/>
+                      <path d="M 35.5 24.9 A 29 29 0 0 1 75.1 35.5" fill="none" stroke="#ea4335" stroke-width="16" stroke-linecap="round"/>
+                    </svg>
+                    <span style="font-size:1.3rem;font-weight:700;letter-spacing:-0.5px;color:#202124">Codeply</span>
                 </a>
                 <div class="nav-links">
                     <a href="#features">Features</a>
-                    <button class="btn btn-primary waitlist-trigger" type="button"
-                        style="padding: 0.6rem 1.2rem; font-size: 0.85rem;">Join Waitlist</button>
+                    <a href="https://whop.com/checkout/MN9HVEeGx1GObPQ5z-uz0u-rYbZ-C333-EYJzxEG4xD9b/" class="btn btn-primary"
+                        style="padding: 0.6rem 1.2rem; font-size: 0.85rem;" target="_blank" rel="noopener">Download Now</a>
                 </div>
             </nav>
         </div>
@@ -1212,47 +1325,78 @@
                 <p class="reveal">The surgical desktop overlay that tells you exactly which file and lines to edit.
                     Built for the era of AI-generated code.</p>
                 <div class="hero-ctas reveal">
-                    <button class="btn btn-primary waitlist-trigger" type="button">Join the Waitlist</button><a
-                        href="#features" class="btn btn-outline">See Features</a>
+                    <a href="https://whop.com/checkout/MN9HVEeGx1GObPQ5z-uz0u-rYbZ-C333-EYJzxEG4xD9b/" class="btn btn-primary" target="_blank" rel="noopener">Download Now</a>
+                    <a href="#features" class="btn btn-outline">See Features</a>
                 </div>
 
-                <!-- Cinematic IDE Demo -->
+                <!-- Codeply App Mockup -->
                 <div class="ambient-glow"></div>
-
-                <div class="ide-window reveal" id="ide">
-                    <div class="window-header">
-                        <div class="dot dot-r"></div>
-                        <div class="dot dot-y"></div>
-                        <div class="dot dot-g"></div>
-                    </div>
-                    <div class="workspace">
-                        <div class="sidebar">
-                            <div class="file-item">src</div>
-                            <div class="file-item file-active" style="padding-left: 15px;">auth.py</div>
-                            <div class="file-item" style="padding-left: 15px;">models.py</div>
+                <div class="cp-mockup reveal">
+                    <!-- VS Code background -->
+                    <div class="cp-vscode">
+                        <div class="cp-vsc-header">
+                            <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+                            <span class="cp-vsc-title">auth.py — MyProject</span>
                         </div>
-                        <div class="editor-area">
-                            <div class="tabs">
-                                <div class="tab">auth.py</div>
+                        <div class="cp-vsc-body">
+                            <div class="cp-vsc-sidebar">
+                                <div class="cp-vsc-file">📁 src</div>
+                                <div class="cp-vsc-file cp-vsc-active">  🐍 auth.py</div>
+                                <div class="cp-vsc-file">  🐍 models.py</div>
+                                <div class="cp-vsc-file">  🐍 utils.py</div>
+                                <div class="cp-vsc-file">📁 tests</div>
                             </div>
-                            <div class="code-content" id="code-container"></div>
-                        </div>
-                    </div>
-
-                    <div class="brand-popup" id="popup">
-                        <div class="popup-header">CODPLY AI UPDATE</div>
-                        <div class="popup-content">
-                            <div class="update-box">
-                                token = jwt.encode(...)<br>
-                                return token<br>
-                                ...
+                            <div class="cp-vsc-editor">
+                                <div class="cp-vsc-line"><span class="cp-ln">1</span><span class="cp-kw">import</span> jwt</div>
+                                <div class="cp-vsc-line"><span class="cp-ln">2</span><span class="cp-kw">from</span> datetime <span class="cp-kw">import</span> datetime</div>
+                                <div class="cp-vsc-line"><span class="cp-ln">3</span></div>
+                                <div class="cp-vsc-line"><span class="cp-ln">4</span><span class="cp-kw">def</span> <span class="cp-fn">authenticate</span>(user):</div>
+                                <div class="cp-vsc-line cp-vsc-highlight"><span class="cp-ln">5</span>    <span class="cp-cm"># Insert new code here</span></div>
+                                <div class="cp-vsc-line"><span class="cp-ln">6</span>    <span class="cp-kw">if</span> user.is_valid:</div>
+                                <div class="cp-vsc-line"><span class="cp-ln">7</span>        <span class="cp-kw">return</span> <span class="cp-str">True</span></div>
+                                <div class="cp-vsc-line"><span class="cp-ln">8</span></div>
+                                <div class="cp-vsc-line"><span class="cp-ln">9</span><span class="cp-kw">def</span> <span class="cp-fn">verify_token</span>(token):</div>
+                                <div class="cp-vsc-line"><span class="cp-ln">10</span>    payload = jwt.decode(token, SECRET)</div>
                             </div>
-                            <div class="explanation" id="type-explanation"></div>
-                            <button class="apply-btn" id="btn-apply" type="button">Apply Changes</button>
                         </div>
                     </div>
 
-                    <div class="cursor" id="cursor" style="top: 80%; left: 10%;"></div>
+                    <!-- Codeply Popup Overlay -->
+                    <div class="cp-popup">
+                        <div class="cp-popup-header">
+                            <div class="cp-popup-brand">
+                                <svg width="22" height="22" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                    <rect width="100" height="100" fill="#000" rx="18"/>
+                                    <path d="M 24.9 64.5 A 29 29 0 0 1 35.5 24.9" fill="none" stroke="#fbbc04" stroke-width="16" stroke-linecap="butt"/>
+                                    <path d="M 57.5 78.0 A 29 29 0 0 1 24.9 64.5" fill="none" stroke="#34a853" stroke-width="16" stroke-linecap="butt"/>
+                                    <path d="M 75.1 64.5 A 29 29 0 0 1 57.5 78.0" fill="none" stroke="#4285F4" stroke-width="16" stroke-linecap="butt"/>
+                                    <path d="M 35.5 24.9 A 29 29 0 0 1 75.1 35.5" fill="none" stroke="#ea4335" stroke-width="16" stroke-linecap="round"/>
+                                </svg>
+                                <span>Codeply AI</span>
+                            </div>
+                            <div class="cp-popup-dots">
+                                <span class="cp-dot" style="background:#ff5f56"></span>
+                                <span class="cp-dot" style="background:#ffbd2e"></span>
+                                <span class="cp-dot" style="background:#27c93f"></span>
+                            </div>
+                        </div>
+                        <div class="cp-popup-body">
+                            <div class="cp-popup-file">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+                                auth.py — Auto-detected
+                            </div>
+                            <div class="cp-popup-snippet">
+                                <div>token = jwt.encode({'id': user.id},</div>
+                                <div>&nbsp;&nbsp;SECRET, algorithm='HS256')</div>
+                                <div>return token</div>
+                            </div>
+                            <div class="cp-popup-result">
+                                <div class="cp-result-badge">✓ Placement Found</div>
+                                <div class="cp-result-text">Insert after <strong>line 5</strong> in auth.py — replace existing return</div>
+                            </div>
+                            <button class="cp-popup-btn">Apply Changes</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -1353,11 +1497,11 @@
         <section>
             <div class="container">
                 <div class="footer-cta reveal">
-                    <h2>Ready for Codply?</h2>
-                    <p>Join the waitlist for early access. Codply is coming soon.</p>
+                    <h2>Ready for Codeply?</h2>
+                    <p>Download Codeply and stop guessing where AI code goes. Works on Windows.</p>
                     <div class="hero-ctas">
-                        <button class="btn btn-primary waitlist-trigger" type="button">Join the Waitlist</button><a
-                            href="#features" class="btn btn-outline">See Features</a>
+                        <a href="https://whop.com/checkout/MN9HVEeGx1GObPQ5z-uz0u-rYbZ-C333-EYJzxEG4xD9b/" class="btn btn-primary" target="_blank" rel="noopener">Download Now</a>
+                        <a href="#features" class="btn btn-outline">See Features</a>
                     </div>
                 </div>
             </div>
@@ -1389,8 +1533,8 @@
     <footer>
         <div class="container">
             <div class="footer-content">
-                <div class="footer-brand">Codply AI</div>
-                <p>&copy; 2026 Codply.online | Built for the vibe coders.</p>
+                <div class="footer-brand">Codeply AI</div>
+                <p>&copy; 2026 Codeply.online | Built for the vibe coders.</p>
             </div>
         </div>
     </footer>
@@ -1410,95 +1554,6 @@
 
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        // Cinematic IDE demo
-        const codeLines = [
-            "import jwt",
-            "from datetime import datetime",
-            "",
-            "def authenticate(user):",
-            "    # Old Logic Below",
-            "    if user.is_valid:",
-            "        return True"
-        ];
-
-        const container = document.getElementById('code-container');
-        const popup = document.getElementById('popup');
-        const expText = document.getElementById('type-explanation');
-        const cursor = document.getElementById('cursor');
-        const applyBtn = document.getElementById('btn-apply');
-
-        function initDemo() {
-            container.innerHTML = '';
-            codeLines.forEach((line, i) => {
-                container.innerHTML += `<div class="line" id="line-${i}"><span class="ln">${i + 1}</span><span class="txt">${line}</span></div>`;
-            });
-            popup.classList.remove('active');
-            expText.innerHTML = '';
-            cursor.style.top = '80%';
-            cursor.style.left = '10%';
-        }
-
-        function typeEffect(text, el, speed, cb) {
-            let i = 0;
-            const timer = setInterval(() => {
-                el.innerHTML += text.charAt(i);
-                i++;
-                if (i >= text.length) {
-                    clearInterval(timer);
-                    if (cb) cb();
-                }
-            }, speed);
-        }
-
-        function runCinematic() {
-            initDemo();
-
-            setTimeout(() => {
-                popup.classList.add('active');
-
-                setTimeout(() => {
-                    typeEffect('Upgrading authentication flow to use JWT secure tokens for session persistent validation.', expText, 30, () => {
-                        const btnRect = applyBtn.getBoundingClientRect();
-                        const ideRect = document.getElementById('ide').getBoundingClientRect();
-                        cursor.style.left = (btnRect.left - ideRect.left + 50) + 'px';
-                        cursor.style.top = (btnRect.top - ideRect.top + 15) + 'px';
-
-                        setTimeout(() => {
-                            applyBtn.style.transform = 'scale(0.95)';
-                            setTimeout(() => {
-                                applyBtn.style.transform = 'scale(1)';
-                                popup.classList.remove('active');
-                                surgicalUpdate();
-                            }, 150);
-                        }, 1400);
-                    });
-                }, 800);
-            }, 1000);
-        }
-
-        function surgicalUpdate() {
-            const line6 = document.getElementById('line-6');
-            line6.classList.add('line-removing');
-            line6.querySelector('.txt').style.color = 'var(--error-red)';
-
-            setTimeout(() => {
-                line6.remove();
-
-                const newLine = document.createElement('div');
-                newLine.className = 'line line-adding';
-                newLine.innerHTML = `<span class="ln">6</span><span class="txt" id="new-txt" style="color:var(--success-green)"></span>`;
-                container.appendChild(newLine);
-
-                typeEffect("        return jwt.encode({'id': user.id}, 'SECRET')", document.getElementById('new-txt'), 25, () => {
-                    setTimeout(() => {
-                        newLine.classList.remove('line-adding');
-                        setTimeout(runCinematic, 2500);
-                    }, 1000);
-                });
-            }, 1000);
-        }
-
-        runCinematic();
         // Waitlist form
         const waitlistModal = document.getElementById('waitlist-modal');
         const waitlistForm = document.getElementById('waitlist-form');
