@@ -1272,18 +1272,30 @@
         }
 
         .nav-auth-control.is-profile {
-            width: 42px;
-            height: 42px;
+            width: 42px !important;
+            height: 42px !important;
+            min-width: 42px !important;
+            max-width: 42px !important;
             padding: 0 !important;
-            border-radius: 50%;
-            display: inline-flex;
+            border-radius: 50% !important;
+            display: inline-flex !important;
             align-items: center;
             justify-content: center;
-            background: var(--google-blue);
-            border-color: var(--google-blue);
+            background: var(--google-blue) !important;
+            border-color: var(--google-blue) !important;
             color: #fff;
             font-weight: 800;
+            font-size: 1.05rem !important;
+            line-height: 1 !important;
+            box-sizing: border-box !important;
+            overflow: hidden;
             box-shadow: 0 10px 24px rgba(26, 115, 232, 0.22);
+        }
+        .nav-auth-control.is-profile img {
+            width: 100%; height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            display: block;
         }
 
         .nav-auth-control.is-profile:hover {
@@ -1784,7 +1796,7 @@
                     <div class="cp-popup">
                         <div class="cp-popup-header">
                             <div class="cp-popup-brand">
-                                <svg width="22" height="22" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                <svg width="22" height="22" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
                                     <rect width="100" height="100" fill="#fff" rx="18"/>
                                     <path d="M 24.9 64.5 A 29 29 0 0 1 35.5 24.9" fill="none" stroke="#fbbc04" stroke-width="16" stroke-linecap="butt"/>
                                     <path d="M 57.5 78.0 A 29 29 0 0 1 24.9 64.5" fill="none" stroke="#34a853" stroke-width="16" stroke-linecap="butt"/>
@@ -1792,6 +1804,8 @@
                                     <path d="M 35.5 24.9 A 29 29 0 0 1 75.1 35.5" fill="none" stroke="#ea4335" stroke-width="16" stroke-linecap="round"/>
                                 </svg>
                                 <span>Codeply AI</span>
+                                <!-- refresh icon -->
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#9aa0a6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="margin-left:4px;cursor:pointer"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
                             </div>
                             <div class="cp-popup-dots">
                                 <span class="cp-dot" style="background:#ff5f56"></span>
@@ -1802,18 +1816,23 @@
                         <div class="cp-popup-body">
                             <div class="cp-popup-file">
                                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
-                                auth.py — Auto-detected
+                                auth.py &mdash; Auto-detected
                             </div>
-                            <div class="cp-popup-snippet">
+                            <div class="cp-popup-snippet" style="position:relative; min-height:72px;">
+                                <div style="opacity:0.45; font-size:0.75rem; margin-bottom:6px; color:#9aa0a6; font-family:var(--font-serif);">Paste your AI-generated code here…</div>
                                 <div>token = jwt.encode({'id': user.id},</div>
                                 <div>&nbsp;&nbsp;SECRET, algorithm='HS256')</div>
                                 <div>return token</div>
+                                <div style="position:absolute;bottom:10px;right:12px;width:8px;height:8px;border-right:2px solid #4285F4;border-bottom:2px solid #4285F4;opacity:0.5;cursor:nwse-resize"></div>
                             </div>
                             <div class="cp-popup-result">
                                 <div class="cp-result-badge">✓ Placement Found</div>
                                 <div class="cp-result-text">Insert after <strong>line 5</strong> in auth.py — replace existing return</div>
                             </div>
-                            <button class="cp-popup-btn">Apply Changes</button>
+                            <div style="display:flex;gap:8px;">
+                                <button class="cp-popup-btn" style="background:#f1f3f4;color:#3c4043;font-weight:600;border:none;flex:1;padding:10px;border-radius:10px;font-size:0.85rem;cursor:pointer;">Analyze</button>
+                                <button class="cp-popup-btn" style="flex:2;">Apply Changes</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -2190,7 +2209,15 @@
                 return;
             }
             navAuthControl.classList.add('is-profile');
-            navAuthControl.textContent = getProfileInitial();
+            navAuthControl.style.padding = '';
+            navAuthControl.style.fontSize = '';
+            const avatar = currentSession.user?.user_metadata?.avatar_url
+                        || currentSession.user?.user_metadata?.picture;
+            if (avatar) {
+                navAuthControl.innerHTML = `<img src="${avatar}" alt="" draggable="false">`;
+            } else {
+                navAuthControl.textContent = getProfileInitial();
+            }
             navAuthControl.setAttribute('aria-label', `Open dashboard for ${currentSession.user.email}`);
             navAuthControl.title = currentSession.user.email;
         }
