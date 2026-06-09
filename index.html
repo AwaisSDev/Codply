@@ -2209,12 +2209,17 @@
                 return;
             }
             navAuthControl.classList.add('is-profile');
-            navAuthControl.style.padding = '';
-            navAuthControl.style.fontSize = '';
+            // Force exact circle size via inline styles so nothing can override
+            Object.assign(navAuthControl.style, {
+                width: '42px', height: '42px', minWidth: '42px', maxWidth: '42px',
+                padding: '0', borderRadius: '50%', overflow: 'hidden',
+                display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: '1.05rem', lineHeight: '1', boxSizing: 'border-box'
+            });
             const avatar = currentSession.user?.user_metadata?.avatar_url
                         || currentSession.user?.user_metadata?.picture;
             if (avatar) {
-                navAuthControl.innerHTML = `<img src="${avatar}" alt="" draggable="false">`;
+                navAuthControl.innerHTML = `<img src="${avatar}" alt="" draggable="false" style="width:42px;height:42px;border-radius:50%;object-fit:cover;display:block;flex-shrink:0;">`;
             } else {
                 navAuthControl.textContent = getProfileInitial();
             }
