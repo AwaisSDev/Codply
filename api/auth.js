@@ -1,4 +1,4 @@
-import { supabase } from './supabaseClient.js';
+import { supabase } from '../lib/supabaseClient.js';
 
 export function getBearerToken(req) {
   const header = req.headers.authorization || req.headers.Authorization || '';

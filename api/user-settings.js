@@ -1,9 +1,9 @@
 // /api/user-settings — auto-save endpoint for all user preferences.
 // GET   -> current settings (creates defaults on first call)
 // PATCH -> merge partial updates (called debounced by web + app, no save buttons)
-import { supabase } from './supabaseClient.js';
+import { supabase } from '../lib/supabaseClient.js';
 import { getJsonBody, requireUser } from './auth.js';
-import { applyCors } from './cors.js';
+import { applyCors } from '../lib/cors.js';
 
 const DEFAULTS = {
   provider: 'openrouter',

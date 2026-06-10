@@ -1,9 +1,9 @@
 // /api/usage — cumulative token usage per user (monthly), plus cap status.
 // GET  -> { month, tokens, requests, monthly_cap, per_prompt_cap, capReached }
 // POST -> { tokens, requests? } adds usage for the current month
-import { supabase } from './supabaseClient.js';
+import { supabase } from '../lib/supabaseClient.js';
 import { getJsonBody, requireUser } from './auth.js';
-import { applyCors } from './cors.js';
+import { applyCors } from '../lib/cors.js';
 
 function currentMonth() {
   return new Date().toISOString().slice(0, 7); // YYYY-MM

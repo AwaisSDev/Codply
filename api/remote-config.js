@@ -2,9 +2,9 @@
 // GET  (public)      -> current remote config (fetched by the app on launch)
 // POST (admins only) -> update flags; mirrors kill_switch into the legacy
 //                       app_config table so OLD installed app versions obey it.
-import { supabase } from './supabaseClient.js';
+import { supabase } from '../lib/supabaseClient.js';
 import { getJsonBody, requireUser } from './auth.js';
-import { applyCors } from './cors.js';
+import { applyCors } from '../lib/cors.js';
 
 const FIELDS = ['kill_switch', 'min_version', 'update_banner', 'feature_flags', 'free_mode'];
 

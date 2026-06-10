@@ -1,5 +1,5 @@
 import { Whop } from '@whop/sdk';
-import { supabase } from './supabaseClient.js';
+import { supabase } from '../lib/supabaseClient.js';
 
 export const config = {
   api: {

@@ -1,5 +1,5 @@
 import { requireUser, getJsonBody } from './auth.js';
-import { applyCors } from './cors.js';
+import { applyCors } from '../lib/cors.js';
 
 const planEnv = {
   starter: 'WHOP_STARTER_PLAN_ID',
