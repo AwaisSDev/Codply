@@ -1628,24 +1628,6 @@
             color: var(--google-red);
         }
 
-        .auth-modal {
-            position: fixed;
-            inset: 0;
-            z-index: 1001;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1.5rem;
-            background: rgba(32, 33, 36, 0.48);
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.25s ease;
-        }
-
-        .auth-modal.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
 
         .auth-dialog {
             width: min(480px, 100%);
@@ -1943,8 +1925,8 @@
                 </a>
                 <div class="nav-links">
                     <a href="#features">Features</a>
-                    <button class="btn btn-primary auth-trigger" id="nav-auth-control" type="button"
-                        style="padding: 0.75rem 1.8rem; font-size: 1rem; background: var(--google-green); border-color: var(--google-green);">Download</button>
+                    <a class="btn btn-primary" id="nav-auth-control" href="/download"
+                        style="padding: 0.75rem 1.8rem; font-size: 1rem; background: var(--google-green); border-color: var(--google-green);">Download</a>
                 </div>
             </nav>
         </div>
@@ -2494,81 +2476,6 @@
             </div>
         </section>
     </main>
-    <div class="auth-modal" id="auth-modal" aria-hidden="true">
-        <div
-            style="width: 100%; max-width: 432px; background: var(--white); border-radius: 24px; padding: 30px 32px 34px; box-shadow: 0 30px 70px rgba(15,23,42,0.18), 0 4px 14px rgba(15,23,42,0.08); position: relative; font-family: var(--font-serif);">
-            <button class="close" id="auth-close" aria-label="Close"
-                style="position: absolute; top: 24px; right: 26px; width: 30px; height: 30px; border-radius: 50%; border: 1px solid rgba(15,23,42,0.08); background: #fff; color: #6b7280; cursor: pointer; display: grid; place-items: center; font-size: 15px; line-height: 1;">&times;</button>
-
-            <h2
-                style="font-size: 1.7rem; font-weight: 800; letter-spacing: -0.02em; padding-right: 36px; color: var(--text-primary); margin-bottom: 8px;">
-                Create your Codply account</h2>
-            <p
-                style="color: var(--text-secondary); font-size: 0.98rem; line-height: 1.45; margin-bottom: 22px; font-weight: 400;">
-                Use email/password or a connected account to access your dashboard.</p>
-
-            <form id="auth-form" novalidate style="display: flex; flex-direction: column; gap: 12px;">
-                <input class="field" name="email" type="email" placeholder="you@example.com" autocomplete="email"
-                    required
-                    style="width: 100%; border: none; background: #e8effb; border-radius: 14px; padding: 16px 18px; font-size: 1rem; color: #0f172a; outline: 2px solid transparent; transition: all .15s;">
-                <input class="field" name="password" type="password" placeholder="Password"
-                    autocomplete="current-password" required
-                    style="width: 100%; border: none; background: #e8effb; border-radius: 14px; padding: 16px 18px; font-size: 1rem; color: #0f172a; outline: 2px solid transparent; transition: all .15s;">
-
-                <button class="btn btn-primary" id="login-btn" type="submit"
-                    style="width: 100%; border-radius: 999px; padding: 15px 20px; font-size: 1rem; font-weight: 700; margin-top: 8px;">Sign
-                    In</button>
-                <button class="btn btn-outline" id="signup-btn" type="button"
-                    style="width: 100%; border-radius: 999px; padding: 15px 20px; font-size: 1rem; font-weight: 700; border-color: rgba(15,23,42,0.08); background: transparent;">Create
-                    Account</button>
-            </form>
-
-            <div class="divider"
-                style="display: flex; align-items: center; gap: 12px; margin: 22px 0 16px; color: #9aa3b2; font-size: 0.82rem;">
-                or continue with</div>
-
-            <div class="oauth-row" style="display: flex; justify-content: center; gap: 16px;">
-                <button class="oauth-btn" id="google-auth-btn" type="button" aria-label="Continue with Google"
-                    title="Continue with Google"
-                    style="width: 52px; height: 52px; border-radius: 50%; border: 1.5px solid rgba(15,23,42,0.08); background: #fff; cursor: pointer; display: grid; place-items: center; transition: all .15s;">
-                    <svg viewBox="0 0 24 24" aria-hidden="true" style="width: 24px; height: 24px;">
-                        <path fill="#4285F4"
-                            d="M23.52 12.27c0-.79-.07-1.54-.2-2.27H12v4.51h6.47a5.53 5.53 0 0 1-2.4 3.63v3h3.88c2.27-2.09 3.57-5.17 3.57-8.87z" />
-                        <path fill="#34A853"
-                            d="M12 24c3.24 0 5.95-1.08 7.94-2.91l-3.88-3c-1.08.72-2.45 1.16-4.06 1.16-3.13 0-5.78-2.11-6.73-4.96H1.26v3.09A12 12 0 0 0 12 24z" />
-                        <path fill="#FBBC05"
-                            d="M5.27 14.29A7.18 7.18 0 0 1 4.89 12c0-.8.14-1.57.38-2.29V6.62H1.26A12 12 0 0 0 0 12c0 1.94.46 3.77 1.26 5.38l4.01-3.09z" />
-                        <path fill="#EA4335"
-                            d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0A12 12 0 0 0 1.26 6.62l4.01 3.09C6.22 6.86 8.87 4.75 12 4.75z" />
-                    </svg>
-                </button>
-
-                <button class="oauth-btn" id="github-auth-btn" type="button" aria-label="Continue with GitHub"
-                    title="Continue with GitHub"
-                    style="width: 52px; height: 52px; border-radius: 50%; border: 1.5px solid rgba(15,23,42,0.08); background: #fff; cursor: pointer; display: grid; place-items: center; transition: all .15s;">
-                    <svg viewBox="0 0 24 24" aria-hidden="true" style="width: 24px; height: 24px;">
-                        <path fill="#181717"
-                            d="M12 .5A12 12 0 0 0 .5 12.5c0 5.26 3.44 9.72 8.2 11.3.6.11.82-.26.82-.58v-2.03c-3.34.72-4.04-1.6-4.04-1.6-.55-1.38-1.34-1.75-1.34-1.75-1.09-.74.08-.72.08-.72 1.21.09 1.85 1.24 1.85 1.24 1.07 1.83 2.8 1.3 3.49.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6.01 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.25 2.87.12 3.17.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.62-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 23.5 12.5 12 12 0 0 0 12 .5z" />
-                    </svg>
-                </button>
-            </div>
-
-            <div class="status-line" id="auth-status" role="status" aria-live="polite"
-                style="margin-top: 18px; min-height: 20px; text-align: center; font-size: 0.88rem; font-weight: 500;">
-            </div>
-
-            <!-- Download panel — shown after login -->
-            <div id="auth-download-panel" style="display:none; margin-top: 20px; background: #e6f4ea; border-radius: 16px; padding: 20px 22px; text-align: center;">
-                <div style="font-size: 1.4rem; margin-bottom: 6px;">🎉</div>
-                <div style="font-weight: 700; font-size: 1rem; color: #1f8f43; margin-bottom: 4px;">You're in!</div>
-                <div style="font-size: 0.88rem; color: #3c4043; margin-bottom: 16px;">Download Codeply and get started.</div>
-                <a href="/download"
-                   style="display:inline-block; background: linear-gradient(135deg,#4285F4,#1a6ff0); color:#fff; font-weight:700; font-size:0.95rem; padding:12px 28px; border-radius:999px; text-decoration:none; box-shadow:0 4px 14px rgba(66,133,244,.4);">
-                    Download Now
-                </a>
-            </div>
-        </div>
-    </div>
     <div class="waitlist-modal" id="waitlist-modal" aria-hidden="true">
         <div class="waitlist-dialog" role="dialog" aria-modal="true" aria-labelledby="waitlist-title">
             <div class="waitlist-head">
@@ -2749,9 +2656,6 @@
         let currentSession = null;
         let currentAccount = null;
 
-        const authModal = document.getElementById('auth-modal');
-        const authForm = document.getElementById('auth-form');
-        const authStatus = document.getElementById('auth-status');
         const accountPill = document.getElementById('account-pill');
         const signedOutPanel = document.getElementById('signed-out-panel');
         const signedInPanel = document.getElementById('signed-in-panel');
@@ -2785,14 +2689,7 @@
         }
 
         function openAuth() {
-            authModal.classList.add('active');
-            authModal.setAttribute('aria-hidden', 'false');
-            setTimeout(() => authForm.querySelector('input[name="email"]').focus(), 80);
-        }
-
-        function closeAuth() {
-            authModal.classList.remove('active');
-            authModal.setAttribute('aria-hidden', 'true');
+            window.location.href = '/download';
         }
 
         const navAuthControl = document.getElementById('nav-auth-control');
@@ -2842,8 +2739,6 @@
         }
 
         document.querySelectorAll('.auth-trigger').forEach((trigger) => trigger.addEventListener('click', handleAuthTrigger));
-        document.getElementById('auth-close').addEventListener('click', closeAuth);
-        authModal.addEventListener('click', (event) => { if (event.target === authModal) closeAuth(); });
 
         async function initSupabaseAuth() { // returns promise
             try {
@@ -2910,52 +2805,6 @@
             `).join('');
         }
 
-        authForm.addEventListener('submit', async (event) => {
-            event.preventDefault();
-            const formData = new FormData(authForm);
-            authStatus.className = 'status-line';
-            authStatus.textContent = 'Signing in...';
-            const { error } = await supabaseBrowser.auth.signInWithPassword({
-                email: String(formData.get('email')).trim(),
-                password: String(formData.get('password')),
-            });
-            if (error) {
-                authStatus.className = 'status-line error';
-                authStatus.textContent = error.message;
-                return;
-            }
-            authStatus.className = 'status-line success';
-            authStatus.textContent = 'Signed in!';
-            authForm.style.display = 'none';
-            document.querySelector('.divider').style.display = 'none';
-            document.querySelector('.oauth-row').style.display = 'none';
-            document.getElementById('auth-download-panel').style.display = 'block';
-        });
-
-        document.getElementById('signup-btn').addEventListener('click', async () => {
-            const formData = new FormData(authForm);
-            authStatus.className = 'status-line';
-            authStatus.textContent = 'Creating account...';
-            const { error } = await supabaseBrowser.auth.signUp({
-                email: String(formData.get('email')).trim(),
-                password: String(formData.get('password')),
-            });
-            if (error) {
-                authStatus.className = 'status-line error';
-                authStatus.textContent = error.message;
-                return;
-            }
-            authStatus.className = 'status-line success';
-            authStatus.textContent = 'Account created. Check your email if confirmation is enabled.';
-        });
-
-        document.getElementById('google-auth-btn').addEventListener('click', async () => {
-            await supabaseBrowser.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: `${location.origin}/?download=1` } });
-        });
-
-        document.getElementById('github-auth-btn').addEventListener('click', async () => {
-            await supabaseBrowser.auth.signInWithOAuth({ provider: 'github', options: { redirectTo: `${location.origin}/?download=1` } });
-        });
 
         if (accountPill) accountPill.addEventListener('click', async () => {
             if (!currentSession) return openAuth();
@@ -3020,17 +2869,7 @@
             }
         });
 
-        initSupabaseAuth().then(() => {
-            // After OAuth redirect, auto-show download panel
-            if (new URLSearchParams(location.search).get('download') === '1' && currentSession) {
-                openAuth();
-                authForm.style.display = 'none';
-                document.querySelector('.divider').style.display = 'none';
-                document.querySelector('.oauth-row').style.display = 'none';
-                document.getElementById('auth-download-panel').style.display = 'block';
-                history.replaceState({}, '', location.pathname);
-            }
-        });
+        initSupabaseAuth();
 
         // ── Interactive popup demo ──────────────────────────────────────────
         (function initPopupDemo() {
