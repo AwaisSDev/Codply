@@ -46,7 +46,7 @@ export default async function handler(req, res) {
   }
 
   const [{ data: profile }, { data: subscription }, { data: keys }] = await Promise.all([
-    supabase.from('profiles').select('id,email,full_name,avatar_url,starter_provider,is_admin').eq('id', user.id).maybeSingle(),
+    supabase.from('profiles').select('id,email,full_name,avatar_url,starter_provider').eq('id', user.id).maybeSingle(),
     supabase.from('subscriptions').select('plan,status,whop_membership_id,current_period_end,canceled_at,updated_at').eq('user_id', user.id).maybeSingle(),
     supabase.from('user_api_keys').select('provider,key_hint,updated_at').eq('user_id', user.id),
   ]);

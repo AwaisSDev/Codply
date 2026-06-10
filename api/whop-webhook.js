@@ -30,23 +30,6 @@ function resolveUserId(data) {
   return data?.metadata?.user_id || data?.checkout_configuration?.metadata?.user_id || data?.user_id || null;
 }
 
-function resolveEmail(data) {
-  return data?.metadata?.email || data?.checkout_configuration?.metadata?.email
-    || data?.user?.email || data?.member?.email || data?.email || null;
-}
-
-// Fallback: match the Whop buyer to a Supabase user by email when no
-// user_id metadata survived the checkout (e.g. bought directly on Whop).
-async function userIdFromEmail(email) {
-  if (!email) return null;
-  const { data } = await supabase
-    .from('profiles')
-    .select('id')
-    .ilike('email', String(email).trim())
-    .maybeSingle();
-  return data?.id || null;
-}
-
 async function upsertSubscription({ userId, plan, status, membershipId, periodEnd, canceledAt }) {
   if (!userId || !plan) return;
   await supabase.from('subscriptions').upsert({
@@ -83,9 +66,8 @@ export default async function handler(req, res) {
     }
 
     const data = webhookData.data || {};
-    let userId = resolveUserId(data);
-    if (!userId) userId = await userIdFromEmail(resolveEmail(data));
-    const plan = resolvePlan(data) || 'pro';
+    const userId = resolveUserId(data);
+    const plan = resolvePlan(data);
     const membershipId = data.membership_id || data.membership?.id || data.id || null;
     const periodEnd = data.current_period_end || data.renewal_period_end || data.expires_at || null;
 

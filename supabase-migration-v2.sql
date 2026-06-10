@@ -60,7 +60,7 @@ create table if not exists public.remote_config (
   free_mode     boolean not null default false,
   updated_at    timestamptz not null default now()
 );
-insert into public.remote_config (id) values (1) on conflict (id) do nothing;
+-- (seeded below, after the legacy tables exist)
 
 -- ── Legacy compatibility tables (read by shipped app builds / api/config.js) ─
 create table if not exists public.app_config (
@@ -76,6 +76,17 @@ create table if not exists public.app_settings (
   free_mode boolean not null default false
 );
 insert into public.app_settings (id) values (1) on conflict (id) do nothing;
+
+-- Seed remote_config from the CURRENT live values so behavior doesn't change:
+-- kill_switch from app_config, free_mode from app_settings (currently true in
+-- your project — free mode stays ON until you flip it in the Admin panel).
+insert into public.remote_config (id, kill_switch, free_mode)
+values (
+  1,
+  coalesce((select value = 'true' from public.app_config where key = 'kill_switch'), false),
+  coalesce((select free_mode from public.app_settings where id = 1), false)
+)
+on conflict (id) do nothing;
 
 -- ── RLS ──────────────────────────────────────────────────────────────────────
 alter table public.user_settings  enable row level security;
