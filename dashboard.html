@@ -4,785 +4,450 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Codeply</title>
-    <link rel="icon" type="image/png" sizes="16x16"   href="favicons/favicon-16x16.png">
-    <link rel="icon" type="image/png" sizes="32x32"   href="favicons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="48x48"   href="favicons/favicon-48x48.png">
-    <link rel="icon" type="image/png" sizes="64x64"   href="favicons/favicon-64x64.png">
-    <link rel="icon" type="image/png" sizes="128x128" href="favicons/favicon-128x128.png">
+    <title>Codeply — Dashboard</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="192x192" href="favicons/favicon-192x192.png">
-    <link rel="icon" type="image/png" sizes="256x256" href="favicons/favicon-256x256.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="favicons/favicon-512x512.png">
-    <link rel="apple-touch-icon" sizes="180x180"      href="favicons/favicon-180x180.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicons/favicon-180x180.png">
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap"
-        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
     <style>
         :root {
-            --google-blue: #1a73e8;
-            --google-red: #ea4335;
-            --google-yellow: #fbbc04;
-            --google-green: #34a853;
-            --sand: #f8fafd;
-            --surface: #ffffff;
-            --border-light: #dadce0;
-            --border: #e8eaed;
-            --text-primary: #202124;
-            --text-secondary: #5f6368;
-            --text-muted: #80868b;
-            --surface-soft: #f1f3f4;
+            /* Codeply gradient palette (from the landing page) */
+            --g-blue: #4285F4;
+            --g-blue-deep: #1a6ff0;
+            --g-red: #ea4335;
+            --g-yellow: #fbbc04;
+            --g-green: #34a853;
+            --grad-brand: linear-gradient(90deg, var(--g-blue) 0 25%, var(--g-red) 25% 50%, var(--g-yellow) 50% 75%, var(--g-green) 75% 100%);
+            --grad-blue: linear-gradient(135deg, #4285F4, #1a6ff0);
+            --grad-aurora: linear-gradient(135deg, rgba(66, 133, 244, .35), rgba(234, 67, 53, .18) 35%, rgba(251, 188, 4, .14) 65%, rgba(52, 168, 83, .25));
+            /* Dark glass theme (matches the app's dark aesthetic) */
+            --bg: #0b0e14;
+            --bg-soft: #10141d;
+            --glass: rgba(255, 255, 255, 0.045);
+            --glass-strong: rgba(255, 255, 255, 0.08);
+            --border: rgba(255, 255, 255, 0.09);
+            --border-bright: rgba(255, 255, 255, 0.16);
+            --text: #eef1f6;
+            --text2: #9aa3b2;
+            --muted: #6b7280;
             --sans: 'Inter', Arial, sans-serif;
             --mono: 'Fira Code', monospace;
-            --sidebar-w: 252px;
-            --shadow: 0 1px 3px rgba(60, 64, 67, .10), 0 4px 16px rgba(60, 64, 67, .07);
+            --sidebar-w: 256px;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             font-family: var(--sans);
-            background: var(--sand);
-            color: var(--text-primary);
+            background: var(--bg);
+            color: var(--text);
             -webkit-font-smoothing: antialiased;
-        }
-
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        /* ── Loader ─────────────────────────────── */
-        #loader {
-            position: fixed;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            background: var(--sand);
-            z-index: 50;
-            font-family: var(--mono);
-            color: var(--text-secondary);
-            font-size: .82rem;
-        }
-
-        #loader .dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            animation: pulse 1s infinite ease-in-out;
-        }
-
-        #loader .dot:nth-child(1) {
-            background: var(--google-blue);
-            animation-delay: 0s;
-        }
-
-        #loader .dot:nth-child(2) {
-            background: var(--google-red);
-            animation-delay: .15s;
-        }
-
-        #loader .dot:nth-child(3) {
-            background: var(--google-yellow);
-            animation-delay: .3s;
-        }
-
-        #loader .dot:nth-child(4) {
-            background: var(--google-green);
-            animation-delay: .45s;
-        }
-
-        @keyframes pulse {
-
-            0%,
-            100% {
-                transform: scale(.6);
-                opacity: .4;
-            }
-
-            50% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        /* ── Layout ─────────────────────────────── */
-        #app {
-            display: none;
             min-height: 100vh;
         }
 
+        /* Ambient aurora backdrop */
+        body::before {
+            content: '';
+            position: fixed; inset: -20%;
+            background:
+                radial-gradient(40% 35% at 18% 12%, rgba(66, 133, 244, .16), transparent 70%),
+                radial-gradient(35% 30% at 85% 8%, rgba(234, 67, 53, .10), transparent 70%),
+                radial-gradient(38% 34% at 80% 88%, rgba(52, 168, 83, .12), transparent 70%),
+                radial-gradient(30% 28% at 10% 90%, rgba(251, 188, 4, .08), transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+            animation: drift 24s ease-in-out infinite alternate;
+        }
+        @keyframes drift {
+            from { transform: translate3d(-1.5%, -1%, 0) scale(1); }
+            to   { transform: translate3d(1.5%, 1.5%, 0) scale(1.04); }
+        }
+
+        a { color: inherit; text-decoration: none; }
+        button { font-family: var(--sans); }
+
+        /* ── Loader: thin gradient progress bar + skeleton (no spinners) ── */
+        #topbar-loader {
+            position: fixed; top: 0; left: 0; right: 0; height: 3px;
+            background: transparent; z-index: 100; overflow: hidden;
+        }
+        #topbar-loader .bar {
+            height: 100%; width: 40%;
+            background: var(--grad-brand);
+            border-radius: 0 3px 3px 0;
+            animation: slide 1.1s cubic-bezier(.4, 0, .2, 1) infinite;
+        }
+        @keyframes slide {
+            from { transform: translateX(-110%); }
+            to   { transform: translateX(280%); }
+        }
+        #topbar-loader.done { display: none; }
+
+        #skeleton {
+            position: fixed; inset: 0; z-index: 90;
+            background: var(--bg);
+            display: flex; align-items: center; justify-content: center;
+        }
+        #skeleton .sk-wrap { width: min(680px, 86vw); display: grid; gap: 16px; }
+        #skeleton .sk {
+            border-radius: 14px;
+            background: linear-gradient(100deg, rgba(255,255,255,.04) 38%, rgba(255,255,255,.085) 50%, rgba(255,255,255,.04) 62%);
+            background-size: 220% 100%;
+            animation: shimmer 1.4s ease infinite;
+        }
+        @keyframes shimmer { from { background-position: 130% 0; } to { background-position: -90% 0; } }
+        #skeleton.done { opacity: 0; pointer-events: none; transition: opacity .4s; }
+
+        /* ── Layout ── */
+        #app { display: none; position: relative; z-index: 1; min-height: 100vh; opacity: 0; transition: opacity .45s; }
+        #app.ready { opacity: 1; }
+
         .sidebar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            bottom: 0;
+            position: fixed; top: 0; left: 0; bottom: 0;
             width: var(--sidebar-w);
-            background: var(--surface);
-            border-right: 1px solid var(--border-light);
-            display: flex;
-            flex-direction: column;
-            padding: 0 12px 24px;
+            background: rgba(13, 17, 25, 0.72);
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+            border-right: 1px solid var(--border);
+            display: flex; flex-direction: column;
+            padding: 0 14px 20px;
+            z-index: 10;
+        }
+        .sidebar::after {
+            content: ''; position: absolute; top: 0; right: -1px; bottom: 0; width: 1px;
+            background: linear-gradient(180deg, transparent, rgba(66,133,244,.45), transparent);
+            opacity: .5;
         }
 
         .brand {
-            display: flex;
-            align-items: center;
-            height: 72px;
-            padding: 0 8px;
+            display: flex; align-items: center; gap: 9px;
+            height: 70px; padding: 0 8px;
             border-bottom: 1px solid var(--border);
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
-
-        .brand img {
-            height: 60px;
-            width: auto;
-            object-fit: contain;
+        .brand img { width: 30px; height: 30px; }
+        .brand b { font-size: 1.02rem; font-weight: 800; letter-spacing: -.01em; }
+        .brand .grad-text {
+            background: var(--grad-blue);
+            -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .nav-label {
-            font-family: var(--mono);
-            font-size: .58rem;
-            letter-spacing: .12em;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            padding: 16px 10px 6px;
+            font-family: var(--mono); font-size: .56rem; letter-spacing: .14em;
+            color: var(--muted); text-transform: uppercase; padding: 14px 12px 6px;
         }
-
         .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 11px;
-            padding: 10px 12px;
-            border-radius: 999px;
-            color: var(--text-secondary);
-            font-weight: 600;
-            font-size: .88rem;
-            cursor: pointer;
-            transition: background .15s, color .15s;
+            display: flex; align-items: center; gap: 11px;
+            padding: 10px 13px; border-radius: 11px;
+            color: var(--text2); font-weight: 600; font-size: .86rem;
+            cursor: pointer; transition: all .18s; position: relative;
+            border: 1px solid transparent;
         }
-
-        .nav-item svg {
-            width: 18px;
-            height: 18px;
-            flex: none;
-        }
-
-        .nav-item:hover {
-            background: var(--surface-soft);
-            color: var(--text-primary);
-        }
-
+        .nav-item svg { width: 17px; height: 17px; flex: none; }
+        .nav-item:hover { background: var(--glass); color: var(--text); }
         .nav-item.active {
-            background: #e8f0fe;
-            color: var(--google-blue);
+            background: linear-gradient(135deg, rgba(66,133,244,.18), rgba(26,111,240,.10));
+            border-color: rgba(66,133,244,.35);
+            color: #cfe0ff;
+        }
+        .nav-item.active::before {
+            content: ''; position: absolute; left: -14px; top: 22%; bottom: 22%; width: 3px;
+            border-radius: 0 3px 3px 0; background: var(--grad-blue);
+        }
+        .nav-item .nv-badge {
+            margin-left: auto; font-family: var(--mono); font-size: .58rem;
+            background: rgba(234,67,53,.18); color: #ff8d82;
+            border: 1px solid rgba(234,67,53,.35);
+            padding: 2px 7px; border-radius: 999px;
         }
 
         .user-chip {
-            margin-top: auto;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 12px;
-            border: 1px solid var(--border-light);
-            border-radius: 12px;
-            background: var(--sand);
+            margin-top: auto; display: flex; align-items: center; gap: 10px;
+            padding: 11px 12px; border: 1px solid var(--border); border-radius: 13px;
+            background: var(--glass);
         }
-
         .avatar {
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            background: var(--google-blue);
-            color: #fff;
-            display: grid;
-            place-items: center;
-            font-weight: 700;
-            font-size: .95rem;
-            flex: none;
+            width: 34px; height: 34px; border-radius: 50%;
+            background: var(--grad-blue); color: #fff;
+            display: grid; place-items: center; font-weight: 700; font-size: .95rem; flex: none;
         }
+        .user-chip .nm { font-weight: 600; font-size: .8rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 130px; }
+        .user-chip .pl { font-family: var(--mono); font-size: .6rem; color: var(--text2); }
 
-        .user-chip .nm {
-            font-weight: 600;
-            font-size: .82rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
+        .main { margin-left: var(--sidebar-w); padding: 42px 52px 80px; max-width: 1180px; }
 
-        .user-chip .pl {
-            font-family: var(--mono);
-            font-size: .62rem;
-            color: var(--text-muted);
-        }
+        .section { margin-bottom: 56px; scroll-margin-top: 28px; }
+        .section-head { margin-bottom: 22px; }
+        .section-head h2 { font-size: 1.45rem; font-weight: 800; letter-spacing: -.025em; }
+        .section-head p { color: var(--text2); margin-top: 4px; font-size: .88rem; }
 
-        /* ── Main ─────────────────────────────────── */
-        .main {
-            margin-left: var(--sidebar-w);
-            padding: 44px 52px 72px;
-            max-width: 1160px;
-        }
-
-        .section {
-            margin-bottom: 52px;
-            scroll-margin-top: 32px;
-        }
-
-        .section-head {
-            margin-bottom: 26px;
-        }
-
-        .section-head h2 {
-            font-size: 1.5rem;
-            font-weight: 800;
-            letter-spacing: -.025em;
-        }
-
-        .section-head p {
-            color: var(--text-secondary);
-            margin-top: 4px;
-            font-size: .9rem;
-        }
-
+        /* Glass cards */
         .card {
-            background: var(--surface);
-            border: 1px solid var(--border-light);
-            border-radius: 16px;
-            box-shadow: var(--shadow);
-        }
-
-        .card-pad {
-            padding: 24px;
-        }
-
-        .card-title {
-            display: flex;
-            align-items: center;
-            gap: 9px;
-            font-weight: 700;
-            font-size: .92rem;
-            margin-bottom: 18px;
-        }
-
-        .card-title svg {
-            width: 17px;
-            height: 17px;
-            color: var(--text-secondary);
-        }
-
-        /* ── Profile ─────────────────────────────── */
-        .profile {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .profile .avatar {
-            width: 52px;
-            height: 52px;
-            border-radius: 50%;
-            font-size: 1.3rem;
-        }
-
-        .profile .who b {
-            font-size: 1.05rem;
-            font-weight: 700;
-        }
-
-        .profile .who span {
-            display: block;
-            color: var(--text-secondary);
-            font-size: .85rem;
-            margin-top: 2px;
-        }
-
-        .btn-ghost {
-            margin-left: auto;
-            border: 1px solid var(--border-light);
-            background: var(--surface);
-            color: var(--text-secondary);
-            padding: 8px 18px;
-            border-radius: 999px;
-            font-family: var(--sans);
-            font-weight: 600;
-            font-size: .82rem;
-            cursor: pointer;
-            transition: all .15s;
-        }
-
-        .btn-ghost:hover {
-            border-color: var(--google-blue);
-            color: var(--google-blue);
-            background: #e8f0fe;
-        }
-
-        /* ── Stats ───────────────────────────────── */
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-            margin-top: 20px;
-        }
-
-        .stat {
-            background: var(--surface);
-            border: 1px solid var(--border-light);
-            border-radius: 16px;
-            box-shadow: var(--shadow);
-            padding: 22px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .stat::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-        }
-
-        .stat.b::before {
-            background: var(--google-blue);
-        }
-
-        .stat.g::before {
-            background: var(--google-green);
-        }
-
-        .stat.y::before {
-            background: var(--google-yellow);
-        }
-
-        .stat .lbl {
-            font-family: var(--mono);
-            font-size: .6rem;
-            letter-spacing: .08em;
-            text-transform: uppercase;
-            color: var(--text-muted);
-        }
-
-        .stat .val {
-            font-size: 1.65rem;
-            font-weight: 800;
-            letter-spacing: -.02em;
-            margin-top: 10px;
-        }
-
-        .stat .val.blue {
-            color: var(--google-blue);
-        }
-
-        .pill {
-            display: inline-block;
-            margin-top: 10px;
-            font-family: var(--mono);
-            font-size: .62rem;
-            font-weight: 600;
-            padding: 3px 10px;
-            border-radius: 999px;
-        }
-
-        .pill.ok {
-            background: #e6f4ea;
-            color: #137333;
-        }
-
-        .pill.off {
-            background: var(--surface-soft);
-            color: var(--text-muted);
-        }
-
-        /* ── API Keys ────────────────────────────── */
-        .keys-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 14px;
-        }
-
-        .key-card {
-            border: 1px solid var(--border-light);
-            border-radius: 12px;
-            padding: 18px;
-            background: var(--sand);
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            position: relative;
-        }
-
-        .key-card-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .key-card-name {
-            font-weight: 700;
-            font-size: .9rem;
-            color: var(--text-primary);
-        }
-
-        .key-card-delete {
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            border: none;
-            background: transparent;
-            cursor: pointer;
-            display: grid;
-            place-items: center;
-            color: var(--text-muted);
-            transition: all .15s;
-            flex: none;
-        }
-
-        .key-card-delete:hover {
-            background: #fce8e6;
-            color: var(--google-red);
-        }
-
-        .key-card-delete svg {
-            width: 14px;
-            height: 14px;
-        }
-
-        .key-input-wrap {
-            position: relative;
-        }
-
-        .key-input-wrap input {
-            width: 100%;
-            border: 1px solid var(--border-light);
-            border-radius: 8px;
-            padding: 8px 36px 8px 11px;
-            font-family: var(--mono);
-            font-size: .76rem;
-            background: var(--surface);
-            color: var(--text-primary);
-            outline: none;
-            transition: border-color .15s;
-        }
-
-        .key-input-wrap input:focus {
-            border-color: var(--google-blue);
-        }
-
-        .key-toggle {
-            position: absolute;
-            right: 9px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: var(--text-muted);
-            padding: 2px;
-            display: grid;
-            place-items: center;
-        }
-
-        .key-toggle:hover {
-            color: var(--text-primary);
-        }
-
-        .key-toggle svg {
-            width: 15px;
-            height: 15px;
-        }
-
-        .key-hint {
-            font-family: var(--mono);
-            font-size: .68rem;
-            color: var(--text-muted);
-            min-height: 1em;
-        }
-
-        .key-hint.saved {
-            color: var(--google-green);
-        }
-
-        .key-save-btn {
-            border: 1px solid var(--google-blue);
-            background: #e8f0fe;
-            color: var(--google-blue);
-            border-radius: 999px;
-            padding: 6px 16px;
-            font-family: var(--sans);
-            font-size: .76rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all .15s;
-            align-self: flex-start;
-        }
-
-        .key-save-btn:hover {
-            background: var(--google-blue);
-            color: #fff;
-        }
-
-        /* ── Add key card ────────────────────────── */
-        .key-card-add {
-            border: 2px dashed var(--border-light);
-            border-radius: 12px;
-            padding: 18px;
-            background: transparent;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            cursor: pointer;
-            transition: border-color .15s, background .15s;
-        }
-
-        .key-card-add:hover {
-            border-color: var(--google-blue);
-            background: #f0f6ff;
-        }
-
-        .key-card-add.open {
-            border-style: solid;
-            border-color: var(--google-blue);
-            background: var(--surface);
-            cursor: default;
-        }
-
-        .add-trigger {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--text-secondary);
-            font-weight: 600;
-            font-size: .88rem;
-        }
-
-        .add-trigger svg {
-            width: 18px;
-            height: 18px;
-            color: var(--google-blue);
-        }
-
-        .add-form {
-            display: none;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .key-card-add.open .add-trigger {
-            display: none;
-        }
-
-        .key-card-add.open .add-form {
-            display: flex;
-        }
-
-        .add-form input {
-            width: 100%;
-            border: 1px solid var(--border-light);
-            border-radius: 8px;
-            padding: 8px 11px;
-            font-family: var(--sans);
-            font-size: .85rem;
-            background: var(--sand);
-            color: var(--text-primary);
-            outline: none;
-            transition: border-color .15s;
-        }
-
-        .add-form input:focus {
-            border-color: var(--google-blue);
-        }
-
-        .add-form input::placeholder {
-            color: var(--text-muted);
-        }
-
-        .add-form-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        .btn-add-confirm {
-            border: none;
-            background: var(--google-blue);
-            color: #fff;
-            border-radius: 999px;
-            padding: 7px 18px;
-            font-family: var(--sans);
-            font-size: .78rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: filter .15s;
-        }
-
-        .btn-add-confirm:hover {
-            filter: brightness(1.08);
-        }
-
-        .btn-add-cancel {
-            border: 1px solid var(--border-light);
-            background: var(--surface);
-            color: var(--text-secondary);
-            border-radius: 999px;
-            padding: 7px 14px;
-            font-family: var(--sans);
-            font-size: .78rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all .15s;
-        }
-
-        .btn-add-cancel:hover {
-            border-color: var(--google-red);
-            color: var(--google-red);
-        }
-
-        /* ── Models ──────────────────────────────── */
-        .models {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .model-tag {
-            font-size: .78rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            background: var(--surface-soft);
+            background: var(--glass);
             border: 1px solid var(--border);
-            padding: 6px 14px;
-            border-radius: 999px;
+            border-radius: 18px;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, .35);
+            position: relative; overflow: hidden;
         }
-
-        .models-empty {
-            color: var(--text-secondary);
-            font-size: .85rem;
+        .card.glow::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+            background: var(--grad-brand); opacity: .8;
         }
+        .card-pad { padding: 24px; }
+        .card-title { display: flex; align-items: center; gap: 9px; font-weight: 700; font-size: .92rem; margin-bottom: 18px; }
+        .card-title svg { width: 17px; height: 17px; color: var(--g-blue); }
 
-        .section-gap {
-            margin-top: 20px;
+        .autosave-tag {
+            margin-left: auto; font-family: var(--mono); font-size: .6rem;
+            color: var(--muted); display: flex; align-items: center; gap: 6px;
+            transition: color .25s;
         }
+        .autosave-tag .dotp { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); transition: background .25s; }
+        .autosave-tag.saving { color: var(--g-yellow); } .autosave-tag.saving .dotp { background: var(--g-yellow); animation: pulse-dot 1s infinite; }
+        .autosave-tag.saved  { color: var(--g-green);  } .autosave-tag.saved .dotp  { background: var(--g-green); }
+        .autosave-tag.error  { color: var(--g-red);    } .autosave-tag.error .dotp  { background: var(--g-red); }
+        @keyframes pulse-dot { 50% { opacity: .35; } }
 
-        /* ── Toast ───────────────────────────────── */
+        /* Profile */
+        .profile { display: flex; align-items: center; gap: 16px; }
+        .profile .avatar { width: 54px; height: 54px; font-size: 1.3rem; }
+        .profile .who b { font-size: 1.05rem; font-weight: 700; }
+        .profile .who span { display: block; color: var(--text2); font-size: .84rem; margin-top: 2px; }
+        .btn-ghost {
+            margin-left: auto; border: 1px solid var(--border-bright);
+            background: transparent; color: var(--text2);
+            padding: 8px 18px; border-radius: 999px;
+            font-weight: 600; font-size: .8rem; cursor: pointer; transition: all .18s;
+        }
+        .btn-ghost:hover { border-color: var(--g-blue); color: #cfe0ff; background: rgba(66,133,244,.12); }
+
+        /* Stats */
+        .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 18px; }
+        .stat {
+            background: var(--glass); border: 1px solid var(--border); border-radius: 16px;
+            backdrop-filter: blur(14px); padding: 20px; position: relative; overflow: hidden;
+            transition: transform .2s, border-color .2s;
+        }
+        .stat:hover { transform: translateY(-3px); border-color: var(--border-bright); }
+        .stat::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+        .stat.b::before { background: var(--grad-blue); }
+        .stat.g::before { background: linear-gradient(90deg, #34a853, #7ee2a0); }
+        .stat.y::before { background: linear-gradient(90deg, #fbbc04, #ffd96a); }
+        .stat .lbl { font-family: var(--mono); font-size: .58rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+        .stat .val { font-size: 1.6rem; font-weight: 800; letter-spacing: -.02em; margin-top: 9px; }
+        .stat .val.blue { color: #8ab4ff; }
+        .pill { display: inline-block; margin-top: 9px; font-family: var(--mono); font-size: .6rem; font-weight: 600; padding: 3px 10px; border-radius: 999px; }
+        .pill.ok { background: rgba(52,168,83,.16); color: #7ee2a0; border: 1px solid rgba(52,168,83,.35); }
+        .pill.off { background: var(--glass-strong); color: var(--muted); border: 1px solid var(--border); }
+
+        /* Inputs */
+        .inp {
+            width: 100%; border: 1px solid var(--border-bright); border-radius: 10px;
+            padding: 9px 12px; font-family: var(--mono); font-size: .78rem;
+            background: rgba(0,0,0,.3); color: var(--text); outline: none; transition: all .18s;
+        }
+        .inp:focus { border-color: var(--g-blue); box-shadow: 0 0 0 3px rgba(66,133,244,.18); }
+        .inp::placeholder { color: var(--muted); }
+        select.inp { font-family: var(--sans); }
+        .field-label { display: block; font-size: .72rem; font-weight: 600; color: var(--text2); margin: 14px 0 6px; }
+
+        /* API key cards */
+        .keys-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 14px; }
+        .key-card {
+            border: 1px solid var(--border); border-radius: 14px; padding: 16px;
+            background: rgba(0,0,0,.22); display: flex; flex-direction: column; gap: 10px;
+        }
+        .key-head { display: flex; align-items: center; justify-content: space-between; }
+        .key-name { font-weight: 700; font-size: .88rem; text-transform: capitalize; }
+        .key-del {
+            width: 26px; height: 26px; border-radius: 50%; border: none; background: transparent;
+            cursor: pointer; display: grid; place-items: center; color: var(--muted); transition: all .15s;
+        }
+        .key-del:hover { background: rgba(234,67,53,.15); color: #ff8d82; }
+        .key-del svg { width: 14px; height: 14px; }
+        .key-hint { font-family: var(--mono); font-size: .66rem; color: #7ee2a0; min-height: 1em; }
+        .key-card-add {
+            border: 2px dashed var(--border-bright); border-radius: 14px; padding: 16px;
+            background: transparent; display: flex; flex-direction: column; gap: 10px;
+            cursor: pointer; transition: all .18s;
+        }
+        .key-card-add:hover { border-color: var(--g-blue); background: rgba(66,133,244,.07); }
+        .key-card-add.open { border-style: solid; border-color: var(--g-blue); cursor: default; }
+        .add-trigger { display: flex; align-items: center; gap: 10px; color: var(--text2); font-weight: 600; font-size: .86rem; }
+        .add-trigger svg { width: 17px; height: 17px; color: var(--g-blue); }
+        .add-form { display: none; flex-direction: column; gap: 10px; }
+        .key-card-add.open .add-trigger { display: none; }
+        .key-card-add.open .add-form { display: flex; }
+
+        /* Priority drag list */
+        .prio-list { display: flex; flex-direction: column; gap: 8px; }
+        .prio-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 12px 14px; border-radius: 12px;
+            background: rgba(0,0,0,.25); border: 1px solid var(--border);
+            cursor: grab; user-select: none; transition: border-color .15s, transform .15s;
+        }
+        .prio-item:active { cursor: grabbing; }
+        .prio-item.dragging { opacity: .45; border-color: var(--g-blue); }
+        .prio-item .grip { color: var(--muted); font-family: var(--mono); letter-spacing: 2px; }
+        .prio-item .rank {
+            width: 24px; height: 24px; border-radius: 8px; display: grid; place-items: center;
+            font-family: var(--mono); font-size: .68rem; font-weight: 700; color: #fff;
+            background: var(--grad-blue); flex: none;
+        }
+        .prio-item .pname { font-weight: 700; font-size: .86rem; text-transform: capitalize; }
+        .prio-item .phint { margin-left: auto; font-family: var(--mono); font-size: .64rem; color: var(--muted); }
+        .prio-empty { color: var(--text2); font-size: .84rem; }
+
+        /* Usage bars */
+        .cap-row { margin-bottom: 22px; }
+        .cap-row .cap-head { display: flex; justify-content: space-between; font-size: .78rem; margin-bottom: 7px; }
+        .cap-row .cap-head b { font-weight: 700; }
+        .cap-row .cap-head span { font-family: var(--mono); color: var(--text2); font-size: .7rem; }
+        .meter { height: 9px; border-radius: 999px; background: rgba(255,255,255,.07); overflow: hidden; }
+        .meter .fill {
+            height: 100%; border-radius: 999px; width: 0%;
+            background: var(--grad-blue); transition: width .7s cubic-bezier(.4,0,.2,1);
+        }
+        .meter .fill.warn { background: linear-gradient(90deg, #fbbc04, #ff9d3c); }
+        .meter .fill.danger { background: linear-gradient(90deg, #ea4335, #ff6a5c); }
+        .caps-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+
+        /* Models */
+        .models { display: flex; flex-wrap: wrap; gap: 8px; }
+        .model-tag {
+            font-size: .76rem; font-weight: 600;
+            background: var(--glass-strong); border: 1px solid var(--border-bright);
+            padding: 6px 14px; border-radius: 999px; color: #cfe0ff;
+        }
+        .models-empty { color: var(--text2); font-size: .84rem; }
+
+        /* Download */
+        .dl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+        .dl-card {
+            border: 1px solid var(--border); border-radius: 16px; padding: 26px;
+            background: rgba(0,0,0,.22); text-align: center;
+            transition: transform .2s, border-color .2s; position: relative; overflow: hidden;
+        }
+        .dl-card:hover { transform: translateY(-4px); border-color: rgba(66,133,244,.5); }
+        .dl-card .os-ic { font-size: 2.1rem; }
+        .dl-card h3 { margin: 12px 0 4px; font-size: 1.02rem; }
+        .dl-card p { color: var(--text2); font-size: .76rem; margin-bottom: 18px; }
+        .btn-grad {
+            display: inline-flex; align-items: center; gap: 9px;
+            background: var(--grad-blue); color: #fff;
+            font-weight: 700; font-size: .85rem; padding: 11px 26px;
+            border-radius: 999px; border: none; cursor: pointer;
+            box-shadow: 0 4px 18px rgba(66,133,244,.4); transition: all .2s;
+        }
+        .btn-grad:hover { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(66,133,244,.55); filter: brightness(1.07); }
+        .btn-grad svg { width: 16px; height: 16px; }
+        .btn-grad.green { background: linear-gradient(135deg, #34a853, #1f8f43); box-shadow: 0 4px 18px rgba(52,168,83,.35); }
+        .dl-note { margin-top: 14px; font-family: var(--mono); font-size: .64rem; color: var(--muted); }
+
+        /* Admin */
+        .adm-row { display: flex; align-items: center; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--border); }
+        .adm-row:last-child { border-bottom: none; }
+        .adm-row .adm-info b { font-size: .86rem; display: block; }
+        .adm-row .adm-info span { font-size: .72rem; color: var(--text2); }
+        .adm-row .ctl { margin-left: auto; }
+        .switch { position: relative; width: 46px; height: 26px; flex: none; cursor: pointer; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .switch .track {
+            position: absolute; inset: 0; border-radius: 999px;
+            background: rgba(255,255,255,.12); border: 1px solid var(--border-bright); transition: all .2s;
+        }
+        .switch .track::after {
+            content: ''; position: absolute; top: 2px; left: 3px; width: 19px; height: 19px;
+            border-radius: 50%; background: #cbd2dd; transition: all .2s;
+        }
+        .switch input:checked + .track { background: var(--grad-blue); border-color: transparent; }
+        .switch input:checked + .track::after { transform: translateX(19px); background: #fff; }
+        .switch.danger input:checked + .track { background: linear-gradient(135deg, #ea4335, #c5221f); }
+
+        /* Toast */
         #toast {
-            position: fixed;
-            bottom: 24px;
-            left: 50%;
-            transform: translateX(-50%) translateY(20px);
-            background: var(--text-primary);
-            color: #fff;
-            padding: 10px 22px;
-            border-radius: 999px;
-            font-size: .84rem;
-            font-weight: 600;
-            opacity: 0;
-            pointer-events: none;
-            transition: all .25s;
-            z-index: 60;
+            position: fixed; bottom: 26px; right: 26px;
+            transform: translateY(16px);
+            background: rgba(20, 25, 35, .92); backdrop-filter: blur(14px);
+            border: 1px solid var(--border-bright);
+            color: var(--text); padding: 11px 20px; border-radius: 13px;
+            font-size: .82rem; font-weight: 600;
+            opacity: 0; pointer-events: none; transition: all .3s; z-index: 110;
+            box-shadow: 0 10px 36px rgba(0,0,0,.5);
         }
+        #toast.show { opacity: 1; transform: translateY(0); }
+        #toast.err { border-color: rgba(234,67,53,.55); }
+        #toast.ok { border-color: rgba(52,168,83,.55); }
 
-        #toast.show {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-        }
-
-        #toast.err {
-            background: var(--google-red);
-        }
-
-        #toast.ok {
-            background: var(--google-green);
-        }
-
-        /* ── Reveal ──────────────────────────────── */
-        .reveal {
-            animation: rise .45s ease both;
-        }
-
-        @keyframes rise {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+        .reveal { animation: rise .5s ease both; }
+        @keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
         @media (max-width: 900px) {
-            .sidebar {
-                transform: translateX(-100%);
-            }
-
-            .main {
-                margin-left: 0;
-                padding: 28px 20px 56px;
-            }
-
-            .stats {
-                grid-template-columns: 1fr;
-            }
+            .sidebar { transform: translateX(-100%); }
+            .main { margin-left: 0; padding: 28px 18px 56px; }
+            .stats, .caps-grid, .dl-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 
 <body>
-    <div id="loader">
-        <span class="dot"></span><span class="dot"></span>
-        <span class="dot"></span><span class="dot"></span>
-        Loading your dashboard…
+    <div id="topbar-loader"><div class="bar"></div></div>
+    <div id="skeleton">
+        <div class="sk-wrap">
+            <div class="sk" style="height:54px;width:46%"></div>
+            <div class="sk" style="height:120px"></div>
+            <div class="sk" style="height:88px;width:80%"></div>
+            <div class="sk" style="height:88px"></div>
+        </div>
     </div>
 
     <div id="app">
         <aside class="sidebar">
             <div class="brand">
-                <img src="Favicon-RBG.png" alt="Codeply" style="width:32px;height:32px;" /><span style="font-weight:700;font-size:1rem;color:#202124;margin-left:6px;">Codeply</span>
+                <img src="Favicon-RBG.png" alt="Codeply" />
+                <b>Code<span class="grad-text">ply</span></b>
             </div>
 
             <div class="nav-label">Main</div>
-            <div class="nav-item active" id="navAccount" data-target="secAccount">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                    <circle cx="12" cy="7" r="4" />
-                </svg>
+            <div class="nav-item active" data-target="secAccount">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                 Account
             </div>
-            <div class="nav-item" id="navKeys" data-target="secKeys">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round">
-                    <path
-                        d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4" />
-                </svg>
+            <div class="nav-item" data-target="secKeys">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
                 API Keys
             </div>
-            <div class="nav-item" id="navModels" data-target="secModels">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round">
-                    <path d="M12 2L2 7l10 5 10-5-10-5z" />
-                    <path d="M2 17l10 5 10-5" />
-                    <path d="M2 12l10 5 10-5" />
-                </svg>
+            <div class="nav-item" data-target="secPriority">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+                API Priority
+            </div>
+            <div class="nav-item" data-target="secUsage">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>
+                Usage &amp; Caps
+            </div>
+            <div class="nav-item" data-target="secModels">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
                 Models
+            </div>
+            <div class="nav-item" data-target="secDownload">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Download
+            </div>
+            <div class="nav-item" data-target="secAdmin" id="navAdmin" style="display:none">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                Admin <span class="nv-badge">ROOT</span>
             </div>
 
             <div class="nav-label">More</div>
             <a class="nav-item" href="index.html">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round">
-                    <path d="M19 12H5" />
-                    <path d="M12 19l-7-7 7-7" />
-                </svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
                 Back to site
             </a>
 
@@ -801,70 +466,178 @@
             <section class="section reveal" id="secAccount">
                 <div class="section-head">
                     <h2 id="greeting">Your Account</h2>
-                    <p>Manage your profile and session.</p>
+                    <p>Everything you change here saves automatically — no save buttons, ever.</p>
                 </div>
-                <div class="card card-pad">
+                <div class="card glow card-pad">
                     <div class="profile">
                         <div class="avatar" id="pfAvatar">?</div>
-                        <div class="who">
-                            <b id="pfName">—</b>
-                            <span id="pfEmail">—</span>
-                        </div>
+                        <div class="who"><b id="pfName">—</b><span id="pfEmail">—</span></div>
                         <button class="btn-ghost" id="signOutBtn">Sign out</button>
                     </div>
                 </div>
                 <div class="stats">
-                    <div class="stat b">
-                        <div class="lbl">Plan</div>
-                        <div class="val blue" id="stPlan">Free</div>
-                    </div>
-                    <div class="stat g">
-                        <div class="lbl">Status</div>
-                        <div class="val" id="stStatusVal" style="font-size:1.15rem">—</div>
-                        <span class="pill off" id="stStatus">inactive</span>
-                    </div>
-                    <div class="stat y">
-                        <div class="lbl">Keys saved</div>
-                        <div class="val" id="stKeyCount" style="font-size:1.65rem">0</div>
-                    </div>
+                    <div class="stat b"><div class="lbl">Plan</div><div class="val blue" id="stPlan">Free</div></div>
+                    <div class="stat g"><div class="lbl">Status</div><div class="val" id="stStatusVal" style="font-size:1.1rem">—</div><span class="pill off" id="stStatus">inactive</span></div>
+                    <div class="stat y"><div class="lbl">Keys saved</div><div class="val" id="stKeyCount">0</div></div>
                 </div>
             </section>
 
             <!-- API Keys -->
-            <section class="section reveal" id="secKeys" style="animation-delay:.08s">
+            <section class="section reveal" id="secKeys" style="animation-delay:.06s">
                 <div class="section-head">
                     <h2>API Keys</h2>
-                    <p>Add keys for any AI provider. Stored locally on your device.</p>
+                    <p>Encrypted server-side in your Codeply account. Keys auto-save and sync to the desktop app.</p>
                 </div>
                 <div class="card card-pad">
                     <div class="card-title">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path
-                                d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4" />
-                        </svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
                         Your Keys
+                        <span class="autosave-tag" id="saveTagKeys"><span class="dotp"></span><span class="txt">auto-save on</span></span>
                     </div>
                     <div class="keys-grid" id="keysGrid"></div>
                 </div>
             </section>
 
-            <!-- Models -->
-            <section class="section reveal" id="secModels" style="animation-delay:.16s">
+            <!-- API Priority -->
+            <section class="section reveal" id="secPriority" style="animation-delay:.1s">
                 <div class="section-head">
-                    <h2>Model Access</h2>
-                    <p>AI models available on your account.</p>
+                    <h2>API Priority</h2>
+                    <p>Drag to set failover order. If a key fails or hits its limit, Codeply quietly switches to the next one.</p>
                 </div>
                 <div class="card card-pad">
                     <div class="card-title">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M12 2L2 7l10 5 10-5-10-5z" />
-                            <path d="M2 17l10 5 10-5" />
-                            <path d="M2 12l10 5 10-5" />
-                        </svg>
-                        Enabled Models
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+                        Failover order
+                        <span class="autosave-tag" id="saveTagPrio"><span class="dotp"></span><span class="txt">auto-save on</span></span>
                     </div>
-                    <div class="models" id="models">
-                        <span class="models-empty">No models enabled yet.</span>
+                    <div class="prio-list" id="prioList"><span class="prio-empty">Add at least two API keys to set a failover order.</span></div>
+                </div>
+            </section>
+
+            <!-- Usage & Caps -->
+            <section class="section reveal" id="secUsage" style="animation-delay:.14s">
+                <div class="section-head">
+                    <h2>Usage &amp; Token Caps</h2>
+                    <p>Set your own limits. Codeply blocks requests gently when a cap is reached.</p>
+                </div>
+                <div class="card card-pad">
+                    <div class="card-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>
+                        This month
+                        <span class="autosave-tag" id="saveTagCaps"><span class="dotp"></span><span class="txt">auto-save on</span></span>
+                    </div>
+                    <div class="cap-row">
+                        <div class="cap-head"><b>Monthly tokens</b><span id="capUsageLabel">0 / unlimited</span></div>
+                        <div class="meter"><div class="fill" id="capUsageFill"></div></div>
+                    </div>
+                    <div class="caps-grid">
+                        <div>
+                            <label class="field-label" for="capMonthly">Monthly token cap (0 = unlimited)</label>
+                            <input class="inp" id="capMonthly" type="number" min="0" step="1000" placeholder="e.g. 500000">
+                        </div>
+                        <div>
+                            <label class="field-label" for="capPerPrompt">Per-prompt token cap (0 = unlimited)</label>
+                            <input class="inp" id="capPerPrompt" type="number" min="0" step="500" placeholder="e.g. 8000">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Models -->
+            <section class="section reveal" id="secModels" style="animation-delay:.18s">
+                <div class="section-head">
+                    <h2>Model Access</h2>
+                    <p>AI models available on your account, mirrored from the desktop app.</p>
+                </div>
+                <div class="card card-pad">
+                    <div class="card-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                        Default model
+                        <span class="autosave-tag" id="saveTagModel"><span class="dotp"></span><span class="txt">auto-save on</span></span>
+                    </div>
+                    <div class="caps-grid">
+                        <div>
+                            <label class="field-label" for="selProvider">Provider</label>
+                            <select class="inp" id="selProvider">
+                                <option value="openrouter">OpenRouter (400+ models)</option>
+                                <option value="claude">Claude</option>
+                                <option value="openai">OpenAI</option>
+                                <option value="groq">Groq</option>
+                                <option value="gemini">Gemini</option>
+                                <option value="deepseek">DeepSeek</option>
+                                <option value="qwen">Qwen</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="field-label" for="inpModel">Model ID</label>
+                            <input class="inp" id="inpModel" type="text" placeholder="openai/gpt-4o-mini">
+                        </div>
+                    </div>
+                    <label class="field-label" style="margin-top:18px">Enabled on your plan</label>
+                    <div class="models" id="models"><span class="models-empty">No models enabled yet.</span></div>
+                </div>
+            </section>
+
+            <!-- Download -->
+            <section class="section reveal" id="secDownload" style="animation-delay:.22s">
+                <div class="section-head">
+                    <h2>Download Codeply</h2>
+                    <p>The desktop overlay for Windows and macOS. Your account, keys, and settings sync automatically.</p>
+                </div>
+                <div class="dl-grid">
+                    <div class="dl-card card">
+                        <div class="os-ic">🪟</div>
+                        <h3>Windows</h3>
+                        <p>Windows 10 / 11 · 64-bit · NSIS installer</p>
+                        <a class="btn-grad" href="/downloads/Codeply-Setup-1.0.0.exe" download>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                            Download .exe
+                        </a>
+                        <div class="dl-note">v1.0.0 · ~85 MB</div>
+                    </div>
+                    <div class="dl-card card">
+                        <div class="os-ic">🍎</div>
+                        <h3>macOS</h3>
+                        <p>macOS 12+ · Apple Silicon &amp; Intel · DMG</p>
+                        <a class="btn-grad green" href="/downloads/Codeply-1.0.0.dmg" download>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                            Download .dmg
+                        </a>
+                        <div class="dl-note">v1.0.0 · ~95 MB</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Admin -->
+            <section class="section reveal" id="secAdmin" style="display:none">
+                <div class="section-head">
+                    <h2>Admin Control Panel</h2>
+                    <p>Remote-control every installed copy of Codeply. Changes apply on next app launch — no deploy needed.</p>
+                </div>
+                <div class="card glow card-pad">
+                    <div class="adm-row">
+                        <div class="adm-info"><b>Kill switch</b><span>Disables the app entirely for every user (old versions included).</span></div>
+                        <label class="switch danger ctl"><input type="checkbox" id="admKill"><span class="track"></span></label>
+                    </div>
+                    <div class="adm-row">
+                        <div class="adm-info"><b>Free mode</b><span>Unlocks all features without a subscription.</span></div>
+                        <label class="switch ctl"><input type="checkbox" id="admFree"><span class="track"></span></label>
+                    </div>
+                    <div class="adm-row">
+                        <div class="adm-info"><b>Minimum version</b><span>Installs below this show a full-screen "Please update" overlay.</span></div>
+                        <div class="ctl" style="width:140px"><input class="inp" id="admMinVer" placeholder="1.0.0"></div>
+                    </div>
+                    <div class="adm-row">
+                        <div class="adm-info"><b>Update banner</b><span>Optional message shown inside the app dashboard.</span></div>
+                        <div class="ctl" style="width:320px"><input class="inp" id="admBanner" placeholder="Codeply 1.1 is out — smoother & faster!"></div>
+                    </div>
+                    <div class="adm-row">
+                        <div class="adm-info"><b>Feature flags (JSON)</b><span>Free-form flags the app can read, e.g. {"beta_ui": true}</span></div>
+                        <div class="ctl" style="width:320px"><input class="inp" id="admFlags" placeholder='{"beta_ui": true}'></div>
+                    </div>
+                    <div style="margin-top:16px;display:flex;align-items:center;gap:12px">
+                        <button class="btn-grad" id="admApply">Apply remote config</button>
+                        <span class="autosave-tag" id="saveTagAdm"><span class="dotp"></span><span class="txt">live</span></span>
                     </div>
                 </div>
             </section>
@@ -876,172 +649,247 @@
 
     <script>
         const PLAN_NAME = { free: 'Free', core: 'Core', starter: 'Starter', pro: 'Pro' };
+        const PROVIDER_LABELS = { openai: 'OpenAI', claude: 'Claude', openrouter: 'OpenRouter', groq: 'Groq', gemini: 'Gemini', deepseek: 'DeepSeek', qwen: 'Qwen', custom: 'Custom' };
         const $ = id => document.getElementById(id);
         let sb = null, session = null, account = null;
-
-        /* ── localStorage key storage ────────────────────────── */
-        const LS_KEY = 'codply_api_keys'; // { name, hint, key }[]
-
-        function loadKeys() {
-            try { return JSON.parse(localStorage.getItem(LS_KEY) || '[]'); }
-            catch { return []; }
-        }
-        function saveKeys(keys) {
-            localStorage.setItem(LS_KEY, JSON.stringify(keys));
-        }
-        function maskKey(k) {
-            if (!k || k.length < 8) return '****';
-            return k.slice(0, 4) + '••••' + k.slice(-4);
-        }
-
-        /* ── Toast ───────────────────────────────────────────── */
-        function toast(msg, type) {
-            const t = $('toast');
-            t.textContent = msg;
-            t.className = 'show' + (type ? ' ' + type : '');
-            clearTimeout(t._t);
-            t._t = setTimeout(() => { t.className = ''; }, 2500);
-        }
-
-        /* ── Render keys grid ────────────────────────────────── */
-        function renderKeys() {
-            const keys = loadKeys();
-            const grid = $('keysGrid');
-            grid.innerHTML = '';
-
-            keys.forEach((entry, idx) => {
-                const card = document.createElement('div');
-                card.className = 'key-card';
-                card.innerHTML = `
-                <div class="key-card-header">
-                    <span class="key-card-name">${escHtml(entry.name)}</span>
-                    <button class="key-card-delete" data-idx="${idx}" title="Remove key">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-                            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-                        </svg>
-                    </button>
-                </div>
-                <div class="key-input-wrap">
-                    <input type="password" placeholder="Paste new key to update" data-idx="${idx}" autocomplete="off" spellcheck="false">
-                    <button class="key-toggle" data-idx="${idx}" title="Show/hide">
-                        <svg class="eye-show" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
-                        </svg>
-                        <svg class="eye-hide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none">
-                            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
-                            <line x1="1" y1="1" x2="23" y2="23"/>
-                        </svg>
-                    </button>
-                </div>
-                <p class="key-hint saved" id="hint-${idx}">Saved: ${escHtml(entry.hint)}</p>
-                <button class="key-save-btn" data-idx="${idx}">Update key</button>
-            `;
-                grid.appendChild(card);
-            });
-
-            // Add-key card
-            const addCard = document.createElement('div');
-            addCard.className = 'key-card-add';
-            addCard.id = 'addCard';
-            addCard.innerHTML = `
-            <div class="add-trigger">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-                    <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
-                </svg>
-                Add Model API
-            </div>
-            <div class="add-form">
-                <input id="addName" type="text" placeholder="Provider name  (e.g. OpenAI, Gemini…)" autocomplete="off">
-                <input id="addKey"  type="password" placeholder="Paste API key" autocomplete="off" spellcheck="false">
-                <div class="add-form-actions">
-                    <button class="btn-add-confirm" id="addConfirm">Save</button>
-                    <button class="btn-add-cancel"  id="addCancel">Cancel</button>
-                </div>
-            </div>
-        `;
-            grid.appendChild(addCard);
-
-            // Update stat
-            $('stKeyCount').textContent = keys.length;
-
-            wireKeyEvents();
-        }
+        let userSettings = { provider: 'openrouter', model: 'openai/gpt-4o-mini', api_priority: [], per_prompt_cap: 0, monthly_cap: 0 };
+        let serverKeys = [];   // [{provider, hint, updated_at}]
+        let usageInfo = { tokens: 0, monthly_cap: 0 };
 
         function escHtml(s) {
             return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
         }
 
+        /* ── Toast ── */
+        function toast(msg, type) {
+            const t = $('toast');
+            t.textContent = msg;
+            t.className = 'show' + (type ? ' ' + type : '');
+            clearTimeout(t._t);
+            t._t = setTimeout(() => { t.className = ''; }, 2600);
+        }
+
+        /* ── Auto-save status tags ── */
+        function tag(id, state, text) {
+            const el = $(id);
+            if (!el) return;
+            el.className = 'autosave-tag' + (state ? ' ' + state : '');
+            el.querySelector('.txt').textContent = text ||
+                (state === 'saving' ? 'saving…' : state === 'saved' ? 'saved' : state === 'error' ? 'save failed' : 'auto-save on');
+            if (state === 'saved') setTimeout(() => { if (el.className.includes('saved')) tag(id, '', 'auto-save on'); }, 2000);
+        }
+
+        /* ── Authed fetch ── */
+        async function authed(path, opts) {
+            opts = opts || {};
+            const headers = Object.assign({ 'Content-Type': 'application/json' }, opts.headers || {});
+            if (session && session.access_token) headers.Authorization = 'Bearer ' + session.access_token;
+            return fetch(path, Object.assign({}, opts, { headers }));
+        }
+
+        /* ── Debounced settings auto-save (task: no manual save buttons) ── */
+        let settingsTimer = null, pendingPatch = {};
+        function autoSaveSettings(patch, tagId) {
+            Object.assign(pendingPatch, patch);
+            Object.assign(userSettings, patch);
+            tag(tagId, 'saving');
+            clearTimeout(settingsTimer);
+            settingsTimer = setTimeout(async () => {
+                const body = pendingPatch; pendingPatch = {};
+                try {
+                    const r = await authed('/api/user-settings', { method: 'PATCH', body: JSON.stringify(body) });
+                    if (!r.ok) throw new Error();
+                    tag(tagId, 'saved');
+                } catch { tag(tagId, 'error'); toast('Could not save — check your connection', 'err'); }
+            }, 600);
+        }
+
+        /* ── API Keys (server-side encrypted, auto-save) ── */
+        async function loadServerKeys() {
+            try {
+                const r = await authed('/api/api-keys');
+                const d = r.ok ? await r.json() : { keys: [] };
+                serverKeys = d.keys || [];
+            } catch { serverKeys = []; }
+            renderKeys();
+            renderPriority();
+        }
+
+        function renderKeys() {
+            const grid = $('keysGrid');
+            grid.innerHTML = '';
+            serverKeys.forEach((entry) => {
+                const card = document.createElement('div');
+                card.className = 'key-card';
+                card.innerHTML = `
+                    <div class="key-head">
+                        <span class="key-name">${escHtml(PROVIDER_LABELS[entry.provider] || entry.provider)}</span>
+                        <button class="key-del" data-provider="${escHtml(entry.provider)}" title="Remove key">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                        </button>
+                    </div>
+                    <input class="inp key-update" type="password" placeholder="Paste new key to update" data-provider="${escHtml(entry.provider)}" autocomplete="off" spellcheck="false">
+                    <p class="key-hint">Saved: ${escHtml(entry.hint || '••••')}</p>`;
+                grid.appendChild(card);
+            });
+
+            const addCard = document.createElement('div');
+            addCard.className = 'key-card-add';
+            addCard.id = 'addCard';
+            addCard.innerHTML = `
+                <div class="add-trigger">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    Add Model API
+                </div>
+                <div class="add-form">
+                    <select class="inp" id="addProvider">
+                        ${Object.entries(PROVIDER_LABELS).map(([v, l]) => `<option value="${v}">${l}</option>`).join('')}
+                    </select>
+                    <input class="inp" id="addKey" type="password" placeholder="Paste API key — saves automatically" autocomplete="off" spellcheck="false">
+                </div>`;
+            grid.appendChild(addCard);
+
+            $('stKeyCount').textContent = serverKeys.length;
+            wireKeyEvents();
+        }
+
+        let keySaveTimers = {};
+        async function saveKey(provider, value, tagAfter = true) {
+            tag('saveTagKeys', 'saving');
+            try {
+                const r = await authed('/api/api-keys', { method: 'POST', body: JSON.stringify({ provider, api_key: value }) });
+                const d = await r.json().catch(() => ({}));
+                if (!r.ok) throw new Error(d.message || 'Could not save key.');
+                tag('saveTagKeys', 'saved');
+                if (tagAfter) toast((PROVIDER_LABELS[provider] || provider) + ' key saved', 'ok');
+                await loadServerKeys();
+            } catch (e) { tag('saveTagKeys', 'error'); toast(e.message, 'err'); }
+        }
+
         function wireKeyEvents() {
             const grid = $('keysGrid');
 
-            // Delete
-            grid.querySelectorAll('.key-card-delete').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const idx = +btn.dataset.idx;
-                    const keys = loadKeys();
-                    keys.splice(idx, 1);
-                    saveKeys(keys);
-                    toast('Key removed', 'err');
-                    renderKeys();
+            grid.querySelectorAll('.key-del').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    const provider = btn.dataset.provider;
+                    tag('saveTagKeys', 'saving');
+                    try {
+                        const r = await authed('/api/api-keys', { method: 'DELETE', body: JSON.stringify({ provider }) });
+                        if (!r.ok) throw new Error('Could not delete key.');
+                        tag('saveTagKeys', 'saved');
+                        toast('Key removed', 'err');
+                        // Drop from priority too
+                        const prio = (userSettings.api_priority || []).filter(p => p !== provider);
+                        autoSaveSettings({ api_priority: prio }, 'saveTagPrio');
+                        await loadServerKeys();
+                    } catch (e) { tag('saveTagKeys', 'error'); toast(e.message, 'err'); }
                 });
             });
 
-            // Toggle visibility
-            grid.querySelectorAll('.key-toggle').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const idx = +btn.dataset.idx;
-                    const input = grid.querySelector(`input[data-idx="${idx}"]`);
-                    const show = input.type === 'password';
-                    input.type = show ? 'text' : 'password';
-                    btn.querySelector('.eye-show').style.display = show ? 'none' : '';
-                    btn.querySelector('.eye-hide').style.display = show ? '' : 'none';
-                });
-            });
-
-            // Update (save btn on existing card)
-            grid.querySelectorAll('.key-save-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const idx = +btn.dataset.idx;
-                    const input = grid.querySelector(`input[data-idx="${idx}"]`);
+            // Update an existing key: auto-saves 800ms after typing stops
+            grid.querySelectorAll('.key-update').forEach(input => {
+                input.addEventListener('input', () => {
+                    const provider = input.dataset.provider;
+                    clearTimeout(keySaveTimers[provider]);
                     const val = input.value.trim();
-                    if (!val) { toast('Paste a key first', 'err'); return; }
-                    const keys = loadKeys();
-                    keys[idx].key = val;
-                    keys[idx].hint = maskKey(val);
-                    saveKeys(keys);
-                    input.value = '';
-                    toast('Key updated', 'ok');
-                    renderKeys();
+                    if (val.length < 6) return;
+                    tag('saveTagKeys', 'saving');
+                    keySaveTimers[provider] = setTimeout(() => { saveKey(provider, val); input.value = ''; }, 800);
                 });
             });
 
-            // Open add form
             const addCard = $('addCard');
-            const addTrigger = addCard.querySelector('.add-trigger');
-            addTrigger.addEventListener('click', () => addCard.classList.add('open'));
-
-            // Confirm add
-            $('addConfirm').addEventListener('click', () => {
-                const name = $('addName').value.trim();
-                const key = $('addKey').value.trim();
-                if (!name) { toast('Enter a provider name', 'err'); return; }
-                if (!key) { toast('Paste an API key', 'err'); return; }
-                const keys = loadKeys();
-                keys.push({ name, key, hint: maskKey(key) });
-                saveKeys(keys);
-                toast('Key saved', 'ok');
-                renderKeys();
-            });
-
-            // Cancel add
-            $('addCancel').addEventListener('click', () => {
-                $('addName').value = '';
-                $('addKey').value = '';
-                $('addCard').classList.remove('open');
+            addCard.querySelector('.add-trigger').addEventListener('click', () => addCard.classList.add('open'));
+            const addKey = $('addKey');
+            addKey.addEventListener('input', () => {
+                clearTimeout(keySaveTimers.__add);
+                const val = addKey.value.trim();
+                if (val.length < 6) return;
+                tag('saveTagKeys', 'saving');
+                keySaveTimers.__add = setTimeout(async () => {
+                    const provider = $('addProvider').value;
+                    await saveKey(provider, val);
+                    addKey.value = '';
+                    addCard.classList.remove('open');
+                    // New providers join the end of the priority list automatically
+                    const prio = userSettings.api_priority || [];
+                    if (!prio.includes(provider)) autoSaveSettings({ api_priority: [...prio, provider] }, 'saveTagPrio');
+                }, 900);
             });
         }
 
-        /* ── Auth render ─────────────────────────────────────── */
+        /* ── Priority drag & drop ── */
+        function effectivePriority() {
+            const saved = (userSettings.api_priority || []).filter(p => serverKeys.some(k => k.provider === p));
+            const rest = serverKeys.map(k => k.provider).filter(p => !saved.includes(p));
+            return [...saved, ...rest];
+        }
+
+        function renderPriority() {
+            const list = $('prioList');
+            const order = effectivePriority();
+            if (order.length < 1) {
+                list.innerHTML = '<span class="prio-empty">Add at least two API keys to set a failover order.</span>';
+                return;
+            }
+            list.innerHTML = order.map((p, i) => `
+                <div class="prio-item" draggable="true" data-provider="${escHtml(p)}">
+                    <span class="grip">⋮⋮</span>
+                    <span class="rank">${i + 1}</span>
+                    <span class="pname">${escHtml(PROVIDER_LABELS[p] || p)}</span>
+                    <span class="phint">${i === 0 ? 'primary' : 'fallback ' + i}</span>
+                </div>`).join('');
+            wirePriorityDrag();
+        }
+
+        function wirePriorityDrag() {
+            const list = $('prioList');
+            let dragged = null;
+            list.querySelectorAll('.prio-item').forEach(item => {
+                item.addEventListener('dragstart', () => { dragged = item; item.classList.add('dragging'); });
+                item.addEventListener('dragend', () => {
+                    item.classList.remove('dragging');
+                    dragged = null;
+                    const order = [...list.querySelectorAll('.prio-item')].map(el => el.dataset.provider);
+                    autoSaveSettings({ api_priority: order }, 'saveTagPrio');
+                    renderPriority();
+                });
+                item.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    if (!dragged || dragged === item) return;
+                    const rect = item.getBoundingClientRect();
+                    const before = (e.clientY - rect.top) < rect.height / 2;
+                    list.insertBefore(dragged, before ? item : item.nextSibling);
+                });
+            });
+        }
+
+        /* ── Usage & caps ── */
+        async function loadUsage() {
+            try {
+                const r = await authed('/api/usage');
+                if (r.ok) usageInfo = await r.json();
+            } catch { /* keep previous */ }
+            renderUsage();
+        }
+
+        function fmt(n) {
+            if (n >= 1e6) return (n / 1e6).toFixed(1) + 'M';
+            if (n >= 1e3) return (n / 1e3).toFixed(1) + 'k';
+            return String(n);
+        }
+
+        function renderUsage() {
+            const cap = userSettings.monthly_cap || usageInfo.monthly_cap || 0;
+            const used = usageInfo.tokens || 0;
+            $('capUsageLabel').textContent = fmt(used) + ' / ' + (cap > 0 ? fmt(cap) : 'unlimited') + ' tokens';
+            const fill = $('capUsageFill');
+            const pct = cap > 0 ? Math.min(100, (used / cap) * 100) : (used > 0 ? 6 : 0);
+            fill.style.width = pct + '%';
+            fill.className = 'fill' + (cap > 0 && pct >= 90 ? ' danger' : cap > 0 && pct >= 70 ? ' warn' : '');
+        }
+
+        /* ── Account render ── */
         function render() {
             const email = (session.user && session.user.email) || '';
             const name = email.split('@')[0] || 'there';
@@ -1056,7 +904,7 @@
 
             const sub = (account && account.subscription) || { plan: 'free', status: 'inactive' };
             const rawPlan = sub.status === 'active' ? sub.plan : 'free';
-            const plan = (['starter', 'pro'].includes(rawPlan)) ? 'core' : rawPlan;
+            const plan = (['starter', 'pro'].includes(rawPlan)) ? rawPlan : 'free';
             const active = sub.status === 'active';
 
             $('stPlan').textContent = PLAN_NAME[plan] || plan;
@@ -1065,13 +913,16 @@
             $('stStatus').className = 'pill ' + (active ? 'ok' : 'off');
             $('sbPlan').textContent = (PLAN_NAME[plan] || plan) + ' plan';
 
-            // Models
             const models = (account && account.enabledProviders) || [];
             $('models').innerHTML = models.length
                 ? models.map(m => '<span class="model-tag">' + escHtml(m.label || m.provider) + '</span>').join('')
                 : '<span class="models-empty">No models enabled yet.</span>';
 
-            renderKeys();
+            // Admin section visibility
+            const isAdmin = !!(account && account.profile && account.profile.is_admin);
+            $('navAdmin').style.display = isAdmin ? '' : 'none';
+            $('secAdmin').style.display = isAdmin ? '' : 'none';
+            if (isAdmin) loadAdminConfig();
         }
 
         async function loadAccount() {
@@ -1082,14 +933,60 @@
             render();
         }
 
-        async function authed(path, opts) {
-            opts = opts || {};
-            const headers = Object.assign({ 'Content-Type': 'application/json' }, opts.headers || {});
-            if (session && session.access_token) headers.Authorization = 'Bearer ' + session.access_token;
-            return fetch(path, Object.assign({}, opts, { headers }));
+        async function loadUserSettings() {
+            try {
+                const r = await authed('/api/user-settings');
+                if (r.ok) {
+                    const d = await r.json();
+                    userSettings = Object.assign(userSettings, d.settings || {});
+                }
+            } catch { /* defaults */ }
+            $('capMonthly').value = userSettings.monthly_cap || '';
+            $('capPerPrompt').value = userSettings.per_prompt_cap || '';
+            $('selProvider').value = userSettings.provider || 'openrouter';
+            $('inpModel').value = userSettings.model || '';
+            renderPriority();
+            renderUsage();
         }
 
-        /* ── Nav ─────────────────────────────────────────────── */
+        /* ── Admin panel ── */
+        async function loadAdminConfig() {
+            try {
+                const r = await fetch('/api/remote-config');
+                if (!r.ok) return;
+                const c = await r.json();
+                $('admKill').checked = !!c.kill_switch;
+                $('admFree').checked = !!c.free_mode;
+                $('admMinVer').value = c.min_version || '';
+                $('admBanner').value = c.update_banner || '';
+                $('admFlags').value = JSON.stringify(c.feature_flags || {});
+            } catch { /* ignore */ }
+        }
+
+        async function applyAdminConfig() {
+            let flags = {};
+            try { flags = JSON.parse($('admFlags').value || '{}'); }
+            catch { return toast('Feature flags must be valid JSON', 'err'); }
+            tag('saveTagAdm', 'saving');
+            try {
+                const r = await authed('/api/remote-config', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        kill_switch: $('admKill').checked,
+                        free_mode: $('admFree').checked,
+                        min_version: $('admMinVer').value.trim() || '0.0.0',
+                        update_banner: $('admBanner').value.trim(),
+                        feature_flags: flags,
+                    })
+                });
+                const d = await r.json().catch(() => ({}));
+                if (!r.ok) throw new Error(d.message || 'Update failed');
+                tag('saveTagAdm', 'saved', 'applied');
+                toast('Remote config updated — applies on next app launch', 'ok');
+            } catch (e) { tag('saveTagAdm', 'error'); toast(e.message, 'err'); }
+        }
+
+        /* ── Nav ── */
         function setupNav() {
             const items = document.querySelectorAll('.nav-item[data-target]');
             items.forEach(item => {
@@ -1100,22 +997,34 @@
                     if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 });
             });
-            const sections = [
-                { el: $('secAccount'), nav: $('navAccount') },
-                { el: $('secKeys'), nav: $('navKeys') },
-                { el: $('secModels'), nav: $('navModels') },
-            ];
             window.addEventListener('scroll', () => {
-                let active = sections[0];
-                for (const s of sections) {
-                    if (s.el && s.el.getBoundingClientRect().top <= 140) active = s;
-                }
-                sections.forEach(s => s.nav && s.nav.classList.remove('active'));
-                active.nav && active.nav.classList.add('active');
+                let active = items[0];
+                items.forEach(it => {
+                    const sec = $(it.dataset.target);
+                    if (sec && sec.style.display !== 'none' && sec.getBoundingClientRect().top <= 150) active = it;
+                });
+                items.forEach(it => it.classList.remove('active'));
+                if (active) active.classList.add('active');
             }, { passive: true });
         }
 
-        /* ── Boot ────────────────────────────────────────────── */
+        /* ── Wiring auto-save inputs ── */
+        function wireAutoSave() {
+            $('capMonthly').addEventListener('input', () => {
+                const v = Math.max(0, Math.floor(+$('capMonthly').value || 0));
+                autoSaveSettings({ monthly_cap: v }, 'saveTagCaps');
+                renderUsage();
+            });
+            $('capPerPrompt').addEventListener('input', () => {
+                const v = Math.max(0, Math.floor(+$('capPerPrompt').value || 0));
+                autoSaveSettings({ per_prompt_cap: v }, 'saveTagCaps');
+            });
+            $('selProvider').addEventListener('change', () => autoSaveSettings({ provider: $('selProvider').value }, 'saveTagModel'));
+            $('inpModel').addEventListener('input', () => autoSaveSettings({ model: $('inpModel').value.trim() }, 'saveTagModel'));
+            $('admApply').addEventListener('click', applyAdminConfig);
+        }
+
+        /* ── Boot ── */
         async function boot() {
             let cfg;
             try {
@@ -1123,12 +1032,14 @@
                 cfg = await r.json();
                 if (!r.ok) throw new Error(cfg.message || 'config');
             } catch {
-                $('loader').innerHTML = '<span style="color:var(--google-red)">Could not load config. Is SUPABASE_ANON_KEY set?</span>';
+                $('skeleton').innerHTML = '<span style="color:#ff8d82;font-family:var(--mono);font-size:.8rem">Could not load config. Is SUPABASE_ANON_KEY set?</span>';
+                $('topbar-loader').classList.add('done');
                 return;
             }
 
             if (!window.supabase) {
-                $('loader').innerHTML = '<span style="color:var(--google-red)">Supabase library failed to load.</span>';
+                $('skeleton').innerHTML = '<span style="color:#ff8d82;font-family:var(--mono);font-size:.8rem">Supabase library failed to load.</span>';
+                $('topbar-loader').classList.add('done');
                 return;
             }
             sb = window.supabase.createClient(cfg.url, cfg.anonKey);
@@ -1145,15 +1056,17 @@
             });
 
             setupNav();
-            window.addEventListener('focus', () => { if (session) loadAccount(); });
+            wireAutoSave();
+            window.addEventListener('focus', () => { if (session) { loadAccount(); loadUsage(); } });
 
-            await loadAccount();
-            $('loader').style.display = 'none';
+            await Promise.all([loadAccount(), loadUserSettings(), loadServerKeys(), loadUsage()]);
+
+            // Reveal: fade skeleton, finish the gradient bar
+            $('topbar-loader').classList.add('done');
+            $('skeleton').classList.add('done');
+            setTimeout(() => { $('skeleton').remove(); }, 450);
             $('app').style.display = 'block';
-        }
-
-        function escHtml(s) {
-            return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+            requestAnimationFrame(() => $('app').classList.add('ready'));
         }
 
         boot();

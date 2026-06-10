@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Download Codeply — Windows &amp; macOS</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --g-blue: #4285F4; --g-blue-deep: #1a6ff0; --g-red: #ea4335; --g-yellow: #fbbc04; --g-green: #34a853;
+            --grad-brand: linear-gradient(90deg, var(--g-blue) 0 25%, var(--g-red) 25% 50%, var(--g-yellow) 50% 75%, var(--g-green) 75% 100%);
+            --grad-blue: linear-gradient(135deg, #4285F4, #1a6ff0);
+            --bg: #0b0e14; --glass: rgba(255,255,255,.045); --border: rgba(255,255,255,.09);
+            --border-bright: rgba(255,255,255,.16); --text: #eef1f6; --text2: #9aa3b2; --muted: #6b7280;
+            --sans: 'Inter', Arial, sans-serif; --mono: 'Fira Code', monospace;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: var(--sans); background: var(--bg); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; }
+        body::before {
+            content: ''; position: fixed; inset: -20%;
+            background:
+                radial-gradient(40% 35% at 20% 15%, rgba(66,133,244,.18), transparent 70%),
+                radial-gradient(35% 30% at 82% 12%, rgba(234,67,53,.10), transparent 70%),
+                radial-gradient(38% 34% at 78% 85%, rgba(52,168,83,.13), transparent 70%);
+            pointer-events: none; z-index: 0;
+            animation: drift 24s ease-in-out infinite alternate;
+        }
+        @keyframes drift { from { transform: translate3d(-1.5%,-1%,0); } to { transform: translate3d(1.5%,1.5%,0) scale(1.04); } }
+        a { color: inherit; text-decoration: none; }
+
+        .topline { height: 3px; background: var(--grad-brand); }
+        header {
+            position: relative; z-index: 1; display: flex; align-items: center; gap: 10px;
+            padding: 18px clamp(20px, 6vw, 64px); border-bottom: 1px solid var(--border);
+            background: rgba(13,17,25,.6); backdrop-filter: blur(18px);
+        }
+        header img { width: 28px; height: 28px; }
+        header b { font-weight: 800; }
+        header .grad-text { background: var(--grad-blue); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+        header nav { margin-left: auto; display: flex; gap: 22px; font-size: .84rem; font-weight: 600; color: var(--text2); }
+        header nav a:hover { color: var(--text); }
+
+        .hero { position: relative; z-index: 1; text-align: center; padding: clamp(56px, 10vw, 110px) 20px 30px; }
+        .hero h1 { font-size: clamp(1.9rem, 4.6vw, 3.1rem); font-weight: 800; letter-spacing: -.03em; }
+        .hero h1 .grad-text {
+            background: var(--grad-brand); background-size: 300% 100%;
+            -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+            animation: hue 7s linear infinite;
+        }
+        @keyframes hue { from { background-position: 0% 0; } to { background-position: 300% 0; } }
+        .hero p { color: var(--text2); margin-top: 14px; font-size: .98rem; max-width: 560px; margin-inline: auto; }
+
+        .grid {
+            position: relative; z-index: 1;
+            display: grid; grid-template-columns: repeat(2, minmax(260px, 380px)); gap: 22px;
+            justify-content: center; padding: 34px 20px 90px;
+        }
+        .card {
+            background: var(--glass); border: 1px solid var(--border); border-radius: 20px;
+            backdrop-filter: blur(16px); padding: 34px 30px; text-align: center;
+            box-shadow: 0 8px 32px rgba(0,0,0,.35);
+            transition: transform .2s, border-color .2s; position: relative; overflow: hidden;
+        }
+        .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--grad-brand); opacity: .85; }
+        .card:hover { transform: translateY(-5px); border-color: rgba(66,133,244,.5); }
+        .card .os-ic { font-size: 2.6rem; }
+        .card h3 { margin: 14px 0 6px; font-size: 1.15rem; font-weight: 800; }
+        .card p { color: var(--text2); font-size: .8rem; margin-bottom: 22px; }
+        .btn-grad {
+            display: inline-flex; align-items: center; gap: 9px;
+            background: var(--grad-blue); color: #fff; font-weight: 700; font-size: .9rem;
+            padding: 13px 30px; border-radius: 999px; border: none; cursor: pointer;
+            box-shadow: 0 4px 18px rgba(66,133,244,.4); transition: all .2s;
+        }
+        .btn-grad:hover { transform: translateY(-1px); box-shadow: 0 6px 26px rgba(66,133,244,.55); filter: brightness(1.07); }
+        .btn-grad.green { background: linear-gradient(135deg, #34a853, #1f8f43); box-shadow: 0 4px 18px rgba(52,168,83,.35); }
+        .btn-grad svg { width: 17px; height: 17px; }
+        .note { margin-top: 16px; font-family: var(--mono); font-size: .66rem; color: var(--muted); }
+
+        .steps { position: relative; z-index: 1; max-width: 720px; margin: 0 auto 100px; padding: 0 20px; }
+        .steps h2 { font-size: 1.2rem; font-weight: 800; margin-bottom: 18px; text-align: center; }
+        .step { display: flex; gap: 14px; align-items: flex-start; padding: 13px 0; border-bottom: 1px solid var(--border); }
+        .step:last-child { border-bottom: none; }
+        .step .n {
+            width: 26px; height: 26px; border-radius: 9px; background: var(--grad-blue);
+            display: grid; place-items: center; font-family: var(--mono); font-size: .72rem; font-weight: 700; flex: none;
+        }
+        .step p { color: var(--text2); font-size: .86rem; padding-top: 3px; }
+        .step p b { color: var(--text); }
+
+        @media (max-width: 700px) { .grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+
+<body>
+    <div class="topline"></div>
+    <header>
+        <img src="Favicon-RBG.png" alt="Codeply" />
+        <b>Code<span class="grad-text">ply</span></b>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="dashboard.html">Dashboard</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>Get <span class="grad-text">Codeply</span> on your desktop</h1>
+        <p>The AI overlay that places code surgically into your files. 400+ models via OpenRouter, your keys, your rules — synced with your Codeply account.</p>
+    </section>
+
+    <section class="grid">
+        <div class="card">
+            <div class="os-ic">🪟</div>
+            <h3>Codeply for Windows</h3>
+            <p>Windows 10 / 11 · 64-bit · NSIS installer</p>
+            <a class="btn-grad" href="/downloads/Codeply-Setup-1.0.0.exe" download>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Download .exe
+            </a>
+            <div class="note">v1.0.0 · ~85 MB · SHA-256 on the release page</div>
+        </div>
+        <div class="card">
+            <div class="os-ic">🍎</div>
+            <h3>Codeply for macOS</h3>
+            <p>macOS 12+ · Apple Silicon &amp; Intel · DMG</p>
+            <a class="btn-grad green" href="/downloads/Codeply-1.0.0.dmg" download>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Download .dmg
+            </a>
+            <div class="note">v1.0.0 · ~95 MB · notarized build</div>
+        </div>
+    </section>
+
+    <section class="steps">
+        <h2>Up and running in 3 steps</h2>
+        <div class="step"><span class="n">1</span><p><b>Install &amp; launch.</b> Codeply lives quietly in your tray — press <b>Alt + C</b> to summon the overlay.</p></div>
+        <div class="step"><span class="n">2</span><p><b>Sign in.</b> Your API keys, model preferences, and caps sync automatically from your dashboard.</p></div>
+        <div class="step"><span class="n">3</span><p><b>Copy code, hit Analyze.</b> Codeply finds exactly where the snippet belongs and applies it surgically.</p></div>
+    </section>
+</body>
+
+</html>

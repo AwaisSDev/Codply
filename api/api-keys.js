@@ -1,6 +1,15 @@
+// /api/api-keys — encrypted server-side API key storage.
+// Keys are AES-256-GCM encrypted with API_KEY_ENCRYPTION_SECRET and NEVER
+// shipped in any client bundle. The desktop app fetches the signed-in owner's
+// own keys (?reveal=1) over HTTPS with a Bearer token to enable failover.
+// GET            -> [{ provider, hint, updated_at }]
+// GET ?reveal=1  -> [{ provider, key }]  (owner only, for the desktop app)
+// POST           -> { provider, api_key } upsert
+// DELETE         -> { provider } remove
 import crypto from 'node:crypto';
 import { supabase } from './supabaseClient.js';
 import { getJsonBody, requireUser } from './auth.js';
+import { applyCors } from './cors.js';
 
 const allowedProviders = new Set(['openai', 'claude', 'openrouter', 'groq', 'gemini', 'deepseek', 'qwen', 'custom']);
 
@@ -20,27 +29,49 @@ function encrypt(value) {
   return Buffer.concat([iv, tag, encrypted]).toString('base64');
 }
 
+function decrypt(payload) {
+  const raw = Buffer.from(payload, 'base64');
+  const iv = raw.subarray(0, 12);
+  const tag = raw.subarray(12, 28);
+  const data = raw.subarray(28);
+  const decipher = crypto.createDecipheriv('aes-256-gcm', getKey(), iv);
+  decipher.setAuthTag(tag);
+  return Buffer.concat([decipher.update(data), decipher.final()]).toString('utf8');
+}
+
 function hint(value) {
   const trimmed = String(value || '').trim();
   if (trimmed.length <= 8) return 'Saved';
   return `${trimmed.slice(0, 4)}...${trimmed.slice(-4)}`;
 }
 
-async function isPro(userId) {
-  const { data } = await supabase
-    .from('subscriptions')
-    .select('plan,status')
-    .eq('user_id', userId)
-    .maybeSingle();
-  return data?.plan === 'pro' && data?.status === 'active';
-}
-
 export default async function handler(req, res) {
+  if (applyCors(req, res)) return;
+
   const user = await requireUser(req, res);
   if (!user) return;
 
-  if (!(await isPro(user.id))) {
-    return res.status(403).json({ message: 'API key storage is available on Pro.' });
+  if (req.method === 'GET') {
+    const url = new URL(req.url, 'http://localhost');
+    const reveal = url.searchParams.get('reveal') === '1';
+    const { data, error } = await supabase
+      .from('user_api_keys')
+      .select('provider,encrypted_key,key_hint,updated_at')
+      .eq('user_id', user.id);
+    if (error) return res.status(500).json({ message: 'Could not load keys.' });
+
+    if (reveal) {
+      // Owner-only: decrypt for the authenticated user's own desktop app.
+      const keys = [];
+      for (const row of data || []) {
+        try { keys.push({ provider: row.provider, key: decrypt(row.encrypted_key) }); }
+        catch { /* skip undecryptable rows */ }
+      }
+      return res.status(200).json({ keys });
+    }
+    return res.status(200).json({
+      keys: (data || []).map((k) => ({ provider: k.provider, hint: k.key_hint || 'Saved', updated_at: k.updated_at })),
+    });
   }
 
   const body = getJsonBody(req);
@@ -60,7 +91,7 @@ export default async function handler(req, res) {
   }
 
   if (req.method !== 'POST') {
-    res.setHeader('Allow', 'POST, DELETE');
+    res.setHeader('Allow', 'GET, POST, DELETE');
     return res.status(405).json({ message: 'Method not allowed.' });
   }
 
