@@ -47,6 +47,7 @@
             --error-red: #ea4335;
         }
 
+
         * {
             margin: 0;
             padding: 0;
@@ -58,7 +59,8 @@
         }
 
         body {
-            background: var(--sand);
+            background: linear-gradient(160deg, #5bb8f5 0%, #89c9f5 15%, #b8dff7 30%, #e8f4fb 45%, #f5e6d3 60%, #f0c9a0 75%, #e8a87c 88%, #d4956a 100%);
+            background-attachment: fixed;
             color: var(--text-primary);
             font-family: var(--font-serif);
             line-height: 1.7;
@@ -95,6 +97,42 @@
             transform: translateY(-1px);
         }
 
+        #nav-auth-control {
+            box-shadow: none !important;
+        }
+
+        #cta-download-btn {
+            background: var(--google-green) !important;
+            border-color: var(--google-green) !important;
+            color: #fff !important;
+            box-shadow: none !important;
+        }
+
+        #cta-download-btn:hover {
+            background: var(--google-yellow) !important;
+            border-color: var(--google-yellow) !important;
+            color: #fff !important;
+        }
+
+        #see-features-btn {
+            background: var(--google-blue) !important;
+            border-color: var(--google-blue) !important;
+            color: #fff !important;
+            box-shadow: none !important;
+        }
+
+        #see-features-btn:hover {
+            background: var(--google-red) !important;
+            border-color: var(--google-red) !important;
+            color: #fff !important;
+        }
+
+        #nav-auth-control:hover {
+            background: #2d9142 !important;
+            border-color: #2d9142 !important;
+            box-shadow: none !important;
+        }
+
         .btn-outline {
             background-color: transparent;
             border-color: var(--border-light);
@@ -119,9 +157,11 @@
             width: 100%;
             top: 0;
             z-index: 100;
-            background: rgba(255, 255, 255, 0.92);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border-light);
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 2px 16px rgba(255,255,255,0.15), inset 0 1px 0 rgba(255,255,255,0.6);
         }
 
         .logo {
@@ -192,7 +232,7 @@
         }
 
         .step:nth-child(2) {
-            border-top: 4px solid var(--google-yellow);
+            border-top: 4px solid var(--google-red);
         }
 
         .step:nth-child(3) {
@@ -481,20 +521,29 @@
             transition: all 1.2s cubic-bezier(0.45, 0, 0.55, 1);
         }
 
+        /* FAQ */
+        .faq-item.open .faq-answer { max-height: 200px !important; }
+        .faq-item.open .faq-icon { transform: rotate(90deg); color: var(--google-blue); }
+
         /* How it Works */
         .steps {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 3rem;
             margin-top: 4rem;
+            perspective: 600px;
         }
 
         .step {
             position: relative;
             padding: 2.5rem;
-            background: var(--white);
-            border: 1px solid var(--border-light);
-            border-radius: 16px;
+            background: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 20px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+            transform-style: preserve-3d;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            will-change: transform;
         }
 
         .step-num {
@@ -510,13 +559,28 @@
         .step h3 {
             font-family: var(--font-display);
             margin-bottom: 1rem;
-            font-size: 1.3rem;
+            font-size: 1.55rem;
             color: var(--google-blue);
         }
 
         .step p {
             color: var(--text-secondary);
-            font-size: 0.95rem;
+            font-size: 1.1rem;
+        }
+
+        .step:nth-child(1):hover {
+            border-color: var(--google-blue);
+            box-shadow: 0 10px 24px rgba(66, 133, 244, 0.2);
+        }
+
+        .step:nth-child(2):hover {
+            border-color: var(--google-red);
+            box-shadow: 0 10px 24px rgba(234, 67, 53, 0.2);
+        }
+
+        .step:nth-child(3):hover {
+            border-color: var(--google-green);
+            box-shadow: 0 10px 24px rgba(52, 168, 83, 0.2);
         }
 
         /* Features */
@@ -525,14 +589,18 @@
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: 2rem;
             margin-top: 4rem;
+            perspective: 600px;
         }
 
         .feature-card {
             padding: 2rem;
-            background: var(--white);
-            border: 1px solid var(--border-light);
-            border-radius: 16px;
-            transition: all 0.3s ease;
+            background: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 20px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            transform-style: preserve-3d;
+            will-change: transform;
         }
 
         .feature-card:hover {
@@ -549,13 +617,13 @@
         .feature-card h3 {
             font-family: var(--font-display);
             margin-bottom: 0.75rem;
-            font-size: 1.1rem;
+            font-size: 1.35rem;
             color: var(--google-blue);
         }
 
         .feature-card p {
             color: var(--text-secondary);
-            font-size: 0.9rem;
+            font-size: 1.05rem;
         }
 
 
@@ -581,7 +649,11 @@
 
         /* Who it's for */
         .who-section {
-            background: var(--white);
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.5);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.5);
         }
 
         .who-grid {
@@ -605,10 +677,13 @@
 
         /* Footer CTA */
         .footer-cta {
-            background: var(--white);
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
             padding: 4rem 2rem;
-            border-radius: 16px;
-            border: 1px solid var(--border-light);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.55);
+            box-shadow: 0 8px 32px rgba(255, 255, 255, 0.15), inset 0 1px 0 rgba(255,255,255,0.6);
             text-align: center;
         }
 
@@ -630,12 +705,18 @@
         /* Footer */
         footer {
             padding: 2.5rem 0;
-            /* Balanced padding for a professional feel */
-            background: #ffffff;
-            /* Dark theme to match your UI */
-            border-top: 0.6px solid #cccccc;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-top: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
             /* Subtle separation line */
             text-align: center;
+        }
+
+        footer a {
+            color: var(--text-secondary) !important;
+            text-decoration: none;
         }
 
         .footer-content {
@@ -689,7 +770,7 @@
 
         .btn-primary {
             background: var(--google-blue);
-            box-shadow: 0 8px 18px rgba(26, 115, 232, 0.18);
+            box-shadow: none;
         }
 
         .btn-primary:hover {
@@ -776,9 +857,9 @@
         }
 
         .who-tag:nth-child(1) {
-            background: #e8f0fe;
-            border-color: #d2e3fc;
-            color: var(--google-blue);
+            background: #fef9e0;
+            border-color: #fde68a;
+            color: #b45309;
         }
 
         .who-tag:nth-child(2) {
@@ -858,7 +939,7 @@
             background-color: var(--google-yellow);
             border-color: var(--google-yellow);
             color: var(--white) !important;
-            box-shadow: 0 8px 18px rgba(251, 188, 4, 0.22);
+            box-shadow: none;
         }
 
         header .nav-links .btn-primary:hover {
@@ -902,9 +983,9 @@
         }
 
         header .nav-links .btn-primary:hover {
-            background: var(--google-green);
-            background-color: var(--google-green);
-            border-color: var(--google-green);
+            background: #ff6d00;
+            background-color: #ff6d00;
+            border-color: #ff6d00;
             color: var(--white) !important;
             box-shadow: 0 9px 20px rgba(52, 168, 83, 0.22);
         }
@@ -1007,7 +1088,7 @@
             border-bottom: 1px solid #3c3c3c;
         }
         .cp-vsc-title {
-            margin-left: 12px; font-size: 12px; color: #cccccc;
+            margin-left: 12px; font-size: 15px; color: #cccccc;
             font-family: 'Fira Code', monospace;
         }
         .cp-vsc-body { display: flex; flex: 1; overflow: hidden; }
@@ -1015,19 +1096,19 @@
             width: 185px; background: #252526;
             border-right: 1px solid #3c3c3c;
             padding: 16px 0;
-            font-family: 'Fira Code', monospace; font-size: 12.5px; color: #858585;
+            font-family: 'Fira Code', monospace; font-size: 15px; color: #858585;
         }
         .cp-vsc-file { padding: 5px 16px; cursor: default; }
         .cp-vsc-active { color: #ffffff; background: rgba(255,255,255,.06); }
         .cp-vsc-editor {
             flex: 1; padding: 20px 340px 20px 0;
-            font-family: 'Fira Code', monospace; font-size: 13.5px;
+            font-family: 'Fira Code', monospace; font-size: 16px;
             line-height: 1.85; color: #d4d4d4; overflow: hidden;
             text-align: left;
         }
         .cp-vsc-line { display: block; padding: 0 20px; white-space: pre; }
         .cp-vsc-highlight { background: rgba(255,255,100,.07); border-left: 2px solid #fbbc04; }
-        .cp-ln { display: inline-block; width: 28px; color: #555; text-align: right; padding-right: 16px; font-size: 12px; user-select:none; }
+        .cp-ln { display: inline-block; width: 28px; color: #555; text-align: right; padding-right: 16px; font-size: 14px; user-select:none; }
         .cp-kw { color: #569cd6; }
         .cp-fn { color: #dcdcaa; }
         .cp-str { color: #ce9178; }
@@ -1057,7 +1138,7 @@
         .cp-dot { width: 11px; height: 11px; border-radius: 50%; display: block; flex-shrink:0; }
         .cp-titlebar-brand {
             display: flex; align-items: center; gap: 0;
-            font-weight: 700; font-size: 0.95rem; color: #202124;
+            font-weight: 700; font-size: 1.15rem; color: #202124;
             margin-right: 15px;
         }
         .cp-reload-btn {
@@ -1075,22 +1156,22 @@
         .cp-file-pill {
             display: flex; align-items: center; gap: 6px;
             background: #e6f4ea; border-radius: 20px;
-            padding: 4px 11px; font-size: 0.77rem; font-weight: 600; color: #1a7a3c;
+            padding: 5px 13px; font-size: 0.92rem; font-weight: 600; color: #1a7a3c;
         }
         .cp-file-dot { width:7px; height:7px; border-radius:50%; background:#34a853; flex-shrink:0; }
         .cp-file-actions { display:flex; gap:6px; }
         .cp-file-btn {
             background: #f1f3f4; border: none; border-radius: 8px;
-            font-size: 0.72rem; padding: 4px 9px; color: #5f6368;
+            font-size: 0.88rem; padding: 5px 11px; color: #5f6368;
             cursor: default; font-family: var(--font-serif); font-weight:500;
             display:flex;align-items:center;gap:4px;
         }
         /* Code input area */
         .cp-code-area {
-            min-height: 108px; max-height: 120px;
+            min-height: 220px; max-height: 240px;
             background: #fafafa; border-bottom: 1px solid #f0f0f0;
-            padding: 12px 14px; position: relative; overflow: hidden;
-            font-family: 'Fira Code', monospace; font-size: 12px;
+            padding: 14px 16px; position: relative; overflow: hidden;
+            font-family: 'Fira Code', monospace; font-size: 15px;
             color: #3c4043; line-height: 1.75; text-align: left;
         }
         .cp-placeholder {
@@ -1109,13 +1190,13 @@
         /* Status area */
         .cp-status-area {
             display: flex; align-items: flex-start; gap: 10px;
-            padding: 10px 14px; border-bottom: 1px solid #f0f0f0;
-            min-height: 52px; text-align: left;
+            padding: 20px 14px; border-bottom: 1px solid #f0f0f0;
+            min-height: 90px; text-align: left;
         }
         .cp-status-icon { font-size: 13px; color: #9aa0a6; flex-shrink:0; padding-top:1px; }
-        .cp-status-title { font-size: 0.83rem; font-weight: 800; color: #202124; }
+        .cp-status-title { font-size: 1rem; font-weight: 800; color: #202124; }
         .cp-status-title.green { color: #34a853; }
-        .cp-status-sub { font-size: 0.73rem; color: #80868b; line-height:1.4; margin-top:1px; }
+        .cp-status-sub { font-size: 0.88rem; color: #80868b; line-height:1.4; margin-top:1px; }
         /* Spinner */
         .cp-spinner {
             width:13px; height:13px; border:2px solid #e0e0e0;
@@ -1124,21 +1205,31 @@
             display:inline-block;
         }
         @keyframes cpspin { to { transform:rotate(360deg); } }
+        @keyframes hotkeyBadgePulse {
+            0%   { box-shadow: 0 0 0 0 rgba(26,115,232,0.4); border-color: rgba(26,115,232,0.4); }
+            60%  { box-shadow: 0 0 0 8px rgba(26,115,232,0); border-color: rgba(26,115,232,0.15); }
+            100% { box-shadow: 0 0 0 0 rgba(26,115,232,0); border-color: rgba(26,115,232,0.2); }
+        }
+        @keyframes hlpPulse {
+            0%   { box-shadow: 0 0 0 0 rgba(52,168,83,0.8); }
+            60%  { box-shadow: 0 0 0 12px rgba(52,168,83,0); }
+            100% { box-shadow: 0 0 0 0 rgba(52,168,83,0); }
+        }
         /* Button row */
         .cp-btn-row { display: flex; gap: 8px; padding: 10px 14px; }
         .cp-btn-analyze {
-            flex: 1; padding: 9px 0;
+            flex: 1; padding: 11px 0;
             background: #d2e3fc; color: #1a73e8; border: none; border-radius: 10px;
-            font-weight: 700; font-size: 0.83rem; cursor: pointer;
+            font-weight: 700; font-size: 1rem; cursor: pointer;
             font-family: var(--font-serif); transition: background .2s, transform .12s;
         }
         .cp-btn-analyze:hover:not(:disabled) { background: #b8d0f8; }
         .cp-btn-analyze:active:not(:disabled) { transform: scale(.97); }
         .cp-btn-analyze:disabled { opacity:.5; cursor:default; }
         .cp-btn-apply {
-            flex: 1; padding: 9px 0;
+            flex: 1; padding: 11px 0;
             background: #fff; color: #34a853; border: 1.5px solid #34a853;
-            border-radius: 10px; font-weight: 700; font-size: 0.83rem; cursor: pointer;
+            border-radius: 10px; font-weight: 700; font-size: 1rem; cursor: pointer;
             font-family: var(--font-serif); transition: background .2s, color .2s, transform .12s;
         }
         .cp-btn-apply:hover:not(:disabled) { background: #e6f4ea; }
@@ -1782,7 +1873,7 @@
 
             .hero-ctas {
                 flex-direction: column;
-                align-items: stretch;
+                align-items: center;
             }
 
             .ide-container {
@@ -1847,13 +1938,13 @@
         <div class="container">
             <nav>
                 <a href="/" class="logo" aria-label="Codeply" style="text-decoration:none">
-                    <img src="Favicon.png" alt="Codeply" style="flex-shrink:0;display:block;height:40px;width:40px;margin-right:4px;">
+                    <img src="Favicon-RBG.png" alt="Codeply" style="flex-shrink:0;display:block;height:40px;width:40px;margin-right:4px;border-radius:8px;">
                     <span style="font-size:1.55rem;font-weight:800;letter-spacing:-0.5px;color:#202124;margin-top:2px">Codeply</span>
                 </a>
                 <div class="nav-links">
                     <a href="#features">Features</a>
                     <button class="btn btn-primary auth-trigger" id="nav-auth-control" type="button"
-                        style="padding: 0.6rem 1.2rem; font-size: 0.85rem;">Get Started</button>
+                        style="padding: 0.75rem 1.8rem; font-size: 1rem; background: var(--google-green); border-color: var(--google-green);">Download</button>
                 </div>
             </nav>
         </div>
@@ -1867,9 +1958,11 @@
                         class="word-red">Code</span> <span class="word-green">Goes.</span></h1>
                 <p class="reveal">The surgical desktop overlay that tells you exactly which file and lines to edit.
                     Built for the era of AI-generated code.</p>
-                <div class="hero-ctas reveal">
-                    <button class="btn btn-primary auth-trigger" type="button">Get Started</button>
-                    <a href="#features" class="btn btn-outline">See Features</a>
+                <div class="hero-ctas reveal" style="justify-content: center;">
+                    <a id="hero-download-btn" href="/download" class="btn btn-primary" style="padding: 1rem 2.5rem; font-size: 1.2rem; font-weight: 700; border-radius: 999px; display: inline-flex; align-items: center; gap: 10px; width: auto;">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 4v12m0 0-4-4m4 4 4-4M4 20h16"/></svg>
+                        <span id="hero-download-label">Download</span>
+                    </a>
                 </div>
 
                 <!-- Codeply App Mockup -->
@@ -1975,7 +2068,7 @@
         <section id="how-it-works">
             <div class="container">
                 <div style="text-align: center; margin-bottom: 4rem;">
-                    <h2 style="font-family: var(--font-display); font-size: 2.2rem; color: var(--google-blue);">How it
+                    <h2 style="font-family: var(--font-display); font-size: 3.2rem; color: var(--google-blue);">How it
                         Works
                     </h2>
                 </div>
@@ -1986,8 +2079,8 @@
                         <p>Summon Codply instantly with a global shortcut while you're in your browser or terminal.</p>
                     </div>
                     <div class="step reveal">
-                        <div class="step-num" style="color: var(--google-yellow) !important;">02</div>
-                        <h3 style="color: var(--google-yellow) !important;">Paste Your Code</h3>
+                        <div class="step-num" style="color: var(--google-red) !important;">02</div>
+                        <h3 style="color: var(--google-red) !important;">Paste Your Code</h3>
                         <p>Paste that AI-generated snippet you just got. No need to format or clean it up.</p>
                     </div>
                     <div class=" step reveal">
@@ -2003,7 +2096,7 @@
         <section id="features">
             <div class="container">
                 <div style="text-align: center; margin-bottom: 4rem;">
-                    <h2 style="font-family: var(--font-display); font-size: 2.2rem; color: var(--google-blue);">Built
+                    <h2 style="font-family: var(--font-display); font-size: 3.2rem; color: var(--google-blue);">Built
                         for
                         Precision</h2>
                 </div>
@@ -2063,6 +2156,330 @@
             </div>
         </section>
 
+        <!-- How Codeply Helps -->
+        <section id="how-codeply-helps">
+            <div class="container">
+                <h2 style="font-family:var(--font-display);font-size:3rem;font-weight:800;color:var(--text-primary);margin-bottom:3rem;">How Codeply helps during <span style="color:var(--google-blue);">coding</span></h2>
+                <div style="display:grid;grid-template-columns:2fr 3fr;gap:2rem;align-items:stretch;">
+                    <!-- LEFT: short text card -->
+                    <div style="background:#ffffff;border:1px solid rgba(255,255,255,0.75);border-radius:24px;padding:2.5rem;box-shadow:0 4px 24px rgba(0,0,0,0.06);display:flex;flex-direction:column;justify-content:center;">
+                        <h3 style="font-size:1.6rem;font-weight:800;color:#111;margin-bottom:1rem;line-height:1.3;">Codeply <span style="display:inline-block;color:var(--google-blue);padding:3px 14px;border-radius:999px;background:rgba(255,255,255,0.55);backdrop-filter:blur(16px) saturate(180%);-webkit-backdrop-filter:blur(16px) saturate(180%);border:1px solid rgba(255,255,255,0.9);box-shadow:0 2px 16px rgba(66,133,244,0.18),inset 0 1px 0 rgba(255,255,255,0.95),inset 0 -1px 0 rgba(255,255,255,0.4);text-shadow:0 1px 2px rgba(255,255,255,0.8);">scans</span> your entire project</h3>
+                        <p style="color:#5f6368;font-size:1rem;line-height:1.6;margin-bottom:2rem;">Reads your file structure, imports, and context in real time — so it knows exactly where new code belongs.</p>
+                        <div style="display:flex;flex-direction:column;gap:10px;">
+                            <div style="display:flex;align-items:center;gap:10px;font-size:0.92rem;color:#3c4043;"><span style="color:#34a853;font-weight:700;">✓</span> Detects file structure instantly</div>
+                            <div style="display:flex;align-items:center;gap:10px;font-size:0.92rem;color:#3c4043;"><span style="color:#34a853;font-weight:700;">✓</span> Reads imports &amp; dependencies</div>
+                            <div style="display:flex;align-items:center;gap:10px;font-size:0.92rem;color:#3c4043;"><span style="color:#34a853;font-weight:700;">✓</span> Returns exact file + line number</div>
+                        </div>
+                        <!-- Hotkey badge -->
+                        <div style="margin-top:2.5rem;display:inline-flex;align-items:center;gap:10px;background:rgba(26,115,232,0.08);border:1px solid rgba(26,115,232,0.2);border-radius:12px;padding:10px 16px;animation:hotkeyBadgePulse 1.6s ease-out infinite;">
+                            <span style="color:#5f6368;font-size:0.78rem;font-family:'Fira Code',monospace;text-transform:uppercase;letter-spacing:0.08em;">Summon with</span>
+                            <span id="badge-key-alt" style="background:#1a73e8;border:1px solid #1557b0;border-bottom:3px solid #1557b0;border-radius:6px;padding:5px 12px;font-size:0.88rem;font-weight:700;font-family:'Fira Code',monospace;color:#fff;transition:transform 0.1s,border-bottom 0.1s;">Alt</span>
+                            <span style="color:#9aa0a6;font-weight:700;">+</span>
+                            <span id="badge-key-c" style="background:#1a73e8;border:1px solid #1557b0;border-bottom:3px solid #1557b0;border-radius:6px;padding:5px 12px;font-size:0.88rem;font-weight:700;font-family:'Fira Code',monospace;color:#fff;transition:transform 0.1s,border-bottom 0.1s;">C</span>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT: full VS Code + popup animation -->
+                    <div style="background:#1e1e1e;border-radius:24px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,0.3);position:relative;min-height:420px;">
+                        <!-- VS Code titlebar -->
+                        <div style="background:#323233;padding:10px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #2d2d2d;">
+                            <span style="width:12px;height:12px;border-radius:50%;background:#ff5f57;display:block;"></span>
+                            <span style="width:12px;height:12px;border-radius:50%;background:#ffbd2e;display:block;"></span>
+                            <span style="width:12px;height:12px;border-radius:50%;background:#28c840;display:block;"></span>
+                            <span style="color:#9ca3af;font-size:0.8rem;font-family:'Fira Code',monospace;margin-left:8px;">auth.py — MyProject</span>
+                        </div>
+                        <!-- Editor body -->
+                        <div style="display:flex;height:calc(100% - 36px);">
+                            <!-- Sidebar -->
+                            <div style="background:#252526;width:130px;flex-shrink:0;padding:10px 0;font-family:'Fira Code',monospace;font-size:0.72rem;">
+                                <div style="padding:5px 12px;color:#9ca3af;">📁 src</div>
+                                <div style="padding:5px 12px;background:#37373d;color:#fff;border-left:2px solid #1a73e8;">🐍 auth.py</div>
+                                <div style="padding:5px 12px;color:#9ca3af;">🐍 models.py</div>
+                                <div style="padding:5px 12px;color:#9ca3af;">🐍 utils.py</div>
+                                <div style="padding:5px 12px;color:#9ca3af;">📁 tests</div>
+                            </div>
+                            <!-- Code editor -->
+                            <div style="flex:1;padding:14px 16px;font-family:'Fira Code',monospace;font-size:0.82rem;line-height:1.8;color:#d4d4d4;position:relative;overflow:hidden;">
+                                <div><span style="color:#858585;margin-right:14px;user-select:none;">1</span><span style="color:#569cd6;">import</span> jwt</div>
+                                <div><span style="color:#858585;margin-right:14px;user-select:none;">2</span><span style="color:#569cd6;">from</span> datetime <span style="color:#569cd6;">import</span> datetime</div>
+                                <div><span style="color:#858585;margin-right:14px;user-select:none;">3</span></div>
+                                <div><span style="color:#858585;margin-right:14px;user-select:none;">4</span><span style="color:#dcdcaa;">def</span> <span style="color:#4ec9b0;">authenticate</span>(user):</div>
+                                <div id="hl-line5" style="background:rgba(26,115,232,0.15);border-left:2px solid #1a73e8;padding-left:6px;transition:background 0.5s;"><span style="color:#858585;margin-right:14px;user-select:none;">5</span>&nbsp;&nbsp;token = jwt.encode(user.id, key)</div>
+                                <div><span style="color:#858585;margin-right:14px;user-select:none;">6</span>&nbsp;&nbsp;<span style="color:#569cd6;">if</span> user.is_valid:</div>
+                                <div><span style="color:#858585;margin-right:14px;user-select:none;">7</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">return</span> <span style="color:#ce9178;">True</span></div>
+                                <div><span style="color:#858585;margin-right:14px;user-select:none;">8</span></div>
+                                <div><span style="color:#858585;margin-right:14px;user-select:none;">9</span><span style="color:#dcdcaa;">def</span> <span style="color:#4ec9b0;">verify_token</span>(token):</div>
+                                <div><span style="color:#858585;margin-right:10px;user-select:none;">10</span>&nbsp;&nbsp;payload = jwt.decode(token, SECRET)</div>
+
+                                <!-- Animated cursor -->
+                                <div id="hlp-cursor" style="position:absolute;width:18px;height:18px;pointer-events:none;z-index:50;opacity:0;">
+                                    <svg width="18" height="18" viewBox="0 0 24 24"><path d="M4.5 3V17l4.2-4.2 3.3 7.3 2.7-1.2-3.3-7.3H18.5L4.5 3z" fill="#000000" stroke="#fff" stroke-width="1"/></svg>
+                                </div>
+
+                                <!-- Codeply popup (hidden initially) -->
+                                <div id="hlp-popup" style="position:absolute;top:6px;right:8px;width:240px;background:#fff;border-radius:14px;box-shadow:0 12px 40px rgba(0,0,0,0.45),0 0 0 1px rgba(0,0,0,0.08);opacity:0;transform:scale(0.92) translateY(-8px);transition:opacity 0.35s,transform 0.35s;overflow:hidden;font-family:var(--font-serif);">
+                                    <!-- Popup titlebar -->
+                                    <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:#f7f7f7;border-bottom:1px solid #ebebeb;">
+                                        <div style="display:flex;gap:5px;">
+                                            <span style="width:10px;height:10px;border-radius:50%;background:#ff5f57;display:block;"></span>
+                                            <span style="width:10px;height:10px;border-radius:50%;background:#ffbd2e;display:block;"></span>
+                                            <span style="width:10px;height:10px;border-radius:50%;background:#28c840;display:block;"></span>
+                                        </div>
+                                        <div style="display:flex;align-items:center;gap:5px;font-weight:700;font-size:0.9rem;color:#202124;">
+                                            <img src="Favicon-RBG.png" style="height:16px;width:16px;border-radius:3px;">Codeply
+                                        </div>
+                                        <div style="width:36px;"></div>
+                                    </div>
+                                    <!-- File pill -->
+                                    <div style="padding:7px 12px;border-bottom:1px solid #f0f0f0;background:#fff;">
+                                        <span style="background:#e6f4ea;border-radius:20px;padding:3px 10px;font-size:0.78rem;font-weight:600;color:#1a7a3c;display:inline-flex;align-items:center;gap:5px;"><span style="width:6px;height:6px;border-radius:50%;background:#34a853;display:inline-block;"></span>auth.py</span>
+                                        <span style="background:#f1f3f4;border-radius:6px;padding:3px 8px;font-size:0.75rem;color:#5f6368;margin-left:4px;">Watch</span>
+                                        <span style="background:#f1f3f4;border-radius:6px;padding:3px 8px;font-size:0.75rem;color:#5f6368;margin-left:2px;">File</span>
+                                    </div>
+                                    <!-- Code input -->
+                                    <div id="hlp-code-area" style="padding:10px 12px;font-family:'Fira Code',monospace;font-size:0.75rem;line-height:1.7;color:#3c4043;background:#fafafa;border-bottom:1px solid #f0f0f0;min-height:64px;">
+                                        <span style="color:#9aa0a6;font-style:italic;">token = jwt.encode(<br>&nbsp;&nbsp;&#123;'id': user.id&#125;, key<br>)</span>
+                                    </div>
+                                    <!-- Status area -->
+                                    <div id="hlp-status" style="padding:10px 12px;display:flex;gap:8px;align-items:flex-start;border-bottom:1px solid #f0f0f0;min-height:56px;">
+                                        <div id="hlp-spinner" style="width:11px;height:11px;border:2px solid #e0e0e0;border-top-color:#4285F4;border-radius:50%;animation:cpspin .7s linear infinite;flex-shrink:0;margin-top:2px;"></div>
+                                        <div id="hlp-status-text">
+                                            <div style="font-size:0.82rem;font-weight:700;color:#202124;">Scanning auth.py...</div>
+                                            <div style="font-size:0.72rem;color:#9aa0a6;margin-top:2px;">Analyzing line 5</div>
+                                        </div>
+                                    </div>
+                                    <!-- Buttons -->
+                                    <div style="display:flex;gap:6px;padding:8px 12px;">
+                                        <button style="flex:1;padding:8px 0;background:#d2e3fc;color:#1a73e8;border:none;border-radius:8px;font-weight:700;font-size:0.82rem;cursor:pointer;font-family:var(--font-serif);">Analyze</button>
+                                        <button id="hlp-apply-btn" style="flex:1;padding:8px 0;background:#fff;color:#34a853;border:1.5px solid #34a853;border-radius:8px;font-weight:700;font-size:0.82rem;cursor:pointer;font-family:var(--font-serif);opacity:0.4;">Apply</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Alt+C hotkey overlay -->
+                        <div id="hlp-hotkey" style="position:absolute;bottom:16px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:8px;background:rgba(52,168,83,0.95);backdrop-filter:blur(8px);border-radius:10px;padding:8px 16px;opacity:1;transition:opacity 0.4s;animation:hlpPulse 1.4s ease-out infinite;">
+                            <span id="hlp-key-alt" style="background:rgba(255,255,255,0.25);color:#fff;border:1px solid rgba(255,255,255,0.5);border-bottom:3px solid rgba(255,255,255,0.5);border-radius:6px;padding:4px 10px;font-size:0.82rem;font-weight:700;font-family:'Fira Code',monospace;transition:transform 0.1s,border-bottom 0.1s;">Alt</span>
+                            <span style="color:rgba(255,255,255,0.7);font-size:0.9rem;">+</span>
+                            <span id="hlp-key-c" style="background:rgba(255,255,255,0.25);color:#fff;border:1px solid rgba(255,255,255,0.5);border-bottom:3px solid rgba(255,255,255,0.5);border-radius:6px;padding:4px 10px;font-size:0.82rem;font-weight:700;font-family:'Fira Code',monospace;transition:transform 0.1s,border-bottom 0.1s;">C</span>
+                            <span style="color:rgba(255,255,255,0.9);font-size:0.75rem;font-weight:600;margin-left:4px;">summon Codeply</span>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                (function(){
+                    function moveCursor(cursor, container, targetEl, offsetX, offsetY) {
+                        var tr = targetEl.getBoundingClientRect();
+                        var cr = container.getBoundingClientRect();
+                        cursor.style.left = (tr.left - cr.left + tr.width * (offsetX||0.5)) + 'px';
+                        cursor.style.top  = (tr.top  - cr.top  + tr.height * (offsetY||0.5)) + 'px';
+                    }
+                    function flash(el, color, reset, dur) {
+                        el.style.background = color;
+                        setTimeout(() => { el.style.background = reset||''; }, dur||300);
+                    }
+
+                    function run() {
+                        var container = document.getElementById('hlp-cursor').parentElement;
+                        var popup     = document.getElementById('hlp-popup');
+                        var cursor    = document.getElementById('hlp-cursor');
+                        var hotkey    = document.getElementById('hlp-hotkey');
+                        var kAlt      = document.getElementById('hlp-key-alt');
+                        var kC        = document.getElementById('hlp-key-c');
+                        var statusText= document.getElementById('hlp-status-text');
+                        var spinner   = document.getElementById('hlp-spinner');
+                        var applyBtn  = document.getElementById('hlp-apply-btn');
+                        var analyzeBtn= popup.querySelector('button:first-child');
+                        var hl5       = document.getElementById('hl-line5');
+                        if(!popup) return;
+
+                        // Step 1: cursor snaps to line 5 (no transition), then re-enable
+                        cursor.style.transition = 'opacity 0.3s';
+                        moveCursor(cursor, container, hl5, 0.3, 0.5);
+                        cursor.style.opacity = '0';
+                        hl5.style.background = 'rgba(26,115,232,0.25)';
+                        requestAnimationFrame(() => requestAnimationFrame(() => {
+                            cursor.style.transition = 'left 0.55s cubic-bezier(.4,0,.2,1), top 0.55s cubic-bezier(.4,0,.2,1), opacity 0.3s';
+                            cursor.style.opacity = '1';
+                        }));
+
+                        // Step 2: Alt+C press (900ms)
+                        setTimeout(() => {
+                            kAlt.style.transform = 'translateY(2px)'; kAlt.style.borderBottomWidth = '1px';
+                            setTimeout(() => {
+                                kC.style.transform = 'translateY(2px)'; kC.style.borderBottomWidth = '1px';
+                                setTimeout(() => {
+                                    kAlt.style.transform = ''; kAlt.style.borderBottomWidth = '';
+                                    kC.style.transform = '';   kC.style.borderBottomWidth = '';
+
+                                    // Step 3: popup slides in, hotkey hides (1100ms)
+                                    popup.style.opacity = '1';
+                                    popup.style.transform = 'scale(1) translateY(0)';
+                                    hotkey.style.opacity = '0';
+
+                                    // Step 4: cursor moves to Analyze btn (1400ms)
+                                    setTimeout(() => {
+                                        moveCursor(cursor, container, analyzeBtn, 0.5, 0.5);
+
+                                        // Step 5: click Analyze (1700ms)
+                                        setTimeout(() => {
+                                            flash(analyzeBtn, '#b8d0f8', '#d2e3fc');
+
+                                            // Step 6: scanning... (2000ms)
+                                            setTimeout(() => {
+                                                spinner.style.border = '2px solid #e0e0e0';
+                                                spinner.style.borderTopColor = '#34a853';
+                                                spinner.style.animation = 'cpspin .7s linear infinite';
+
+                                                // Step 7: Enhancement Found (3200ms)
+                                                setTimeout(() => {
+                                                    spinner.style.animation = 'none';
+                                                    spinner.style.border = '2px solid #34a853';
+                                                    statusText.innerHTML = '<div style="font-size:0.82rem;font-weight:800;color:#34a853;">Enhancement Found</div><div style="font-size:0.72rem;color:#9aa0a6;margin-top:2px;">Upgrade line 5 — use payload dict</div>';
+                                                    applyBtn.style.opacity = '1';
+
+                                                    // Step 8: cursor moves to Apply (3600ms)
+                                                    setTimeout(() => {
+                                                        moveCursor(cursor, container, applyBtn, 0.5, 0.5);
+
+                                                        // Step 9: click Apply
+                                                        setTimeout(() => {
+                                                            flash(applyBtn, '#e6f4ea', '#fff');
+
+                                                            // Step 10: close popup, RED overlay on line 5
+                                                            setTimeout(() => {
+                                                                popup.style.opacity = '0';
+                                                                popup.style.transform = 'scale(0.92) translateY(-8px)';
+                                                                cursor.style.opacity = '0';
+
+                                                                hl5.style.transition = 'background 0.15s';
+                                                                hl5.style.background = 'rgba(234,67,53,0.22)';
+                                                                hl5.style.borderLeft = '3px solid #ea4335';
+                                                                hl5.innerHTML = '<span style="color:#858585;margin-right:14px;user-select:none;">5</span><span style="color:#f28b82;text-decoration:line-through;opacity:0.85;">&nbsp;&nbsp;token = jwt.encode(user.id, key)</span>';
+
+                                                                // Step 11: GREEN overlay — new code in
+                                                                setTimeout(() => {
+                                                                    hl5.style.background = 'rgba(52,168,83,0.18)';
+                                                                    hl5.style.borderLeft = '3px solid #34a853';
+                                                                    hl5.innerHTML = '<span style="color:#858585;margin-right:14px;user-select:none;">5</span><span style="color:#81c995;">&nbsp;&nbsp;token = jwt.encode({\'id\': user.id}, key)</span>';
+
+                                                                    // Step 12: reset to idle
+                                                                    setTimeout(() => {
+                                                                        hotkey.style.opacity = '1';
+                                                                        hl5.style.transition = '';
+                                                                        hl5.style.background = 'rgba(26,115,232,0.15)';
+                                                                        hl5.style.borderLeft = '2px solid #1a73e8';
+                                                                        hl5.innerHTML = '<span style="color:#858585;margin-right:14px;user-select:none;">5</span>&nbsp;&nbsp;token = jwt.encode(user.id, key)';
+                                                                        spinner.style.animation = 'cpspin .7s linear infinite';
+                                                                        spinner.style.border = '2px solid #e0e0e0';
+                                                                        spinner.style.borderTopColor = '#4285F4';
+                                                                        statusText.innerHTML = '<div style="font-size:0.82rem;font-weight:700;color:#202124;">Scanning auth.py...</div><div style="font-size:0.72rem;color:#9aa0a6;margin-top:2px;">Analyzing line 5</div>';
+                                                                        applyBtn.style.opacity = '0.4';
+                                                                        setTimeout(run, 1200);
+                                                                    }, 1000);
+                                                                }, 550);
+                                                            }, 350);
+                                                        }, 500);
+                                                    }, 400);
+                                                }, 1200);
+                                            }, 300);
+                                        }, 400);
+                                    }, 500);
+                                }, 250);
+                            }, 150);
+                        }, 900);
+                    }
+                    setTimeout(run, 1000);
+
+                    // Badge key-press loop
+                    (function badgeLoop() {
+                        var bAlt = document.getElementById('badge-key-alt');
+                        var bC   = document.getElementById('badge-key-c');
+                        if(!bAlt || !bC) return;
+                        setTimeout(() => {
+                            bAlt.style.transform = 'translateY(2px)'; bAlt.style.borderBottomWidth = '1px';
+                            setTimeout(() => {
+                                bC.style.transform = 'translateY(2px)'; bC.style.borderBottomWidth = '1px';
+                                setTimeout(() => {
+                                    bAlt.style.transform = ''; bAlt.style.borderBottomWidth = '';
+                                    bC.style.transform = '';   bC.style.borderBottomWidth = '';
+                                    setTimeout(badgeLoop, 2200);
+                                }, 200);
+                            }, 130);
+                        }, 1800);
+                    })();
+                })();
+                </script>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section id="stats">
+            <div class="container">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:stretch;">
+                    <div style="background:rgba(255,255,255,0.25);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.5);border-radius:24px;padding:2.5rem;display:flex;flex-direction:column;justify-content:space-between;">
+                        <div style="font-size:0.8rem;color:var(--text-secondary);margin-bottom:6px;">LIVE ANALYSIS</div>
+                        <div style="font-size:2.5rem;font-weight:800;color:var(--google-blue);font-family:'Fira Code',monospace;margin-bottom:12px;">auth.py</div>
+                        <div style="font-family:'Fira Code',monospace;font-size:0.92rem;line-height:1.85;margin-bottom:1.5rem;color:var(--text-secondary);">
+                            <div><span style="color:#9ca3af;margin-right:16px;">1</span><span style="color:#569cd6;">import</span> jwt</div>
+                            <div><span style="color:#9ca3af;margin-right:16px;">2</span><span style="color:#569cd6;">from</span> datetime <span style="color:#569cd6;">import</span> datetime</div>
+                            <div><span style="color:#9ca3af;margin-right:16px;">3</span></div>
+                            <div><span style="color:#9ca3af;margin-right:16px;">4</span><span style="color:#dcdcaa;">def</span> <span style="color:#4ec9b0;">authenticate</span>(user):</div>
+                            <div style="background:rgba(66,133,244,0.12);border-left:3px solid var(--google-blue);padding-left:8px;"><span style="color:#9ca3af;margin-right:16px;">5</span>&nbsp;&nbsp;&nbsp;&nbsp;token = jwt.encode({'id': user.id}, key)</div>
+                            <div><span style="color:#9ca3af;margin-right:16px;">6</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">if</span> user.is_valid:</div>
+                            <div><span style="color:#9ca3af;margin-right:16px;">7</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">return</span> <span style="color:#ce9178;">True</span></div>
+                            <div><span style="color:#9ca3af;margin-right:16px;">8</span></div>
+                            <div><span style="color:#9ca3af;margin-right:16px;">9</span><span style="color:#dcdcaa;">def</span> <span style="color:#4ec9b0;">verify_token</span>(token):</div>
+                            <div><span style="color:#9ca3af;margin-right:4px;">10</span>&nbsp;&nbsp;&nbsp;&nbsp;payload = jwt.decode(token, SECRET)</div>
+                        </div>
+                        <div style="border-top:1px solid var(--border-light);padding-top:1rem;display:flex;flex-direction:column;gap:10px;">
+                            <div style="display:flex;justify-content:space-between;align-items:center;">
+                                <span style="color:var(--text-secondary);font-size:0.9rem;">Target file</span>
+                                <span style="font-weight:700;color:var(--google-blue);">src/routes/auth.py</span>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border-light);padding-top:10px;">
+                                <span style="color:var(--text-secondary);font-size:0.9rem;">Insert at line</span>
+                                <span style="font-weight:700;color:var(--google-green);">Line 5</span>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border-light);padding-top:10px;">
+                                <span style="color:var(--text-secondary);font-size:0.9rem;">Confidence</span>
+                                <span style="font-weight:700;color:var(--google-green);">98.4%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h2 style="font-family:var(--font-display);font-size:2.8rem;font-weight:800;color:var(--text-primary);margin-bottom:2.5rem;">Surgical precision<br><span style="color:var(--google-blue);">code placement</span></h2>
+                        <div style="display:flex;flex-direction:column;gap:1.5rem;">
+                            <div style="border-bottom:1px solid var(--border-light);padding-bottom:1.5rem;">
+                                <div style="font-size:2.5rem;font-weight:800;color:var(--text-primary);">50+</div>
+                                <div style="font-weight:600;color:var(--text-primary);margin-bottom:4px;">Languages & frameworks</div>
+                                <div style="color:var(--text-secondary);font-size:0.9rem;">Python, JavaScript, TypeScript, Go, Rust, and many more.</div>
+                            </div>
+                            <div style="border-bottom:1px solid var(--border-light);padding-bottom:1.5rem;">
+                                <div style="font-size:2.5rem;font-weight:800;color:var(--text-primary);">&lt;1s</div>
+                                <div style="font-weight:600;color:var(--text-primary);margin-bottom:4px;">Analysis time</div>
+                                <div style="color:var(--text-secondary);font-size:0.9rem;">Codeply scans your entire project and returns placement in under a second.</div>
+                            </div>
+                            <div>
+                                <div style="font-size:2.5rem;font-weight:800;color:var(--text-primary);">98%</div>
+                                <div style="font-weight:600;color:var(--text-primary);margin-bottom:4px;">Placement accuracy</div>
+                                <div style="color:var(--text-secondary);font-size:0.9rem;">Trusted by developers to get the right file and line every time.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faq">
+            <div class="container" style="max-width:780px;">
+                <h2 style="font-family:var(--font-display);font-size:3rem;font-weight:800;color:var(--text-primary);margin-bottom:3rem;">Frequently asked<br>questions</h2>
+                <div id="faq-list" style="display:flex;flex-direction:column;">
+                </div>
+            </div>
+        </section>
+
         <!-- CTA Footer -->
         <section>
             <div class="container">
@@ -2070,8 +2487,8 @@
                     <h2>Ready for Codeply?</h2>
                     <p>Stop guessing where AI code goes. Download Codeply and get exact file + line placement.</p>
                     <div class="hero-ctas">
-                        <button class="btn btn-primary auth-trigger" type="button">Get Started</button>
-                        <a href="#features" class="btn btn-outline">See Features</a>
+                        <a id="cta-download-btn" href="/download" class="btn btn-primary" style="font-size: 1.2rem; padding: 0.9rem 2.2rem;">Download</a>
+                        <a href="#features" class="btn btn-outline" id="see-features-btn" style="font-size: 1.2rem; padding: 0.9rem 2.2rem;">Features</a>
                     </div>
                 </div>
             </div>
@@ -2178,9 +2595,75 @@
     </div>
     <footer>
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-brand">Codeply AI</div>
-                <p>&copy; 2026 Codeply.online | Built for the vibe coders.</p>
+            <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;padding:3rem 0 2rem;">
+                <!-- Brand -->
+                <div>
+                    <div style="display:flex;align-items:center;gap:10px;margin-bottom:1.2rem;">
+                        <img src="Favicon-RBG.png" alt="Codeply" style="height:36px;width:36px;">
+                        <span style="font-size:1.6rem;font-weight:700;color:var(--text-primary);">Codeply</span>
+                    </div>
+                    <div style="display:flex;gap:14px;align-items:center;">
+                        <!-- X / Twitter -->
+                        <a href="https://twitter.com/codeplyai" target="_blank" title="X / Twitter"
+                           style="color:var(--text-secondary);text-decoration:none;display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:8px;border:1px solid var(--border-light);background:rgba(255,255,255,0.5);transition:color 0.2s,background 0.2s;"
+                           onmouseover="this.style.color='#000';this.style.background='rgba(255,255,255,0.9)'" onmouseout="this.style.color='';this.style.background='rgba(255,255,255,0.5)'">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L2.092 2.25h6.962l4.265 5.638L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                        </a>
+                        <!-- GitHub -->
+                        <a href="https://github.com/codeplyai" target="_blank" title="GitHub"
+                           style="color:var(--text-secondary);text-decoration:none;display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:8px;border:1px solid var(--border-light);background:rgba(255,255,255,0.5);transition:color 0.2s,background 0.2s;"
+                           onmouseover="this.style.color='#000';this.style.background='rgba(255,255,255,0.9)'" onmouseout="this.style.color='';this.style.background='rgba(255,255,255,0.5)'">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+                        </a>
+                        <!-- Discord -->
+                        <a href="https://discord.gg/codeply" target="_blank" title="Discord"
+                           style="color:var(--text-secondary);text-decoration:none;display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:8px;border:1px solid var(--border-light);background:rgba(255,255,255,0.5);transition:color 0.2s,background 0.2s;"
+                           onmouseover="this.style.color='#5865F2';this.style.background='rgba(255,255,255,0.9)'" onmouseout="this.style.color='';this.style.background='rgba(255,255,255,0.5)'">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+                        </a>
+                    </div>
+                </div>
+                <!-- Product -->
+                <div style="text-align:left;">
+                    <div style="font-weight:700;color:var(--text-primary);margin-bottom:1rem;font-size:1.05rem;">Product</div>
+                    <div style="display:flex;flex-direction:column;gap:0.7rem;align-items:flex-start;">
+                        <a href="#features" style="color:var(--text-secondary);text-decoration:none;font-size:1rem;" onmouseover="this.style.color='#1a73e8'" onmouseout="this.style.color=''">Features</a>
+                        <a href="#how-it-works" style="color:var(--text-secondary);text-decoration:none;font-size:1rem;" onmouseover="this.style.color='#1a73e8'" onmouseout="this.style.color=''">How it Works</a>
+                        <a href="#faq" style="color:var(--text-secondary);text-decoration:none;font-size:1rem;" onmouseover="this.style.color='#1a73e8'" onmouseout="this.style.color=''">FAQ</a>
+                        <a href="/download" style="color:var(--text-secondary);text-decoration:none;font-size:1rem;" onmouseover="this.style.color='#1a73e8'" onmouseout="this.style.color=''">Download</a>
+                        <a href="/changelog" style="color:var(--text-secondary);text-decoration:none;font-size:1rem;" onmouseover="this.style.color='#1a73e8'" onmouseout="this.style.color=''">Changelog</a>
+                    </div>
+                </div>
+                <!-- Resources -->
+                <div style="text-align:left;">
+                    <div style="font-weight:700;color:var(--text-primary);margin-bottom:1rem;font-size:1.05rem;">Resources</div>
+                    <div style="display:flex;flex-direction:column;gap:0.7rem;align-items:flex-start;">
+                        <a href="/docs" style="color:var(--text-secondary);text-decoration:none;font-size:1rem;" onmouseover="this.style.color='#1a73e8'" onmouseout="this.style.color=''">Documentation</a>
+                        <a href="/blog" style="color:var(--text-secondary);text-decoration:none;font-size:1rem;" onmouseover="this.style.color='#1a73e8'" onmouseout="this.style.color=''">Blog</a>
+                        <a href="/support" style="color:var(--text-secondary);text-decoration:none;font-size:1rem;" onmouseover="this.style.color='#1a73e8'" onmouseout="this.style.color=''">Support</a>
+                        <a href="https://github.com/codeplyai" target="_blank" style="color:var(--text-secondary);text-decoration:none;font-size:1rem;" onmouseover="this.style.color='#1a73e8'" onmouseout="this.style.color=''">GitHub</a>
+                    </div>
+                </div>
+                <!-- Company -->
+                <div style="text-align:left;">
+                    <div style="font-weight:700;color:var(--text-primary);margin-bottom:1rem;font-size:1.05rem;">Company</div>
+                    <div style="display:flex;flex-direction:column;gap:0.7rem;align-items:flex-start;">
+                        <a href="/about" style="color:var(--text-secondary);text-decoration:none;font-size:1rem;" onmouseover="this.style.color='#1a73e8'" onmouseout="this.style.color=''">About</a>
+                        <a href="/careers" style="color:var(--text-secondary);text-decoration:none;font-size:1rem;" onmouseover="this.style.color='#1a73e8'" onmouseout="this.style.color=''">Careers</a>
+                        <a href="/privacy" style="color:var(--text-secondary);text-decoration:none;font-size:1rem;" onmouseover="this.style.color='#1a73e8'" onmouseout="this.style.color=''">Privacy Policy</a>
+                        <a href="/terms" style="color:var(--text-secondary);text-decoration:none;font-size:1rem;" onmouseover="this.style.color='#1a73e8'" onmouseout="this.style.color=''">Terms of Service</a>
+                        <a href="mailto:hello@codeply.online" style="color:var(--text-secondary);text-decoration:none;font-size:1rem;" onmouseover="this.style.color='#1a73e8'" onmouseout="this.style.color=''">Contact</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Bottom bar -->
+            <div style="border-top:1px solid var(--border-light);padding:1.5rem 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;">
+                <p style="color:var(--text-secondary);font-size:0.85rem;margin:0;">&copy; 2026 Codeply.online &nbsp;·&nbsp; Built for the vibe coders.</p>
+                <div style="display:flex;gap:1.5rem;">
+                    <a href="/privacy" style="color:var(--text-secondary);text-decoration:none;font-size:0.82rem;" onmouseover="this.style.color='#1a73e8'" onmouseout="this.style.color=''">Privacy</a>
+                    <a href="/terms" style="color:var(--text-secondary);text-decoration:none;font-size:0.82rem;" onmouseover="this.style.color='#1a73e8'" onmouseout="this.style.color=''">Terms</a>
+                    <a href="/sitemap" style="color:var(--text-secondary);text-decoration:none;font-size:0.82rem;" onmouseover="this.style.color='#1a73e8'" onmouseout="this.style.color=''">Sitemap</a>
+                </div>
             </div>
         </div>
     </footer>
@@ -2333,7 +2816,7 @@
             if (!navAuthControl) return;
             if (!currentSession) {
                 navAuthControl.classList.remove('is-profile');
-                navAuthControl.textContent = 'Get Started';
+                navAuthControl.textContent = 'Download';
                 navAuthControl.setAttribute('aria-label', 'Get started with Codply');
                 navAuthControl.title = 'Get started';
                 return;
@@ -2776,6 +3259,80 @@
             });
         });
 
+    </script>
+
+    <script>
+        // FAQ accordion
+        const faqs = [
+            { q: "What exactly does Codeply do?", a: "Codeply scans your project and tells you the exact file and line number where AI generated code should go. No more guessing or manually searching." },
+            { q: "Do I need to format the code before pasting?", a: "No. Just paste the raw AI generated snippet as is. Codeply handles messy, unformatted code and figures out placement automatically." },
+            { q: "Which editors and languages does Codeply support?", a: "Codeply works as a system wide overlay, so it is compatible with VS Code, Sublime Text, Vim, Neovim, and any other editor. It supports 50+ languages including Python, JavaScript, TypeScript, Go, Rust, and more." },
+            { q: "How fast is the analysis?", a: "Under 1 second. Codeply scans your project structure and returns a surgical placement result almost instantly." },
+            { q: "Is Codeply a browser extension or a desktop app?", a: "Codeply is a lightweight desktop app that lives in your system tray. It uses minimal CPU and is always ready when you summon it with the global hotkey." },
+            { q: "Is my code sent to any server?", a: "Codeply analyzes your project locally on your machine. Your code never leaves your computer." },
+        ];
+        const faqList = document.getElementById('faq-list');
+        if (faqList) {
+            faqs.forEach((item, i) => {
+                faqList.innerHTML += `
+                <div class="faq-item" style="border-bottom:1px solid var(--border-light);">
+                    <button onclick="this.parentElement.classList.toggle('open')" style="width:100%;display:flex;justify-content:space-between;align-items:center;padding:1.4rem 0;background:none;border:none;cursor:pointer;font-family:var(--font-serif);font-size:1.05rem;font-weight:600;color:var(--text-primary);text-align:left;">
+                        ${item.q}
+                        <span style="font-size:1.3rem;color:var(--text-secondary);transition:transform 0.2s;" class="faq-icon">›</span>
+                    </button>
+                    <div class="faq-answer" style="max-height:0;overflow:hidden;transition:max-height 0.3s ease,padding 0.3s ease;">
+                        <p style="color:var(--text-secondary);padding-bottom:1.2rem;font-size:0.97rem;line-height:1.7;">${item.a}</p>
+                    </div>
+                </div>`;
+            });
+        }
+
+        // OS detection for download buttons
+        (function() {
+            const ua = navigator.userAgent;
+            let os = 'Windows';
+            let href = '/download/windows';
+            if (/Mac/i.test(ua) && !/iPhone|iPad/i.test(ua)) { os = 'Mac'; href = '/download/mac'; }
+            else if (/Linux/i.test(ua) && !/Android/i.test(ua)) { os = 'Linux'; href = '/download/linux'; }
+
+            // Hero button
+            const label = document.getElementById('hero-download-label');
+            const heroBtn = document.getElementById('hero-download-btn');
+            if (label) label.textContent = 'Get for ' + os;
+            if (heroBtn) heroBtn.href = href;
+
+            // CTA bottom download button
+            const ctaBtn = document.getElementById('cta-download-btn');
+            if (ctaBtn) ctaBtn.href = href;
+
+            // Nav download button
+            const navBtn = document.getElementById('nav-auth-control');
+            if (navBtn) {
+                navBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    window.location.href = href;
+                });
+            }
+        })();
+
+        // 3D tilt effect for How it Works + Feature cards
+        document.querySelectorAll('.step, .feature-card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const cx = rect.width / 2;
+                const cy = rect.height / 2;
+                const rotateX = ((y - cy) / cy) * -15;
+                const rotateY = ((x - cx) / cx) * 15;
+                card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(40px) scale(1.05)`;
+                card.style.boxShadow = `${-rotateY * 2.5}px ${rotateX * 2.5}px 50px rgba(0,0,0,0.3)`;
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'rotateX(0deg) rotateY(0deg) translateZ(0px)';
+                card.style.boxShadow = 'none';
+            });
+        });
     </script>
 </body>
 

@@ -4,143 +4,234 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Download Codeply — Windows &amp; macOS</title>
+    <title>Download Codeply - Windows &amp; macOS</title>
     <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
     <style>
         :root {
-            --g-blue: #4285F4; --g-blue-deep: #1a6ff0; --g-red: #ea4335; --g-yellow: #fbbc04; --g-green: #34a853;
+            --g-blue: #4285F4; --g-red: #ea4335; --g-yellow: #fbbc04; --g-green: #34a853;
             --grad-brand: linear-gradient(90deg, var(--g-blue) 0 25%, var(--g-red) 25% 50%, var(--g-yellow) 50% 75%, var(--g-green) 75% 100%);
-            --grad-blue: linear-gradient(135deg, #4285F4, #1a6ff0);
-            --bg: #0b0e14; --glass: rgba(255,255,255,.045); --border: rgba(255,255,255,.09);
-            --border-bright: rgba(255,255,255,.16); --text: #eef1f6; --text2: #9aa3b2; --muted: #6b7280;
             --sans: 'Inter', Arial, sans-serif; --mono: 'Fira Code', monospace;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: var(--sans); background: var(--bg); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; }
-        body::before {
-            content: ''; position: fixed; inset: -20%;
-            background:
-                radial-gradient(40% 35% at 20% 15%, rgba(66,133,244,.18), transparent 70%),
-                radial-gradient(35% 30% at 82% 12%, rgba(234,67,53,.10), transparent 70%),
-                radial-gradient(38% 34% at 78% 85%, rgba(52,168,83,.13), transparent 70%);
-            pointer-events: none; z-index: 0;
-            animation: drift 24s ease-in-out infinite alternate;
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--sans);
+            background: linear-gradient(160deg, #5bb8f5 0%, #89c9f5 15%, #b8dff7 30%, #e8f4fb 45%, #f5e6d3 60%, #f0c9a0 75%, #e8a87c 88%, #d4956a 100%);
+            background-attachment: fixed;
+            color: #202124;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
         }
-        @keyframes drift { from { transform: translate3d(-1.5%,-1%,0); } to { transform: translate3d(1.5%,1.5%,0) scale(1.04); } }
         a { color: inherit; text-decoration: none; }
 
+        /* ── Top accent line ── */
         .topline { height: 3px; background: var(--grad-brand); }
-        header {
-            position: relative; z-index: 1; display: flex; align-items: center; gap: 10px;
-            padding: 18px clamp(20px, 6vw, 64px); border-bottom: 1px solid var(--border);
-            background: rgba(13,17,25,.6); backdrop-filter: blur(18px);
-        }
-        header img { width: 28px; height: 28px; }
-        header b { font-weight: 800; }
-        header .grad-text { background: var(--grad-blue); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
-        header nav { margin-left: auto; display: flex; gap: 22px; font-size: .84rem; font-weight: 600; color: var(--text2); }
-        header nav a:hover { color: var(--text); }
 
-        .hero { position: relative; z-index: 1; text-align: center; padding: clamp(56px, 10vw, 110px) 20px 30px; }
-        .hero h1 { font-size: clamp(1.9rem, 4.6vw, 3.1rem); font-weight: 800; letter-spacing: -.03em; }
+        /* ── Header ── */
+        header {
+            display: flex; align-items: center; gap: 10px;
+            padding: 16px clamp(20px, 6vw, 72px);
+            border-bottom: 1px solid rgba(255,255,255,0.5);
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+            position: sticky; top: 0; z-index: 100;
+        }
+        header img.logo { width: 32px; height: 32px; border-radius: 8px; }
+        header .brand { font-weight: 800; font-size: 1.15rem; color: #202124; }
+        header nav { margin-left: auto; }
+        header nav a {
+            color: #202124; font-size: .84rem; font-weight: 600;
+            padding: 7px 20px; border-radius: 999px;
+            background: rgba(255,255,255,0.45);
+            backdrop-filter: blur(14px) saturate(180%);
+            -webkit-backdrop-filter: blur(14px) saturate(180%);
+            border: 1px solid rgba(255,255,255,0.85);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.9);
+            transition: background .2s, box-shadow .2s;
+        }
+        header nav a:hover { background: rgba(255,255,255,0.7); }
+
+        /* ── Hero ── */
+        .hero {
+            text-align: center;
+            padding: clamp(64px, 10vw, 120px) 20px 16px;
+        }
+        .hero .eyebrow {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.85);
+            backdrop-filter: blur(12px); border-radius: 999px;
+            padding: 5px 16px; font-size: .78rem; font-weight: 600; color: #5f6368;
+            margin-bottom: 24px; letter-spacing: .04em; text-transform: uppercase;
+        }
+        .hero .eyebrow span { width: 6px; height: 6px; border-radius: 50%; background: #34a853; display: inline-block; }
+        .hero h1 {
+            font-size: clamp(2.2rem, 5vw, 3.4rem); font-weight: 800;
+            letter-spacing: -.04em; line-height: 1.15; color: #202124;
+            margin-bottom: 18px;
+        }
         .hero h1 .grad-text {
             background: var(--grad-brand); background-size: 300% 100%;
             -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
             animation: hue 7s linear infinite;
         }
         @keyframes hue { from { background-position: 0% 0; } to { background-position: 300% 0; } }
-        .hero p { color: var(--text2); margin-top: 14px; font-size: .98rem; max-width: 560px; margin-inline: auto; }
+        .hero p {
+            color: #5f6368; font-size: 1rem; line-height: 1.7;
+            max-width: 520px; margin: 0 auto 14px;
+        }
+        .hero .version-badge {
+            display: inline-block; font-family: var(--mono); font-size: .72rem;
+            color: #80868b; background: rgba(255,255,255,0.4); border: 1px solid rgba(255,255,255,0.7);
+            border-radius: 6px; padding: 3px 10px; margin-top: 8px;
+        }
 
+        /* ── Download cards ── */
         .grid {
-            position: relative; z-index: 1;
-            display: grid; grid-template-columns: repeat(2, minmax(260px, 380px)); gap: 22px;
-            justify-content: center; padding: 34px 20px 90px;
+            display: grid; grid-template-columns: repeat(2, minmax(280px, 400px));
+            gap: 24px; justify-content: center;
+            padding: 48px 20px 56px;
         }
         .card {
-            background: var(--glass); border: 1px solid var(--border); border-radius: 20px;
-            backdrop-filter: blur(16px); padding: 34px 30px; text-align: center;
-            box-shadow: 0 8px 32px rgba(0,0,0,.35);
-            transition: transform .2s, border-color .2s; position: relative; overflow: hidden;
+            background: rgba(255,255,255,0.6); border: 1px solid rgba(255,255,255,0.8);
+            border-radius: 24px; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            padding: 40px 36px 32px; text-align: center;
+            box-shadow: 0 8px 40px rgba(0,0,0,.07), inset 0 1px 0 rgba(255,255,255,0.95);
+            transition: transform .22s, box-shadow .22s;
+            position: relative; overflow: hidden;
         }
-        .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--grad-brand); opacity: .85; }
-        .card:hover { transform: translateY(-5px); border-color: rgba(66,133,244,.5); }
-        .card .os-ic { font-size: 2.6rem; }
-        .card h3 { margin: 14px 0 6px; font-size: 1.15rem; font-weight: 800; }
-        .card p { color: var(--text2); font-size: .8rem; margin-bottom: 22px; }
-        .btn-grad {
+        .card:hover { transform: translateY(-6px); box-shadow: 0 20px 56px rgba(0,0,0,.11); }
+        .card .os-ic { width: 56px; height: 56px; object-fit: contain; margin-bottom: 4px; }
+        .card h3 { margin: 16px 0 28px; font-size: 1.2rem; font-weight: 800; color: #202124; letter-spacing: -.02em; }
+        .btn-dl {
             display: inline-flex; align-items: center; gap: 9px;
-            background: var(--grad-blue); color: #fff; font-weight: 700; font-size: .9rem;
-            padding: 13px 30px; border-radius: 999px; border: none; cursor: pointer;
-            box-shadow: 0 4px 18px rgba(66,133,244,.4); transition: all .2s;
+            font-weight: 700; font-size: .92rem; color: #fff;
+            padding: 14px 32px; border-radius: 999px; border: none; cursor: pointer;
+            transition: transform .2s, box-shadow .2s, filter .2s;
+            width: 100%; justify-content: center;
         }
-        .btn-grad:hover { transform: translateY(-1px); box-shadow: 0 6px 26px rgba(66,133,244,.55); filter: brightness(1.07); }
-        .btn-grad.green { background: linear-gradient(135deg, #34a853, #1f8f43); box-shadow: 0 4px 18px rgba(52,168,83,.35); }
-        .btn-grad svg { width: 17px; height: 17px; }
-        .note { margin-top: 16px; font-family: var(--mono); font-size: .66rem; color: var(--muted); }
+        .btn-dl.blue  { background: linear-gradient(135deg, #4285F4, #1a6ff0); box-shadow: 0 4px 20px rgba(66,133,244,.4); }
+        .btn-dl.green { background: linear-gradient(135deg, #34a853, #1f8f43); box-shadow: 0 4px 20px rgba(52,168,83,.38); }
+        .btn-dl:hover { transform: translateY(-2px); filter: brightness(1.07); }
+        .btn-dl svg { width: 17px; height: 17px; flex-shrink: 0; }
+        /* ── Divider ── */
+        .divider {
+            max-width: 760px; margin: 0 auto; padding: 0 20px 48px;
+            display: flex; align-items: center; gap: 16px;
+        }
+        .divider hr { flex: 1; border: none; border-top: 1px solid rgba(255,255,255,0.55); }
+        .divider span { font-size: .78rem; font-weight: 600; color: #9aa0a6; white-space: nowrap; }
 
-        .steps { position: relative; z-index: 1; max-width: 720px; margin: 0 auto 100px; padding: 0 20px; }
-        .steps h2 { font-size: 1.2rem; font-weight: 800; margin-bottom: 18px; text-align: center; }
-        .step { display: flex; gap: 14px; align-items: flex-start; padding: 13px 0; border-bottom: 1px solid var(--border); }
-        .step:last-child { border-bottom: none; }
+        /* ── Steps ── */
+        .steps-wrap {
+            max-width: 760px; margin: 0 auto 100px; padding: 0 20px;
+        }
+        .steps-wrap h2 {
+            font-size: 1.35rem; font-weight: 800; color: #202124;
+            letter-spacing: -.02em; margin-bottom: 24px; text-align: center;
+        }
+        .steps-grid { display: flex; flex-direction: column; gap: 0; }
+        .step {
+            display: flex; gap: 18px; align-items: flex-start;
+            padding: 20px 24px;
+            background: rgba(255,255,255,0.45); backdrop-filter: blur(16px);
+            border: 1px solid rgba(255,255,255,0.75);
+            margin-bottom: -1px;
+            transition: background .2s;
+        }
+        .step:first-child { border-radius: 16px 16px 0 0; }
+        .step:last-child  { border-radius: 0 0 16px 16px; margin-bottom: 0; }
+        .step:hover { background: rgba(255,255,255,0.65); }
         .step .n {
-            width: 26px; height: 26px; border-radius: 9px; background: var(--grad-blue);
-            display: grid; place-items: center; font-family: var(--mono); font-size: .72rem; font-weight: 700; flex: none;
+            width: 30px; height: 30px; border-radius: 10px;
+            background: linear-gradient(135deg, #4285F4, #1a6ff0);
+            display: grid; place-items: center;
+            font-family: var(--mono); font-size: .75rem; font-weight: 700;
+            color: #fff; flex: none; box-shadow: 0 2px 8px rgba(66,133,244,.35);
         }
-        .step p { color: var(--text2); font-size: .86rem; padding-top: 3px; }
-        .step p b { color: var(--text); }
+        .step-body { padding-top: 4px; }
+        .step-body strong { font-size: .94rem; color: #202124; display: block; margin-bottom: 3px; }
+        .step-body p { color: #5f6368; font-size: .84rem; line-height: 1.6; }
+        .step-body kbd {
+            background: rgba(255,255,255,0.7); border: 1px solid rgba(0,0,0,.12);
+            border-bottom: 2px solid rgba(0,0,0,.15); border-radius: 5px;
+            padding: 1px 7px; font-family: var(--mono); font-size: .78rem; color: #202124;
+        }
 
-        @media (max-width: 700px) { .grid { grid-template-columns: 1fr; } }
+        @media (max-width: 680px) {
+            .grid { grid-template-columns: 1fr; }
+            .step { padding: 16px 18px; }
+        }
     </style>
 </head>
 
 <body>
     <div class="topline"></div>
+
     <header>
-        <img src="Favicon-RBG.png" alt="Codeply" />
-        <b>Code<span class="grad-text">ply</span></b>
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="dashboard.html">Dashboard</a>
-        </nav>
+        <img class="logo" src="Favicon-RBG.png" alt="Codeply" />
+        <span class="brand">Codeply</span>
+        <nav><a href="index.html">Home</a></nav>
     </header>
 
     <section class="hero">
-        <h1>Get <span class="grad-text">Codeply</span> on your desktop</h1>
-        <p>The AI overlay that places code surgically into your files. 400+ models via OpenRouter, your keys, your rules — synced with your Codeply account.</p>
+        <div class="eyebrow"><span></span> v1.0.0 now available</div>
+        <h1>Get <span class="grad-text">Codeply</span><br>on your desktop</h1>
+        <p>The AI overlay that places code surgically into your files. Your keys, your models, your rules.</p>
+        <div class="version-badge">Latest stable · v1.0.0</div>
     </section>
 
     <section class="grid">
         <div class="card">
-            <div class="os-ic">🪟</div>
-            <h3>Codeply for Windows</h3>
-            <p>Windows 10 / 11 · 64-bit · NSIS installer</p>
-            <a class="btn-grad" href="/downloads/Codeply-Setup-1.0.0.exe" download>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                Download .exe
+            <img class="os-ic" src="Windows.png" alt="Windows" />
+            <h3>Windows</h3>
+            <a class="btn-dl blue" href="/downloads/Codeply-Setup-1.0.0.exe" download>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Download for Windows
             </a>
-            <div class="note">v1.0.0 · ~85 MB · SHA-256 on the release page</div>
         </div>
         <div class="card">
-            <div class="os-ic">🍎</div>
-            <h3>Codeply for macOS</h3>
-            <p>macOS 12+ · Apple Silicon &amp; Intel · DMG</p>
-            <a class="btn-grad green" href="/downloads/Codeply-1.0.0.dmg" download>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                Download .dmg
+            <img class="os-ic" src="Apple.png" alt="macOS" />
+            <h3>macOS</h3>
+            <a class="btn-dl green" href="/downloads/Codeply-1.0.0.dmg" download>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Download for macOS
             </a>
-            <div class="note">v1.0.0 · ~95 MB · notarized build</div>
         </div>
     </section>
 
-    <section class="steps">
-        <h2>Up and running in 3 steps</h2>
-        <div class="step"><span class="n">1</span><p><b>Install &amp; launch.</b> Codeply lives quietly in your tray — press <b>Alt + C</b> to summon the overlay.</p></div>
-        <div class="step"><span class="n">2</span><p><b>Sign in.</b> Your API keys, model preferences, and caps sync automatically from your dashboard.</p></div>
-        <div class="step"><span class="n">3</span><p><b>Copy code, hit Analyze.</b> Codeply finds exactly where the snippet belongs and applies it surgically.</p></div>
-    </section>
-</body>
+    <div class="divider">
+        <hr><span>Get started in minutes</span><hr>
+    </div>
 
+    <section class="steps-wrap">
+        <h2>Up and running in 3 steps</h2>
+        <div class="steps-grid">
+            <div class="step">
+                <span class="n">1</span>
+                <div class="step-body">
+                    <strong>Install and launch</strong>
+                    <p>Run the installer. Codeply lives quietly in your system tray. Press <kbd>Alt</kbd> + <kbd>C</kbd> to summon the overlay from anywhere.</p>
+                </div>
+            </div>
+            <div class="step">
+                <span class="n">2</span>
+                <div class="step-body">
+                    <strong>Create your account</strong>
+                    <p>Sign up at codeply.app, grab your API key, and pick your preferred model. Everything syncs to the app instantly.</p>
+                </div>
+            </div>
+            <div class="step">
+                <span class="n">3</span>
+                <div class="step-body">
+                    <strong>Paste code and hit Analyze</strong>
+                    <p>Codeply scans your project and tells you the exact file and line number where the snippet belongs, then applies it surgically.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
 </html>
