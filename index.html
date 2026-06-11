@@ -537,10 +537,12 @@
         .step {
             position: relative;
             padding: 2.5rem;
-            background: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.55);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.75);
             border-radius: 20px;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+            box-shadow: 0 4px 24px rgba(100, 140, 200, 0.10);
             transform-style: preserve-3d;
             transition: transform 0.15s ease, box-shadow 0.15s ease;
             will-change: transform;
@@ -594,10 +596,12 @@
 
         .feature-card {
             padding: 2rem;
-            background: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.55);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.75);
             border-radius: 20px;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+            box-shadow: 0 4px 24px rgba(100, 140, 200, 0.10);
             transition: transform 0.15s ease, box-shadow 0.15s ease;
             transform-style: preserve-3d;
             will-change: transform;
@@ -1105,12 +1109,13 @@
             font-family: 'Fira Code', monospace; font-size: 16px;
             line-height: 1.85; color: #d4d4d4; overflow: hidden;
             text-align: left;
+            clip-path: inset(0);
         }
         .cp-vsc-line { display: block; padding: 0 20px; white-space: pre; }
         .cp-vsc-highlight { background: rgba(255,255,100,.07); border-left: 2px solid #fbbc04; }
         .cp-ln { display: inline-block; width: 28px; color: #555; text-align: right; padding-right: 16px; font-size: 14px; user-select:none; }
         .cp-kw { color: #569cd6; }
-        .cp-fn { color: #dcdcaa; }
+        .cp-fn { color: #4ec9b0; }
         .cp-str { color: #ce9178; }
         .cp-cm { color: #6a9955; }
 
@@ -1628,6 +1633,24 @@
             color: var(--google-red);
         }
 
+        .auth-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            background: rgba(32, 33, 36, 0.48);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+
+        .auth-modal.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
 
         .auth-dialog {
             width: min(480px, 100%);
@@ -1911,6 +1934,139 @@
                 max-width: 380px;
             }
         }
+
+        /* ═══════════════════════════════════════════
+           COMPREHENSIVE RESPONSIVE STYLES
+        ═══════════════════════════════════════════ */
+
+        /* ── Tablet (≤900px) ── */
+        @media (max-width: 900px) {
+            .container { padding: 0 1.25rem; }
+
+            .hero { padding-top: 8rem; }
+            .hero h1 { font-size: clamp(2rem, 7vw, 3rem); letter-spacing: -1.5px; }
+            .hero p { font-size: 1rem; }
+
+            /* How it Works steps: single column */
+            .steps { grid-template-columns: 1fr; gap: 1.5rem; }
+            .step { min-height: unset; }
+
+            /* Features: single column */
+            .features-grid { grid-template-columns: 1fr !important; max-width: 540px; }
+            .feature-card { min-height: unset; }
+
+            /* How Codeply Helps – inline 2fr 3fr grid → stack */
+            #how-codeply-helps .container > div { display: flex !important; flex-direction: column !important; gap: 1.5rem !important; }
+
+            /* Stats – inline 1fr 1fr grid → stack */
+            #stats .container > div { display: flex !important; flex-direction: column !important; gap: 2rem !important; }
+
+            /* Headlines */
+            #features h2 { font-size: 2.4rem !important; }
+            #how-codeply-helps h2 { font-size: 2.2rem !important; }
+            #stats h2 { font-size: 2.2rem !important; }
+            #faq h2 { font-size: 2.2rem !important; }
+
+            /* Footer CTA */
+            .footer-cta h2 { font-size: 1.8rem; }
+            .footer-cta .hero-ctas { flex-direction: column; align-items: center; }
+        }
+
+        /* ── Mobile (≤640px) ── */
+        @media (max-width: 640px) {
+            .container { padding: 0 1rem; }
+            section { padding: 3rem 0; }
+
+            /* Nav */
+            header { padding: 0.5rem 0; }
+            .logo img { height: 32px !important; width: 32px !important; }
+            .logo > span { font-size: 1.2rem !important; }
+            .nav-links { gap: 0.5rem; }
+            .nav-links > a[href="#features"] { display: none; }
+            .nav-links .btn { padding: 0.5rem 0.9rem !important; font-size: 0.78rem !important; }
+
+            /* Hero */
+            .hero { padding-top: 6.5rem; }
+            .hero h1 { font-size: clamp(1.8rem, 9vw, 2.4rem); letter-spacing: -1px; }
+            .hero p { font-size: 0.95rem; padding: 0 0.5rem; }
+            .hero-ctas { gap: 0.75rem; }
+            .hero-ctas .btn { width: 100%; max-width: 280px; justify-content: center; font-size: 1rem !important; padding: 0.85rem 1.5rem !important; }
+
+            /* IDE mockup first demo */
+            .cp-mockup { border-radius: 12px; overflow: visible; box-shadow: none; display: flex; flex-direction: column; gap: 10px; }
+            .cp-vscode { height: 240px; border-radius: 12px; overflow: hidden; box-shadow: 0 12px 40px rgba(0,0,0,.3); }
+            .cp-vsc-sidebar { display: none !important; }
+            .cp-vsc-editor { padding: 12px 8px !important; font-size: 11px !important; }
+            .cp-ln { width: 18px !important; padding-right: 8px !important; font-size: 10px !important; }
+            .cp-popup { position: relative !important; top: auto !important; right: auto !important; width: 100% !important; border-radius: 12px; }
+            #cpDemoCursor { display: none !important; }
+
+            /* Steps */
+            .steps { gap: 1.25rem; }
+            .step { padding: 1.75rem 1.5rem; }
+            .step h3 { font-size: 1.25rem; }
+
+            /* Features */
+            .features-grid { max-width: 100%; gap: 1.25rem; }
+            .feature-card { padding: 1.5rem; }
+            #features h2 { font-size: 2rem !important; }
+            #features > .container > div[style*="text-align"] { margin-bottom: 2rem !important; }
+
+            /* How Codeply Helps */
+            #how-codeply-helps h2 { font-size: 1.9rem !important; margin-bottom: 1.5rem !important; }
+            #how-codeply-helps [style*="border-radius:24px"][style*="background:#ffffff"] { padding: 1.75rem !important; }
+            #how-codeply-helps [style*="background:#1e1e1e"] { min-height: 220px !important; border-radius: 16px !important; }
+            #hlp-popup { width: 190px !important; right: 4px !important; top: 4px !important; }
+            #how-codeply-helps [style*="margin-left:8px"] { font-size: 0.7rem !important; }
+
+            /* Stats */
+            #stats h2 { font-size: 1.9rem !important; }
+            #stats [style*="font-size:2.5rem"] { font-size: 2rem !important; }
+            #stats [style*="font-family:'Fira Code'"][style*="font-size:0.92rem"] { font-size: 0.72rem !important; overflow-x: auto; }
+
+            /* FAQ */
+            #faq h2 { font-size: 1.9rem !important; margin-bottom: 2rem !important; }
+
+            /* Who section */
+            .who-grid { gap: 0.75rem; }
+            .who-tag { font-size: 0.85rem; padding: 0.5rem 1.2rem; }
+            .who-section h2 { font-size: 1.7rem !important; }
+
+            /* CTA footer */
+            .footer-cta { padding: 2.5rem 1.25rem; border-radius: 16px; }
+            .footer-cta h2 { font-size: 1.5rem; }
+            .footer-cta p { font-size: 0.92rem; }
+            .footer-cta .hero-ctas .btn { width: 100%; max-width: 280px; }
+
+            /* Auth modal – slides up from bottom */
+            .auth-modal { padding: 0; align-items: flex-end; }
+            .auth-modal > div { border-radius: 20px 20px 0 0 !important; padding: 24px 20px 32px !important; width: 100% !important; max-width: 100% !important; }
+
+            /* Waitlist modal – slides up from bottom */
+            .waitlist-modal { padding: 0; align-items: flex-end; }
+            .waitlist-dialog { border-radius: 20px 20px 0 0; width: 100% !important; }
+
+            /* Footer */
+            footer { padding: 2rem 0; }
+        }
+
+        /* ── Small mobile (≤400px) ── */
+        @media (max-width: 400px) {
+            .hero h1 { font-size: 1.65rem; }
+            .container { padding: 0 0.875rem; }
+            .step { padding: 1.5rem 1.25rem; }
+            .feature-card { padding: 1.25rem; }
+            .footer-cta { padding: 2rem 1rem; }
+            #features h2, #how-codeply-helps h2, #faq h2, #stats h2 { font-size: 1.7rem !important; }
+        }
+
+        /* ── Landscape phones ── */
+        @media (max-width: 812px) and (orientation: landscape) {
+            .hero { padding-top: 5.5rem; }
+            .hero h1 { font-size: 1.9rem; }
+            section { padding: 2.5rem 0; }
+            .cp-vscode { height: 200px; }
+        }
     </style>
 </head>
 
@@ -1925,8 +2081,8 @@
                 </a>
                 <div class="nav-links">
                     <a href="#features">Features</a>
-                    <a class="btn btn-primary" id="nav-auth-control" href="/download"
-                        style="padding: 0.75rem 1.8rem; font-size: 1rem; background: var(--google-green); border-color: var(--google-green);">Download</a>
+                    <button class="btn btn-primary auth-trigger" id="nav-auth-control" type="button"
+                        style="padding: 0.75rem 1.8rem; font-size: 1rem; background: var(--google-green); border-color: var(--google-green);">Download</button>
                 </div>
             </nav>
         </div>
@@ -1941,7 +2097,7 @@
                 <p class="reveal">The surgical desktop overlay that tells you exactly which file and lines to edit.
                     Built for the era of AI-generated code.</p>
                 <div class="hero-ctas reveal" style="justify-content: center;">
-                    <a id="hero-download-btn" href="/download" class="btn btn-primary" style="padding: 1rem 2.5rem; font-size: 1.2rem; font-weight: 700; border-radius: 999px; display: inline-flex; align-items: center; gap: 10px; width: auto;">
+                    <a id="hero-download-btn" href="download.html" class="btn btn-primary" style="padding: 1rem 2.5rem; font-size: 1.2rem; font-weight: 700; border-radius: 999px; display: inline-flex; align-items: center; gap: 10px; width: auto;">
                         <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 4v12m0 0-4-4m4 4 4-4M4 20h16"/></svg>
                         <span id="hero-download-label">Download</span>
                     </a>
@@ -1969,7 +2125,7 @@
                                 <div class="cp-vsc-line" id="vcl2"><span class="cp-ln">2</span><span class="cp-kw">from</span> datetime <span class="cp-kw">import</span> datetime</div>
                                 <div class="cp-vsc-line" id="vcl3"><span class="cp-ln">3</span></div>
                                 <div class="cp-vsc-line" id="vcl4"><span class="cp-ln">4</span><span class="cp-kw">def</span> <span class="cp-fn">authenticate</span>(user):</div>
-                                <div class="cp-vsc-line cp-vsc-highlight" id="vcl5"><span class="cp-ln">5</span>    token = jwt.encode(user.id, key)</div>
+                                <div class="cp-vsc-line cp-vsc-highlight" id="vcl5" style="white-space:nowrap;overflow:hidden;"><span class="cp-ln">5</span>    token = jwt.encode({<span class="cp-str">'id'</span>: user.id}, key)</div>
                                 <div class="cp-vsc-line" id="vcl6"><span class="cp-ln">6</span>    <span class="cp-kw">if</span> user.is_valid:</div>
                                 <div class="cp-vsc-line" id="vcl7"><span class="cp-ln">7</span>        <span class="cp-kw">return</span> <span class="cp-str">True</span></div>
                                 <div class="cp-vsc-line" id="vcl8"><span class="cp-ln">8</span></div>
@@ -2144,9 +2300,9 @@
                 <h2 style="font-family:var(--font-display);font-size:3rem;font-weight:800;color:var(--text-primary);margin-bottom:3rem;">How Codeply helps during <span style="color:var(--google-blue);">coding</span></h2>
                 <div style="display:grid;grid-template-columns:2fr 3fr;gap:2rem;align-items:stretch;">
                     <!-- LEFT: short text card -->
-                    <div style="background:#ffffff;border:1px solid rgba(255,255,255,0.75);border-radius:24px;padding:2.5rem;box-shadow:0 4px 24px rgba(0,0,0,0.06);display:flex;flex-direction:column;justify-content:center;">
+                    <div style="background:rgba(255,255,255,0.55);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.75);border-radius:24px;padding:2.5rem;box-shadow:0 4px 24px rgba(100,140,200,0.10);display:flex;flex-direction:column;justify-content:center;">
                         <h3 style="font-size:1.6rem;font-weight:800;color:#111;margin-bottom:1rem;line-height:1.3;">Codeply <span style="display:inline-block;color:var(--google-blue);padding:3px 14px;border-radius:999px;background:rgba(255,255,255,0.55);backdrop-filter:blur(16px) saturate(180%);-webkit-backdrop-filter:blur(16px) saturate(180%);border:1px solid rgba(255,255,255,0.9);box-shadow:0 2px 16px rgba(66,133,244,0.18),inset 0 1px 0 rgba(255,255,255,0.95),inset 0 -1px 0 rgba(255,255,255,0.4);text-shadow:0 1px 2px rgba(255,255,255,0.8);">scans</span> your entire project</h3>
-                        <p style="color:#5f6368;font-size:1rem;line-height:1.6;margin-bottom:2rem;">Reads your file structure, imports, and context in real time — so it knows exactly where new code belongs.</p>
+                        <p style="color:#5f6368;font-size:1rem;line-height:1.6;margin-bottom:2rem;">Reads your file structure, imports, and context in real time so it knows exactly where new code belongs.</p>
                         <div style="display:flex;flex-direction:column;gap:10px;">
                             <div style="display:flex;align-items:center;gap:10px;font-size:0.92rem;color:#3c4043;"><span style="color:#34a853;font-weight:700;">✓</span> Detects file structure instantly</div>
                             <div style="display:flex;align-items:center;gap:10px;font-size:0.92rem;color:#3c4043;"><span style="color:#34a853;font-weight:700;">✓</span> Reads imports &amp; dependencies</div>
@@ -2185,12 +2341,12 @@
                                 <div><span style="color:#858585;margin-right:14px;user-select:none;">1</span><span style="color:#569cd6;">import</span> jwt</div>
                                 <div><span style="color:#858585;margin-right:14px;user-select:none;">2</span><span style="color:#569cd6;">from</span> datetime <span style="color:#569cd6;">import</span> datetime</div>
                                 <div><span style="color:#858585;margin-right:14px;user-select:none;">3</span></div>
-                                <div><span style="color:#858585;margin-right:14px;user-select:none;">4</span><span style="color:#dcdcaa;">def</span> <span style="color:#4ec9b0;">authenticate</span>(user):</div>
+                                <div><span style="color:#858585;margin-right:14px;user-select:none;">4</span><span style="color:#4ec9b0;">def</span> <span style="color:#4ec9b0;">authenticate</span>(user):</div>
                                 <div id="hl-line5" style="background:rgba(26,115,232,0.15);border-left:2px solid #1a73e8;padding-left:6px;transition:background 0.5s;"><span style="color:#858585;margin-right:14px;user-select:none;">5</span>&nbsp;&nbsp;token = jwt.encode(user.id, key)</div>
                                 <div><span style="color:#858585;margin-right:14px;user-select:none;">6</span>&nbsp;&nbsp;<span style="color:#569cd6;">if</span> user.is_valid:</div>
                                 <div><span style="color:#858585;margin-right:14px;user-select:none;">7</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">return</span> <span style="color:#ce9178;">True</span></div>
                                 <div><span style="color:#858585;margin-right:14px;user-select:none;">8</span></div>
-                                <div><span style="color:#858585;margin-right:14px;user-select:none;">9</span><span style="color:#dcdcaa;">def</span> <span style="color:#4ec9b0;">verify_token</span>(token):</div>
+                                <div><span style="color:#858585;margin-right:14px;user-select:none;">9</span><span style="color:#4ec9b0;">def</span> <span style="color:#4ec9b0;">verify_token</span>(token):</div>
                                 <div><span style="color:#858585;margin-right:10px;user-select:none;">10</span>&nbsp;&nbsp;payload = jwt.decode(token, SECRET)</div>
 
                                 <!-- Animated cursor -->
@@ -2317,7 +2473,7 @@
                                                 setTimeout(() => {
                                                     spinner.style.animation = 'none';
                                                     spinner.style.border = '2px solid #34a853';
-                                                    statusText.innerHTML = '<div style="font-size:0.82rem;font-weight:800;color:#34a853;">Enhancement Found</div><div style="font-size:0.72rem;color:#9aa0a6;margin-top:2px;">Upgrade line 5 — use payload dict</div>';
+                                                    statusText.innerHTML = '<div style="font-size:0.82rem;font-weight:800;color:#34a853;">Enhancement Found</div><div style="font-size:0.72rem;color:#9aa0a6;margin-top:2px;">Upgrade line 5, use payload dict</div>';
                                                     applyBtn.style.opacity = '1';
 
                                                     // Step 8: cursor moves to Apply (3600ms)
@@ -2406,12 +2562,12 @@
                             <div><span style="color:#9ca3af;margin-right:16px;">1</span><span style="color:#569cd6;">import</span> jwt</div>
                             <div><span style="color:#9ca3af;margin-right:16px;">2</span><span style="color:#569cd6;">from</span> datetime <span style="color:#569cd6;">import</span> datetime</div>
                             <div><span style="color:#9ca3af;margin-right:16px;">3</span></div>
-                            <div><span style="color:#9ca3af;margin-right:16px;">4</span><span style="color:#dcdcaa;">def</span> <span style="color:#4ec9b0;">authenticate</span>(user):</div>
+                            <div><span style="color:#9ca3af;margin-right:16px;">4</span><span style="color:#4ec9b0;">def</span> <span style="color:#4ec9b0;">authenticate</span>(user):</div>
                             <div style="background:rgba(66,133,244,0.12);border-left:3px solid var(--google-blue);padding-left:8px;"><span style="color:#9ca3af;margin-right:16px;">5</span>&nbsp;&nbsp;&nbsp;&nbsp;token = jwt.encode({'id': user.id}, key)</div>
                             <div><span style="color:#9ca3af;margin-right:16px;">6</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">if</span> user.is_valid:</div>
                             <div><span style="color:#9ca3af;margin-right:16px;">7</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#569cd6;">return</span> <span style="color:#ce9178;">True</span></div>
                             <div><span style="color:#9ca3af;margin-right:16px;">8</span></div>
-                            <div><span style="color:#9ca3af;margin-right:16px;">9</span><span style="color:#dcdcaa;">def</span> <span style="color:#4ec9b0;">verify_token</span>(token):</div>
+                            <div><span style="color:#9ca3af;margin-right:16px;">9</span><span style="color:#4ec9b0;">def</span> <span style="color:#4ec9b0;">verify_token</span>(token):</div>
                             <div><span style="color:#9ca3af;margin-right:4px;">10</span>&nbsp;&nbsp;&nbsp;&nbsp;payload = jwt.decode(token, SECRET)</div>
                         </div>
                         <div style="border-top:1px solid var(--border-light);padding-top:1rem;display:flex;flex-direction:column;gap:10px;">
@@ -2469,13 +2625,89 @@
                     <h2>Ready for Codeply?</h2>
                     <p>Stop guessing where AI code goes. Download Codeply and get exact file + line placement.</p>
                     <div class="hero-ctas">
-                        <a id="cta-download-btn" href="/download" class="btn btn-primary" style="font-size: 1.2rem; padding: 0.9rem 2.2rem;">Download</a>
+                        <a id="cta-download-btn" href="download.html" class="btn btn-primary" style="font-size: 1.2rem; padding: 0.9rem 2.2rem;">Download</a>
                         <a href="#features" class="btn btn-outline" id="see-features-btn" style="font-size: 1.2rem; padding: 0.9rem 2.2rem;">Features</a>
                     </div>
                 </div>
             </div>
         </section>
     </main>
+    <div class="auth-modal" id="auth-modal" aria-hidden="true">
+        <div
+            style="width: 100%; max-width: 432px; background: var(--white); border-radius: 24px; padding: 30px 32px 34px; box-shadow: 0 30px 70px rgba(15,23,42,0.18), 0 4px 14px rgba(15,23,42,0.08); position: relative; font-family: var(--font-serif);">
+            <button class="close" id="auth-close" aria-label="Close"
+                style="position: absolute; top: 24px; right: 26px; width: 30px; height: 30px; border-radius: 50%; border: 1px solid rgba(15,23,42,0.08); background: #fff; color: #6b7280; cursor: pointer; display: grid; place-items: center; font-size: 15px; line-height: 1;">&times;</button>
+
+            <h2
+                style="font-size: 1.7rem; font-weight: 800; letter-spacing: -0.02em; padding-right: 36px; color: var(--text-primary); margin-bottom: 8px;">
+                Create your Codply account</h2>
+            <p
+                style="color: var(--text-secondary); font-size: 0.98rem; line-height: 1.45; margin-bottom: 22px; font-weight: 400;">
+                Use email/password or a connected account to access your dashboard.</p>
+
+            <form id="auth-form" novalidate style="display: flex; flex-direction: column; gap: 12px;">
+                <input class="field" name="email" type="email" placeholder="you@example.com" autocomplete="email"
+                    required
+                    style="width: 100%; border: none; background: #e8effb; border-radius: 14px; padding: 16px 18px; font-size: 1rem; color: #0f172a; outline: 2px solid transparent; transition: all .15s;">
+                <input class="field" name="password" type="password" placeholder="Password"
+                    autocomplete="current-password" required
+                    style="width: 100%; border: none; background: #e8effb; border-radius: 14px; padding: 16px 18px; font-size: 1rem; color: #0f172a; outline: 2px solid transparent; transition: all .15s;">
+
+                <button class="btn btn-primary" id="login-btn" type="submit"
+                    style="width: 100%; border-radius: 999px; padding: 15px 20px; font-size: 1rem; font-weight: 700; margin-top: 8px;">Sign
+                    In</button>
+                <button class="btn btn-outline" id="signup-btn" type="button"
+                    style="width: 100%; border-radius: 999px; padding: 15px 20px; font-size: 1rem; font-weight: 700; border-color: rgba(15,23,42,0.08); background: transparent;">Create
+                    Account</button>
+            </form>
+
+            <div class="divider"
+                style="display: flex; align-items: center; gap: 12px; margin: 22px 0 16px; color: #9aa3b2; font-size: 0.82rem;">
+                or continue with</div>
+
+            <div class="oauth-row" style="display: flex; justify-content: center; gap: 16px;">
+                <button class="oauth-btn" id="google-auth-btn" type="button" aria-label="Continue with Google"
+                    title="Continue with Google"
+                    style="width: 52px; height: 52px; border-radius: 50%; border: 1.5px solid rgba(15,23,42,0.08); background: #fff; cursor: pointer; display: grid; place-items: center; transition: all .15s;">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" style="width: 24px; height: 24px;">
+                        <path fill="#4285F4"
+                            d="M23.52 12.27c0-.79-.07-1.54-.2-2.27H12v4.51h6.47a5.53 5.53 0 0 1-2.4 3.63v3h3.88c2.27-2.09 3.57-5.17 3.57-8.87z" />
+                        <path fill="#34A853"
+                            d="M12 24c3.24 0 5.95-1.08 7.94-2.91l-3.88-3c-1.08.72-2.45 1.16-4.06 1.16-3.13 0-5.78-2.11-6.73-4.96H1.26v3.09A12 12 0 0 0 12 24z" />
+                        <path fill="#FBBC05"
+                            d="M5.27 14.29A7.18 7.18 0 0 1 4.89 12c0-.8.14-1.57.38-2.29V6.62H1.26A12 12 0 0 0 0 12c0 1.94.46 3.77 1.26 5.38l4.01-3.09z" />
+                        <path fill="#EA4335"
+                            d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0A12 12 0 0 0 1.26 6.62l4.01 3.09C6.22 6.86 8.87 4.75 12 4.75z" />
+                    </svg>
+                </button>
+
+                <button class="oauth-btn" id="github-auth-btn" type="button" aria-label="Continue with GitHub"
+                    title="Continue with GitHub"
+                    style="width: 52px; height: 52px; border-radius: 50%; border: 1.5px solid rgba(15,23,42,0.08); background: #fff; cursor: pointer; display: grid; place-items: center; transition: all .15s;">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" style="width: 24px; height: 24px;">
+                        <path fill="#181717"
+                            d="M12 .5A12 12 0 0 0 .5 12.5c0 5.26 3.44 9.72 8.2 11.3.6.11.82-.26.82-.58v-2.03c-3.34.72-4.04-1.6-4.04-1.6-.55-1.38-1.34-1.75-1.34-1.75-1.09-.74.08-.72.08-.72 1.21.09 1.85 1.24 1.85 1.24 1.07 1.83 2.8 1.3 3.49.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.17 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6.01 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.25 2.87.12 3.17.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.62-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 23.5 12.5 12 12 0 0 0 12 .5z" />
+                    </svg>
+                </button>
+            </div>
+
+            <div class="status-line" id="auth-status" role="status" aria-live="polite"
+                style="margin-top: 18px; min-height: 20px; text-align: center; font-size: 0.88rem; font-weight: 500;">
+            </div>
+
+            <!-- Download panel — shown after login -->
+            <div id="auth-download-panel" style="display:none; margin-top: 20px; background: #e6f4ea; border-radius: 16px; padding: 20px 22px; text-align: center;">
+                <div style="font-size: 1.4rem; margin-bottom: 6px;">🎉</div>
+                <div style="font-weight: 700; font-size: 1rem; color: #1f8f43; margin-bottom: 4px;">You're in!</div>
+                <div style="font-size: 0.88rem; color: #3c4043; margin-bottom: 16px;">Download Codeply and get started.</div>
+                <a href="https://whop.com/checkout/MN9HVEeGx1GObPQ5z-uz0u-rYbZ-C333-EYJzxEG4xD9b/"
+                   target="_blank" rel="noopener"
+                   style="display:inline-block; background: linear-gradient(135deg,#4285F4,#1a6ff0); color:#fff; font-weight:700; font-size:0.95rem; padding:12px 28px; border-radius:999px; text-decoration:none; box-shadow:0 4px 14px rgba(66,133,244,.4);">
+                    Download Now
+                </a>
+            </div>
+        </div>
+    </div>
     <div class="waitlist-modal" id="waitlist-modal" aria-hidden="true">
         <div class="waitlist-dialog" role="dialog" aria-modal="true" aria-labelledby="waitlist-title">
             <div class="waitlist-head">
@@ -2536,7 +2768,7 @@
                         <a href="#features" style="color:var(--text-secondary);text-decoration:none;font-size:1rem;" onmouseover="this.style.color='#1a73e8'" onmouseout="this.style.color=''">Features</a>
                         <a href="#how-it-works" style="color:var(--text-secondary);text-decoration:none;font-size:1rem;" onmouseover="this.style.color='#1a73e8'" onmouseout="this.style.color=''">How it Works</a>
                         <a href="#faq" style="color:var(--text-secondary);text-decoration:none;font-size:1rem;" onmouseover="this.style.color='#1a73e8'" onmouseout="this.style.color=''">FAQ</a>
-                        <a href="/download" style="color:var(--text-secondary);text-decoration:none;font-size:1rem;" onmouseover="this.style.color='#1a73e8'" onmouseout="this.style.color=''">Download</a>
+                        <a href="download.html" style="color:var(--text-secondary);text-decoration:none;font-size:1rem;" onmouseover="this.style.color='#1a73e8'" onmouseout="this.style.color=''">Download</a>
                         <a href="/changelog" style="color:var(--text-secondary);text-decoration:none;font-size:1rem;" onmouseover="this.style.color='#1a73e8'" onmouseout="this.style.color=''">Changelog</a>
                     </div>
                 </div>
@@ -2656,6 +2888,9 @@
         let currentSession = null;
         let currentAccount = null;
 
+        const authModal = document.getElementById('auth-modal');
+        const authForm = document.getElementById('auth-form');
+        const authStatus = document.getElementById('auth-status');
         const accountPill = document.getElementById('account-pill');
         const signedOutPanel = document.getElementById('signed-out-panel');
         const signedInPanel = document.getElementById('signed-in-panel');
@@ -2689,7 +2924,14 @@
         }
 
         function openAuth() {
-            window.location.href = '/download';
+            authModal.classList.add('active');
+            authModal.setAttribute('aria-hidden', 'false');
+            setTimeout(() => authForm.querySelector('input[name="email"]').focus(), 80);
+        }
+
+        function closeAuth() {
+            authModal.classList.remove('active');
+            authModal.setAttribute('aria-hidden', 'true');
         }
 
         const navAuthControl = document.getElementById('nav-auth-control');
@@ -2739,11 +2981,15 @@
         }
 
         document.querySelectorAll('.auth-trigger').forEach((trigger) => trigger.addEventListener('click', handleAuthTrigger));
+        document.getElementById('auth-close').addEventListener('click', closeAuth);
+        authModal.addEventListener('click', (event) => { if (event.target === authModal) closeAuth(); });
 
         async function initSupabaseAuth() { // returns promise
             try {
                 const response = await fetch('/api/config');
-                const config = await response.json();
+                const text = await response.text();
+                let config;
+                try { config = JSON.parse(text); } catch { throw new Error('Config endpoint returned non-JSON. Is the server running?'); }
                 if (!response.ok) throw new Error(config.message || 'Supabase config missing.');
                 if (!window.supabase) throw new Error('Supabase library failed to load (check the CDN <script> tag).');
                 supabaseBrowser = window.supabase.createClient(config.url, config.anonKey); const { data } = await supabaseBrowser.auth.getSession();
@@ -2766,7 +3012,8 @@
             if (!currentSession) return;
             try {
                 const response = await authedFetch('/api/account');
-                currentAccount = await response.json();
+                const text = await response.text();
+                try { currentAccount = JSON.parse(text); } catch { currentAccount = null; }
             } catch (e) {
                 currentAccount = null;
             }
@@ -2805,6 +3052,52 @@
             `).join('');
         }
 
+        authForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const formData = new FormData(authForm);
+            authStatus.className = 'status-line';
+            authStatus.textContent = 'Signing in...';
+            const { error } = await supabaseBrowser.auth.signInWithPassword({
+                email: String(formData.get('email')).trim(),
+                password: String(formData.get('password')),
+            });
+            if (error) {
+                authStatus.className = 'status-line error';
+                authStatus.textContent = error.message;
+                return;
+            }
+            authStatus.className = 'status-line success';
+            authStatus.textContent = 'Signed in!';
+            authForm.style.display = 'none';
+            document.querySelector('.divider').style.display = 'none';
+            document.querySelector('.oauth-row').style.display = 'none';
+            document.getElementById('auth-download-panel').style.display = 'block';
+        });
+
+        document.getElementById('signup-btn').addEventListener('click', async () => {
+            const formData = new FormData(authForm);
+            authStatus.className = 'status-line';
+            authStatus.textContent = 'Creating account...';
+            const { error } = await supabaseBrowser.auth.signUp({
+                email: String(formData.get('email')).trim(),
+                password: String(formData.get('password')),
+            });
+            if (error) {
+                authStatus.className = 'status-line error';
+                authStatus.textContent = error.message;
+                return;
+            }
+            authStatus.className = 'status-line success';
+            authStatus.textContent = 'Account created. Check your email if confirmation is enabled.';
+        });
+
+        document.getElementById('google-auth-btn').addEventListener('click', async () => {
+            await supabaseBrowser.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: `${location.origin}/?download=1` } });
+        });
+
+        document.getElementById('github-auth-btn').addEventListener('click', async () => {
+            await supabaseBrowser.auth.signInWithOAuth({ provider: 'github', options: { redirectTo: `${location.origin}/?download=1` } });
+        });
 
         if (accountPill) accountPill.addEventListener('click', async () => {
             if (!currentSession) return openAuth();
@@ -2849,7 +3142,8 @@
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ provider, api_key: apiKey }),
                     });
-                    const result = await response.json();
+                    const text1 = await response.text();
+                    const result = (() => { try { return JSON.parse(text1); } catch { return {}; } })();
                     if (!response.ok) throw new Error(result.message || 'Could not save key.');
                     hint.textContent = `Saved: ${result.hint}`;
                     input.value = '';
@@ -2859,7 +3153,8 @@
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ provider }),
                     });
-                    const result = await response.json();
+                    const text2 = await response.text();
+                    const result = (() => { try { return JSON.parse(text2); } catch { return {}; } })();
                     if (!response.ok) throw new Error(result.message || 'Could not delete key.');
                     hint.textContent = 'No key saved';
                 }
@@ -2869,7 +3164,17 @@
             }
         });
 
-        initSupabaseAuth();
+        initSupabaseAuth().then(() => {
+            // After OAuth redirect, auto-show download panel
+            if (new URLSearchParams(location.search).get('download') === '1' && currentSession) {
+                openAuth();
+                authForm.style.display = 'none';
+                document.querySelector('.divider').style.display = 'none';
+                document.querySelector('.oauth-row').style.display = 'none';
+                document.getElementById('auth-download-panel').style.display = 'block';
+                history.replaceState({}, '', location.pathname);
+            }
+        });
 
         // ── Interactive popup demo ──────────────────────────────────────────
         (function initPopupDemo() {
@@ -2897,7 +3202,7 @@
                 // Enhanced version types in popup code area
                 code: "token = jwt.encode(\n  {'id': user.id}, key\n)",
                 statusTitle: 'Enhancement Found',
-                statusSub:   'Upgrade line 5 — use payload dict for JWT encoding',
+                statusSub:   'Upgrade line 5, use payload dict for JWT encoding',
                 applyLineId: 'vcl5',
                 removeHtml: `<span class="cp-ln">5</span>    token = jwt.encode(user.id, key)`,
                 addHtml:    `<span class="cp-ln">5</span>    token = jwt.encode({<span class="cp-str">'id'</span>: user.id}, key)`,
@@ -3129,9 +3434,9 @@
         (function() {
             const ua = navigator.userAgent;
             let os = 'Windows';
-            if (/Mac/i.test(ua) && !/iPhone|iPad/i.test(ua)) { os = 'Mac'; }
-            else if (/Linux/i.test(ua) && !/Android/i.test(ua)) { os = 'Linux'; }
-            const href = '/download';
+            let href = 'download.html';
+            if (/Mac/i.test(ua) && !/iPhone|iPad/i.test(ua)) { os = 'Mac'; href = 'download.html'; }
+            else if (/Linux/i.test(ua) && !/Android/i.test(ua)) { os = 'Linux'; href = 'download.html'; }
 
             // Hero button
             const label = document.getElementById('hero-download-label');
